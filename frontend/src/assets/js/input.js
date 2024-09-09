@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
+export default function input() {
+
     const inputs = document.querySelectorAll('.market__banner-input');
     const MAX_VALUE = 9999999;
 
@@ -44,4 +45,4 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.value = formatNumber(value);
         });
     });
-});
+}

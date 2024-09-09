@@ -1,4 +1,4 @@
-class BorderAnimation {
+export default class BorderAnimation {
     constructor(element) {
         this.element = element;
         this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");

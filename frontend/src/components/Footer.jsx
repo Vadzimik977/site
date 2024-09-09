@@ -2,9 +2,9 @@ export default function Footer() {
     return (
         <>
             <footer>
-                <div class="container">
-                    <div class="footer__inner">
-                        <ul class="footer__contacts">
+                <div className="container">
+                    <div className="footer__inner">
+                        <ul className="footer__contacts">
                             <li>
                                 <a href="#">
                                     <svg
@@ -16,9 +16,9 @@ export default function Footer() {
                                         <path
                                             d="M36.6267 2.42783L2.12059 11.8794L13.2676 16.2711M36.6267 2.42783L26.2558 32.9921L13.2676 16.2711M36.6267 2.42783L13.2676 16.2711M13.2676 16.2711L10.9791 27.7791L17.7096 21.9897"
                                             stroke="white"
-                                            stroke-width="3"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
+                                            strokeWidth="3"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
                                         />
                                     </svg>
                                 </a>
@@ -35,23 +35,23 @@ export default function Footer() {
                                         <path
                                             d="M17.6267 8.60001V2.20001H11.2267"
                                             stroke="white"
-                                            stroke-width="3"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
+                                            strokeWidth="3"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
                                         />
                                         <path
                                             d="M27.2266 8.60004H8.02664C6.25933 8.60004 4.82664 10.0327 4.82664 11.8V24.6C4.82664 26.3673 6.25933 27.8 8.02664 27.8H27.2266C28.994 27.8 30.4266 26.3673 30.4266 24.6V11.8C30.4266 10.0327 28.994 8.60004 27.2266 8.60004Z"
                                             stroke="white"
-                                            stroke-width="3"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
+                                            strokeWidth="3"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
                                         />
                                         <path
                                             d="M1.62665 18.2H4.82665M30.4266 18.2H33.6266M22.4266 16.6V19.8M12.8266 16.6V19.8"
                                             stroke="white"
-                                            stroke-width="3"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
+                                            strokeWidth="3"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
                                         />
                                     </svg>
                                 </a>
@@ -73,7 +73,7 @@ export default function Footer() {
                                 </a>
                             </li>
                         </ul>
-                        <p class="footer__copyright">
+                        <p className="footer__copyright">
                             © 2024 Tonium.World, All rights reserved
                         </p>
                     </div>

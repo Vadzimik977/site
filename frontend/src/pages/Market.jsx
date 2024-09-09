@@ -1,72 +1,88 @@
 import Layout from "../components/Layout";
-
+import '../assets/js/input'
+import { useEffect, useState } from "react";
+import marketAdaptiv from "../assets/js/marketAdaptiv";
+import customSelect from "../assets/js/customSelect";
+import popups from "../assets/js/popups";
+import scroll from "../assets/js/scroll";
+import input from "../assets/js/input";
+import newCustomSelect from "../assets/js/newCustomSelect";
 export default function Market() {
+    const [first, setFirst] = useState();
+    useEffect(() => {
+        marketAdaptiv();
+        customSelect();
+        popups();
+        scroll();
+        input();
+        newCustomSelect()
+    }, [])
     return (
         <Layout>
-            <div class="main__inner">
-                <h1 class="main__title">
+            <div className="main__inner">
+                <h1 className="main__title">
                     Здесь вы можете обменивать добытые ресурсы на игровую
                     валюту.
                 </h1>
-                <h6 class="main__text">
+                <h6 className="main__text">
                     Используйте эту валюту для улучшения ваших планет или
                     приобритения необходимых ресурсов для создания Tonium.
                 </h6>
-                <div class="market">
-                    <div class="market__trade">
-                        <div class="market__row">
-                            <div class="market__title">ОБМЕН</div>
-                            <div class="market__settings">
+                <div className="market">
+                    <div className="market__trade">
+                        <div className="market__row">
+                            <div className="market__title">ОБМЕН</div>
+                            <div className="market__settings">
                                 <img src="/images/reload.svg" alt="" />
                             </div>
                         </div>
-                        <div class="market__banner">
-                            <div class="market__banner-choice">
-                                <div class="compact-select">
-                                    <div class="selected-option">Click</div>
+                        <div className="market__banner">
+                            <div className="market__banner-choice">
+                                <div className="compact-select">
+                                    <div className="selected-option">Click</div>
                                 </div>
 
                                 <div
-                                    class="modal-select"
+                                    className="modal-select"
                                     style={{display: "none"}}
                                 >
-                                    <div class="modal-content">
-                                        <div class="modal-header">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
                                             <h2>Выберите актив</h2>
                                             <p>вы будете платить с помощью</p>
-                                            <button class="close-button">
+                                            <button className="close-button">
                                                 &times;
                                             </button>
                                         </div>
-                                        <div class="search-container">
+                                        <div className="search-container">
                                             <input
                                                 type="text"
-                                                class="search-input"
+                                                className="search-input"
                                                 placeholder="Вставьте адрес монеты, чтобы доб..."
                                             />
                                         </div>
-                                        <div class="options-list map__options">
-                                            {/* <!-- <div class="option" data-value="toncoin" data-label="ТОННА"
+                                        <div className="options-list map__options">
+                                            {/* <!-- <div className="option" data-value="toncoin" data-label="ТОННА"
                                                 data-sublabel="Toncoin" data-amount="0" data-icon="./images/ton2.svg">
-                                                <img src="./images/ton2.svg" alt="" class="crypto-icon">
-                                                <div class="option-text">
-                                                    <span class="crypto-name">ТОННА</span>
-                                                    <span class="crypto-sublabel">Toncoin</span>
+                                                <img src="./images/ton2.svg" alt="" className="crypto-icon">
+                                                <div className="option-text">
+                                                    <span className="crypto-name">ТОННА</span>
+                                                    <span className="crypto-sublabel">Toncoin</span>
                                                 </div>
-                                                <span class="crypto-amount">0</span>
+                                                <span className="crypto-amount">0</span>
                                             </div>
 
-                                            <div class="option" data-value="Ethereum" data-label="ЭФИР"
+                                            <div className="option" data-value="Ethereum" data-label="ЭФИР"
                                                 data-sublabel="Ethereum" data-amount="1" data-icon="./images/ton2.svg">
-                                                <img src="/images/ton2.svg" alt="" class="crypto-icon" />
-                                                <div class="option-text">
-                                                    <span class="crypto-name">ЭФИР</span>
-                                                    <span class="crypto-sublabel">Ethereum</span>
+                                                <img src="/images/ton2.svg" alt="" className="crypto-icon" />
+                                                <div className="option-text">
+                                                    <span className="crypto-name">ЭФИР</span>
+                                                    <span className="crypto-sublabel">Ethereum</span>
                                                 </div>
-                                                <span class="crypto-amount">0</span>
+                                                <span className="crypto-amount">0</span>
                                             </div> --> */}
                                             <div
-                                                class="option"
+                                                className="option"
                                                 data-value="Select Coin"
                                                 data-label="Select Coin"
                                                 data-sublabel="Select"
@@ -76,17 +92,17 @@ export default function Market() {
                                                 <img
                                                     src="/images/ton2.svg"
                                                     alt=""
-                                                    class="crypto-icon"
+                                                    className="crypto-icon"
                                                 />
-                                                <div class="option-text">
-                                                    <span class="crypto-name">
+                                                <div className="option-text">
+                                                    <span className="crypto-name">
                                                         Select Coin
                                                     </span>
-                                                    <span class="crypto-sublabel">
+                                                    <span className="crypto-sublabel">
                                                         Select Coin
                                                     </span>
                                                 </div>
-                                                <span class="crypto-amount">
+                                                <span className="crypto-amount">
                                                     0
                                                 </span>
                                             </div>
@@ -94,42 +110,43 @@ export default function Market() {
                                     </div>
                                 </div>
                             </div>
-                            <div class="market__banner-number">
+                            <div className="market__banner-number">
                                 <input
                                     type="text"
-                                    class="market__banner-input market__banner-input-1 positive-number-input"
+                                    className="market__banner-input market__banner-input-1 positive-number-input"
+                                    onChange={e => setFirst(e.target.value)}
                                     value="0"
                                 />
                             </div>
                         </div>
-                        <div class="market__banner">
-                            <div class="market__banner-choice">
-                                <div class="compact-select">
-                                    <div class="selected-option"></div>
+                        <div className="market__banner">
+                            <div className="market__banner-choice">
+                                <div className="compact-select">
+                                    <div className="selected-option"></div>
                                 </div>
 
                                 <div
-                                    class="modal-select"
+                                    className="modal-select"
                                     style={{display: "none"}}
                                 >
-                                    <div class="modal-content">
-                                        <div class="modal-header">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
                                             <h2>Выберите актив</h2>
                                             <p>вы будете платить с помощью</p>
-                                            <button class="close-button">
+                                            <button className="close-button">
                                                 &times;
                                             </button>
                                         </div>
-                                        <div class="search-container">
+                                        <div className="search-container">
                                             <input
                                                 type="text"
-                                                class="search-input"
+                                                className="search-input"
                                                 placeholder="Вставьте адрес монеты, чтобы доб..."
                                             />
                                         </div>
-                                        <div class="options-list">
+                                        <div className="options-list">
                                             <div
-                                                class="option"
+                                                className="option"
                                                 data-value="toncoin"
                                                 data-label="ТОННА"
                                                 data-sublabel="Toncoin"
@@ -139,17 +156,17 @@ export default function Market() {
                                                 <img
                                                     src="/images/ton2.svg"
                                                     alt=""
-                                                    class="crypto-icon"
+                                                    className="crypto-icon"
                                                 />
-                                                <div class="option-text">
-                                                    <span class="crypto-name">
+                                                <div className="option-text">
+                                                    <span className="crypto-name">
                                                         GC
                                                     </span>
-                                                    <span class="crypto-sublabel">
+                                                    <span className="crypto-sublabel">
                                                         Game Coin
                                                     </span>
                                                 </div>
-                                                <span class="crypto-amount">
+                                                <span className="crypto-amount">
                                                     0
                                                 </span>
                                             </div>
@@ -157,51 +174,51 @@ export default function Market() {
                                     </div>
                                 </div>
                             </div>
-                            <div class="market__banner-number">
+                            <div className="market__banner-number">
                                 <input
                                     type="text"
-                                    class="market__banner-input market__banner-input-2 positive-number-input"
+                                    className="market__banner-input market__banner-input-2 positive-number-input"
                                     value="0"
                                 />
                             </div>
                         </div>
-                        <div class="btn btn-obmen">Обменять</div>
+                        <div className="btn btn-obmen">Обменять</div>
                     </div>
-                    <div class="market__history hidden" style={{display: "none"}}>
-                        <div class="market__row">
-                            <div class="market__title">История</div>
-                            <div class="market__settings">
+                    <div className="market__history hidden" style={{display: "none"}}>
+                        <div className="market__row">
+                            <div className="market__title">История</div>
+                            <div className="market__settings">
                                 <img src="/images/reload.svg" alt="" />
                             </div>
                         </div>
-                        <div class="history__items">
-                            <div class="history__item">
+                        <div className="history__items">
+                            <div className="history__item">
                                 <img src="/images/ton2.svg" alt="" />
                                 <span>Tonium</span>
-                                <span class="money">+900$</span>
+                                <span className="money">+900$</span>
                             </div>
-                            <div class="history__item">
+                            <div className="history__item">
                                 <img src="/images/ton2.svg" alt="" />
                                 <span>Tonium</span>
-                                <span class="money">+900$</span>
+                                <span className="money">+900$</span>
                             </div>
-                            <div class="history__item">
+                            <div className="history__item">
                                 <img src="/images/ton2.svg" alt="" />
                                 <span>Tonium</span>
-                                <span class="money red">-900$</span>
+                                <span className="money red">-900$</span>
                             </div>
-                            <div class="history__item">
+                            <div className="history__item">
                                 <img src="/images/ton2.svg" alt="" />
                                 <span>Tonium</span>
-                                <span class="money">+900$</span>
+                                <span className="money">+900$</span>
                             </div>
-                            <div class="history__item">
+                            <div className="history__item">
                                 <img src="/images/ton2.svg" alt="" />
                                 <span>Tonium</span>
-                                <span class="money">+900$</span>
+                                <span className="money">+900$</span>
                             </div>
                         </div>
-                        <div class="btn">Еще</div>
+                        <div className="btn">Еще</div>
                     </div>
                 </div>
             </div>

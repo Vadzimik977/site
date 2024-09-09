@@ -30,38 +30,38 @@ export default function Main() {
     return (
         <>
             <header>
-                <div class="container">
-                    <div class="header__inner">
+                <div className="container">
+                    <div className="header__inner">
                         <TonConnectButton id="ton-connect" />
                     </div>
                 </div>
             </header>
-            <main class="main mt">
-                <div class="container">
-                    <div class="main__inner index">
-                        <div class="main__imgs" ref={img}>
+            <main className="main mt">
+                <div className="container">
+                    <div className="main__inner index">
+                        <div className="main__imgs" ref={img}>
                             <img className="fade-out" src={slides[currentSlide].image} alt="" />
                         </div>
-                        <div class="main__content">
+                        <div className="main__content">
                             <>
-                                <div class="main__title" ref={title}>
+                                <div className="main__title" ref={title}>
                                     {slides[currentSlide].title}
                                 </div>
-                                <div class="main__text" ref={text}>
+                                <div className="main__text" ref={text}>
                                     {slides[currentSlide].text}
                                 </div>
-                                <div class="main__btns">
+                                <div className="main__btns">
                                     <button
                                         onClick={() =>{
                                             changeSlide(currentSlide - 1)
                                         }
                                         }
-                                        class="main__btn prev"
+                                        className="main__btn prev"
                                     >
                                         Назад
                                     </button>
                                     <button
-                                        class="main__btn next"
+                                        className="main__btn next"
                                         onClick={() =>{
                                             changeSlide(currentSlide + 1)
                                         }
