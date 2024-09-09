@@ -4,6 +4,7 @@ import simpleRestProvider from 'ra-data-simple-rest';
 export default function AdminPage() {
     return (
         <Admin basename='/admin' dataProvider={simpleRestProvider('http://localhost:8000/api')}>
+            return
             <Resource name="users" list={Users} />
             <Resource name="wallets" list={Users} />
         </Admin>
