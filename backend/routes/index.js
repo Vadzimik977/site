@@ -5,11 +5,15 @@ const crud = require('express-crud-router').default;
 const User = require('../models/models').User;
 const router = new Router();
 const UserController = require('../controllers/userController');
+const { Planet } = require('../models/models');
 console.log(User.findAll())
 const app = new express();
 
 app.use(
     crud('/users', sequelizeCrud(User))
+)
+app.use(
+    crud('/planets', sequelizeCrud(Planet))
 )
 //router.get('/users', UserController.getAll)
 
