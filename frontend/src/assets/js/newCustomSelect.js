@@ -207,13 +207,13 @@ export default function newCustomSelect() {
     };
     
     
-    input1.addEventListener('input', () => {
+    input1 && input1?.addEventListener('input', () => {
         if (selectedItemId !== null) {
             clickOption(selectedItemId).then(data => handleInputs(data.item));
         }
     });
     
-    document.querySelector('.btn-obmen').addEventListener('click', obmen);
+    document.querySelector('.btn-obmen')?.addEventListener('click', obmen);
     
     
         const tonAddres = localStorage.getItem("ton-connect-storage_bridge-connection");

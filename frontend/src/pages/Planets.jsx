@@ -1,12 +1,19 @@
 import { useEffect } from "react";
 import Layout from "../components/Layout";
 import BorderAnimation from "../assets/js/animatedBorder";
+import marketAdaptiv from "../assets/js/marketAdaptiv";
+import customSelect from "../assets/js/customSelect";
+import popups from "../assets/js/popups";
+import scroll from "../assets/js/scroll";
+import input from "../assets/js/input";
+import newCustomSelect from "../assets/js/newCustomSelect";
 
 export default function Planets() {
     useEffect(() => {
         document.querySelectorAll('.animated-border').forEach(element => {
             new BorderAnimation(element);
         });
+        
     }, [])
     return (
         <Layout>

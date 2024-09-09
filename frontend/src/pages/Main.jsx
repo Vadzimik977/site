@@ -29,7 +29,7 @@ export default function Main() {
 
     return (
         <>
-            <header>
+            <header className="app-header">
                 <div className="container">
                     <div className="header__inner">
                         <TonConnectButton id="ton-connect" />

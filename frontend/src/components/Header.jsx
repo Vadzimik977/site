@@ -8,7 +8,7 @@ export default function Header() {
 
     return (
         <>
-            <header>
+            <header className="app-header">
                 <div className="container">
                     <div className="header__inner">
                         <div className="header__logo">

@@ -10,12 +10,7 @@ import newCustomSelect from "../assets/js/newCustomSelect";
 export default function Market() {
     const [first, setFirst] = useState();
     useEffect(() => {
-        marketAdaptiv();
-        customSelect();
-        popups();
-        scroll();
-        input();
-        newCustomSelect()
+
     }, [])
     return (
         <Layout>

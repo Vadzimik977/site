@@ -4,6 +4,7 @@ import Planets from "./pages/Planets";
 import Market from "./pages/Market";
 import Laboratory from './pages/Laboratory';
 import Wallet from './pages/Wallet';
+import AdminPage from "./pages/admin/Admin";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
     {
         path: '/wallet',
         element: <Wallet />
+    },
+    {
+        path: '/admin/*',
+        element: <AdminPage />
     }
 ]);
 
