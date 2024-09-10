@@ -43,7 +43,6 @@ export default function Wallet() {
                             <div className="wallet__table-row">
                                 <div className="wallet__table-coin">
                                     Tonium{" "}
-                                    <span className="usd">USD 66 456,73 $</span>
                                 </div>
                                 <div>{ton * 5} $</div>
                                 <button className="btn btn-to error">
@@ -52,18 +51,21 @@ export default function Wallet() {
                             </div>
                             <hr className="wallet__table-hr" />
                             <div className="wallet__table-wrapper">
-                                <div className="wallet__table-row">
-                                    <div className="wallet__table-coin">
-                                        Tonium{" "}
-                                        <span className="usd">
-                                            USD 0,01322 $
-                                        </span>
+                                {wallet?.length ? wallet?.map(item => (
+                                    <div className="wallet__table-row">
+                                        <div className="wallet__table-coin">
+                                            {item.element.name}{" "}
+                                            <span className="usd">
+                                                USD 0,01322 $
+                                            </span>
+                                        </div>
+                                        <div>{item.value}</div>
+                                        <button className="btn error">
+                                            Обменять
+                                        </button>
                                     </div>
-                                    <div>72,00 $</div>
-                                    <button className="btn error">
-                                        Обменять
-                                    </button>
-                                </div>
+                                )) : ''}
+                                
                             </div>
                         </div>
                     </div>

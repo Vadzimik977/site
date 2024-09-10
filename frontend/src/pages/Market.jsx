@@ -7,11 +7,34 @@ import popups from "../assets/js/popups";
 import scroll from "../assets/js/scroll";
 import input from "../assets/js/input";
 import newCustomSelect from "../assets/js/newCustomSelect";
+import { getUserWallet } from "../utils/axios";
 export default function Market() {
-    const [first, setFirst] = useState();
-    useEffect(() => {
+    const [first, setFirst] = useState(0);
+    const [second, setSecond] = useState(0);
+    const [max, setMax] = useState(0);
+    const [wallet, setWallet] = useState(true);
 
-    }, [])
+    async function getWallet() {
+        setTimeout(async() => {
+            await getUserWallet().then((data) => {
+                setWallet(data);
+            });
+        }, 500)
+    }
+    const changeInput = (value, first) => {
+        let newValue = value = value.replace(/[^\d]/g, '');
+        newValue = Math.min(parseInt(value) || 0, max);
+        console.log(value, newValue)
+        if(first) {
+            setFirst(newValue);
+            setSecond(newValue / 3)
+        }
+        
+    }
+    useEffect(() => {
+        getWallet();
+    }, []);
+    console.log(first)
     return (
         <Layout>
             <div className="main__inner">
@@ -21,7 +44,7 @@ export default function Market() {
                 </h1>
                 <h6 className="main__text">
                     Используйте эту валюту для улучшения ваших планет или
-                    приобритения необходимых ресурсов для создания Tonium.
+                    приобрeтения необходимых ресурсов для создания Tonium.
                 </h6>
                 <div className="market">
                     <div className="market__trade">
@@ -57,50 +80,38 @@ export default function Market() {
                                             />
                                         </div>
                                         <div className="options-list map__options">
-                                            {/* <!-- <div className="option" data-value="toncoin" data-label="ТОННА"
-                                                data-sublabel="Toncoin" data-amount="0" data-icon="./images/ton2.svg">
-                                                <img src="./images/ton2.svg" alt="" className="crypto-icon">
-                                                <div className="option-text">
-                                                    <span className="crypto-name">ТОННА</span>
-                                                    <span className="crypto-sublabel">Toncoin</span>
-                                                </div>
-                                                <span className="crypto-amount">0</span>
-                                            </div>
-
-                                            <div className="option" data-value="Ethereum" data-label="ЭФИР"
-                                                data-sublabel="Ethereum" data-amount="1" data-icon="./images/ton2.svg">
-                                                <img src="/images/ton2.svg" alt="" className="crypto-icon" />
-                                                <div className="option-text">
-                                                    <span className="crypto-name">ЭФИР</span>
-                                                    <span className="crypto-sublabel">Ethereum</span>
-                                                </div>
-                                                <span className="crypto-amount">0</span>
-                                            </div> --> */}
+                                        {wallet?.length ? wallet.map(item =>(
                                             <div
+                                                onClick={() => setMax(item.value)}
                                                 className="option"
-                                                data-value="Select Coin"
-                                                data-label="Select Coin"
+                                                data-value={item?.element?.name}
+                                                data-label={item?.element.symbol}
                                                 data-sublabel="Select"
                                                 data-amount="1"
-                                                data-icon="./images/ton2.svg"
+                                                data-icon="/images/ton2.svg"
+                                                style={{display: "flex"}}
                                             >
                                                 <img
-                                                    src="/images/ton2.svg"
+                                                    src={`/img/icon/${item.element.img}`}
                                                     alt=""
                                                     className="crypto-icon"
                                                 />
-                                                <div className="option-text">
-                                                    <span className="crypto-name">
-                                                        Select Coin
+                                                
+                                                    <>
+                                                    <div onClick={() => setMax(item.value)} key={item.id} className="option-text">
+                                                        <span className="crypto-name">
+                                                            {item?.element?.name}
+                                                        </span>
+                                                        <span className="crypto-sublabel">
+                                                            {item?.element.symbol}
+                                                        </span>
+                                                    </div>
+                                                    <span className="crypto-amount">
+                                                        {item?.value}
                                                     </span>
-                                                    <span className="crypto-sublabel">
-                                                        Select Coin
-                                                    </span>
-                                                </div>
-                                                <span className="crypto-amount">
-                                                    0
-                                                </span>
+                                                </>
                                             </div>
+                                                )) : ''}
                                         </div>
                                     </div>
                                 </div>
@@ -109,8 +120,11 @@ export default function Market() {
                                 <input
                                     type="text"
                                     className="market__banner-input market__banner-input-1 positive-number-input"
-                                    onChange={e => setFirst(e.target.value)}
-                                    value="0"
+                                    onChange={e => {
+                                        changeInput(e.target.value, true)
+                                    }}
+                                    max={max}
+                                    value={first}
                                 />
                             </div>
                         </div>
@@ -171,9 +185,11 @@ export default function Market() {
                             </div>
                             <div className="market__banner-number">
                                 <input
-                                    type="text"
+                                    type="number"
                                     className="market__banner-input market__banner-input-2 positive-number-input"
-                                    value="0"
+                                    value={second}
+                                    disabled
+                                    onChange={(e) => setSecond(e.target.value)}
                                 />
                             </div>
                         </div>

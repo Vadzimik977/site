@@ -1,64 +1,6 @@
 export default function newCustomSelect() {
     let selectedItemId = null;
     const HOST = ''
-    function fetchData(addres) {
-        fetch(`${HOST}/planet-taps/${addres}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                const mapOption = document.querySelector(".map__options");
-                if (mapOption) {
-                    const mapOptionContent = data.planets?.map(item => `
-                        <div class="option" onclick="clickOption(${item.id})" data-value="${item.planetName.toLowerCase()}" data-label="${item.planetName.toUpperCase()}"
-                            data-sublabel="${item.planetName}" data-amount="0" data-icon="./images/ton2.svg">
-                            <img src="./images/ton2.svg" alt="" class="crypto-icon">
-                            <div class="option-text">
-                                <span class="crypto-name">${item.planetName.toUpperCase()}</span>
-                                <span class="crypto-sublabel">${item.planetName}</span>
-                            </div>
-                            <span class="crypto-amount">${Number(item.taps || 0).toFixed(3)}</span>
-                        </div>
-                    `).join("") || '<p>No planets available</p>';
-                    mapOption.innerHTML = mapOptionContent;
-                    historyItems(addres);
-                }
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-            });
-    }
-    
-    function historyItems(addres){
-        fetch(`${HOST}/obmen-history/${addres}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(history => {
-                
-                const historyList = document.querySelector(".history__items");
-                if (historyList) {
-                    const historyListContent = history.history.map(item => `
-                        <div class="history__item">
-                            <img src="./images/ton2.svg" alt="${item.planetName}">
-                            <span>${item.planetName}</span>
-                            <span class="money red"> -${item.minusCoin}${item.smileName}</span>
-                            <span class="money"> +${item.plusGC}GC</span>
-                        </div>
-                    `).join("") || '<p>No history</p>';
-                    historyList.innerHTML = historyListContent;
-                }
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-            });
-    }
     
     const clickOption = async (id) => {
         selectedItemId = id;
@@ -214,15 +156,6 @@ export default function newCustomSelect() {
     });
     
     document.querySelector('.btn-obmen')?.addEventListener('click', obmen);
-    
-    
-        const tonAddres = localStorage.getItem("ton-connect-storage_bridge-connection");
-        const parsedData = JSON.parse(tonAddres);
-        const addres = parsedData ? parsedData.connectEvent?.payload?.items[0]?.address : null;
-        if (addres) {
-            fetchData(addres);
-        }
-    
         const compactSelects = document.querySelectorAll('.compact-select');
     
         compactSelects.forEach(compactSelect => {
@@ -235,7 +168,7 @@ export default function newCustomSelect() {
             const firstOption = optionsList.querySelector('.option');
             if (firstOption) {
                 const icon = firstOption.querySelector('img').cloneNode(true);
-                const cryptoName = firstOption.querySelector('.crypto-name').textContent;
+                const cryptoName = firstOption.querySelector('.crypto-name')?.textContent ?? 'Select coin';
                 selectedOption.innerHTML = '';
                 selectedOption.appendChild(icon);
                 selectedOption.appendChild(document.createTextNode(cryptoName));

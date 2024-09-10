@@ -25,7 +25,7 @@ export default function Planets() {
         const uniq = els.filter((obj, idx, arr) => idx === arr.findIndex((t) => t.id === obj.id));
         
        uniq.map(async(item) => {
-            await createWalletElement(item.id);
+            await createWalletElement(item.id).then(async () => await fetchDefaultUser());
         });
 
         await fetchDefaultUser();

@@ -25,13 +25,13 @@ const Planet = sequelize.define('planet', {
     updatePrice: { type: DataTypes.INTEGER, allowNull: true },
     img: { type: DataTypes.STRING, allowNull: true },
     active: { type: DataTypes.BOOLEAN, defaultValue: false },
-    rare: { type: DataTypes.ENUM("Обычная", "Редкая", "Эпическая"), defaultValue: "Обычная" },
     forLaboratory: { type: DataTypes.BOOLEAN, defaultValue: false }
 });
 
 const Wallet = sequelize.define('wallet', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    value: { type: DataTypes.INTEGER, allowNull: true }
+    value: { type: DataTypes.FLOAT, allowNull: true },
+    rare: { type: DataTypes.ENUM("Обычная", "Редкая", "Эпическая"), defaultValue: "Обычная" },
 });
 
 // PlanetUsers.hasOne(User);

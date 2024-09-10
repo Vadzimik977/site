@@ -29,6 +29,7 @@ export default function Planet({ planet, update }) {
 
             if (currentElem?.id) {
                 setIsLoading(true)
+                console.log(currentElem.value, value, currentElem + value)
                 await putWallet(currentElem, value + currentElem.value);
                 setValue(value + currentElem.value);
                 await fetchDefaultUser()
@@ -48,6 +49,7 @@ export default function Planet({ planet, update }) {
 
         const update = 0.0005;
         const amount = update * click;
+
 
         debounceFn(amount);
     };

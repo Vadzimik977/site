@@ -38,13 +38,16 @@ export default function Layout({ children }) {
     }, [connectionRestored]);
 
     useEffect(() => {
-        marketAdaptiv();
-        //customSelect();
-        popups();
-        scroll();
-        input();
-        newCustomSelect();
-    }, []);
+        if(!isLoading) {
+
+            marketAdaptiv();
+            customSelect();
+            popups();
+            scroll();
+            input();
+            newCustomSelect();
+        }
+    }, [isLoading]);
     
     return (
         !isLoading && (
