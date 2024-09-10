@@ -31,7 +31,7 @@ export default function Header() {
                                         fill="white"
                                     />
                                 </svg>
-                                <span className="wallet__ton">30</span> To
+                                <span className="wallet__ton">{window?.user?.ton ?? 0}</span> To
                             </Link>
                         </div>
                         <div className="header__wallet ml">
@@ -49,7 +49,7 @@ export default function Header() {
                                         fill="white"
                                     />
                                 </svg>
-                                <span className="tap__wallet-amout">30</span> GC
+                                <span className="tap__wallet-amout">{window?.user?.coins ?? 0}</span> GC
                             </Link>
                         </div>
                         <div className="header__language custom-select">

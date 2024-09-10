@@ -4,8 +4,8 @@ export default function customSelect() {
   l = x.length;
   
   for (i = 0; i < 1; i++) {
-    selElmnt = x[i].getElementsByTagName("select")[0];
-    ll = selElmnt.length;
+    selElmnt = x[i]?.getElementsByTagName("select")[0];
+    ll = selElmnt?.length;
   
     // Создаем элемент для отображения выбранного элемента
     a = document.createElement("DIV");

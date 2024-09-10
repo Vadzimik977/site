@@ -1,17 +1,16 @@
-import { List, Datagrid, TextField, EmailField, NumberField, ImageField, BooleanField } from "react-admin";
+import { List, Datagrid, TextField, EmailField, NumberField, ImageField, BooleanField, ReferenceField } from "react-admin";
 
 export default function Planets() {
     return (
         <List>
             <Datagrid>
                 <TextField source="id" />
-                <BooleanField source="active" />
-                <TextField source="name" />
-                <TextField source="symbol" />
-                <NumberField source="speed" />
-                <NumberField source="level" />
-                <NumberField source="updatePrice" />
-                <ImageField source="img" />
+                <TextField source="active" label="Активность"/>
+                <TextField source="name" label="Имя" />
+                <TextField source="element.name" label="Элемент"></TextField>
+                <NumberField source="speed" label="Скорость" />
+                <NumberField source="updatePrice" label="Стоимость обновления" />
+                <ImageField source="img" src={(val) => `/images/${val}`} label="Изображение" />
             </Datagrid>
         </List>
     );
