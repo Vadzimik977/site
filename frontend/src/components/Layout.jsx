@@ -21,18 +21,19 @@ export default function Layout({ children }) {
     const adress = useTonAddress();
     const connectionRestored = useIsConnectionRestored();
     const [isLoading, setIsLoading] = useState(false);
+    const [isFetched, setIsFetched] = useState(false);
 
     window.adress = adress;
     const fetchUser = async () => {
         setIsLoading(true);
-        await fetchDefaultUser().then((data) => {
-            if (data?.id) {}
-        });
+        await fetchDefaultUser()
         
     };
 
     useEffect(() => {
-        if (adress) {
+        
+        if (connectionRestored && adress && !isFetched) {
+            setIsFetched(true);
             fetchUser().then(() => setIsLoading(false));
         }
     }, [connectionRestored]);

@@ -28,7 +28,6 @@ export default function Planets() {
             await createWalletElement(item.id).then(async () => await fetchDefaultUser());
         });
 
-        await fetchDefaultUser();
         return
     };
 
@@ -69,7 +68,7 @@ export default function Planets() {
                     станьте лидером на рынке
                 </h6>
                 <div className="planets">
-                    {planets?.length && planets?.map((item) => <Planet update={fetch} planet={item} key={item.id} />)}
+                    {planets?.length && planets?.map((item, idx) => <Planet idx={idx + 1} update={fetch} planet={item} key={item.id} />)}
                 </div>
             </div>
         </Layout>

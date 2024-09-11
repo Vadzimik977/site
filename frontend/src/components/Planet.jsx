@@ -3,7 +3,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { createWalletElement, updateWalletElement } from "../utils/axios";
 import { fetchDefaultUser } from "../assets/js/getUser";
 
-export default function Planet({ planet, update }) {
+export default function Planet({ idx, planet, update }) {
     const { id, name, element, img, speed, updatePrice, forLaboratory } = planet;
     const getInitState = () => {
         setValue(window?.user?.balance?.find(bal => bal.elementId === element.id)?.value);
@@ -68,7 +68,7 @@ export default function Planet({ planet, update }) {
                 </div>
                 <div className="planet__information">
                     <h4 className="planet__title">
-                        {name}({element?.symbol}) - Planet #{id}
+                        {name}({element?.symbol}) - Planet #{idx}
                     </h4>
                     <p className="planet__lvl">level 1</p>
                     <p className="planet__speed">

@@ -1,15 +1,18 @@
-import { Edit, ImageInput, NumberInput, SimpleForm, TextInput } from "react-admin";
+import { Edit, ImageInput, NumberInput, SimpleForm, TextInput, BooleanInput } from "react-admin";
 
 export default function EditPlanet () {
     return (
 
     <Edit>
         <SimpleForm>
-            <TextInput source="name" />
-            <TextInput source="symbol" />
-            <NumberInput source="speed" />
-            <NumberInput source="updatePrice" />
-            <TextInput source="img" />
+            <BooleanInput source="active" label="Активность" />
+            <TextInput source="name" label="Имя" />
+            <NumberInput source="speed" label="Скорость" />
+            <NumberInput
+                source="updatePrice"
+                label="Стоимость обновления"
+            />
+            <TextInput source="img" label="Картинка" />
         </SimpleForm>
     </Edit>
     )
