@@ -21,7 +21,7 @@ export default function AdminPage() {
     return (
         <Admin
             basename="/admin"
-            dataProvider={simpleRestProvider(url)}
+            dataProvider={simpleRestProvider(`${url}/api`)}
         >
             return
             <Resource
