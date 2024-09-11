@@ -16,11 +16,12 @@ import simpleRestProvider from "ra-data-simple-rest";
 import Planets from "./tables/Planet";
 import EditPlanet from "./tables/EditPlanet";
 import Elements from "./tables/Element";
+import { url } from "../../utils/axios";
 export default function AdminPage() {
     return (
         <Admin
             basename="/admin"
-            dataProvider={simpleRestProvider("http://localhost:8000/api")}
+            dataProvider={simpleRestProvider(url)}
         >
             return
             <Resource
