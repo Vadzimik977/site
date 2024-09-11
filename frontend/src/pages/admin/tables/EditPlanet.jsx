@@ -9,7 +9,7 @@ export default function EditPlanet () {
             <TextInput source="symbol" />
             <NumberInput source="speed" />
             <NumberInput source="updatePrice" />
-            <ImageInput source="img" />
+            <TextInput source="img" />
         </SimpleForm>
     </Edit>
     )

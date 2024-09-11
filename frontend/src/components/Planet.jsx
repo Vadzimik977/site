@@ -33,7 +33,7 @@ export default function Planet({ planet, update }) {
                 await putWallet(currentElem, value + currentElem.value);
                 setValue(value + currentElem.value);
                 await fetchDefaultUser()
-                update()
+                
                 setIsLoading(false)
             }
         }
@@ -48,10 +48,9 @@ export default function Planet({ planet, update }) {
         setClick(click + 1);
 
         const update = 0.0005;
-        const amount = update * click;
 
 
-        debounceFn(amount);
+        debounceFn(update);
     };
 
     useEffect(() => {
@@ -65,7 +64,7 @@ export default function Planet({ planet, update }) {
         >
             <div className="animated-border">
                 <div className="planet__img">
-                    <img src={`/images/${img}`} alt="" />
+                    <img src={`/img/planet/${img}`} alt="" />
                 </div>
                 <div className="planet__information">
                     <h4 className="planet__title">

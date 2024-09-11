@@ -10,7 +10,6 @@ module.exports = {
         updatePrice: 3,
         img: 'planet1.png',
         active: 1,
-        rare: 'Обычная',
         forLaboratory: 0,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -21,7 +20,6 @@ module.exports = {
         updatePrice: 3,
         img: 'planet2.png',
         active: 1,
-        rare: 'Обычная',
         forLaboratory: 0,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -32,7 +30,6 @@ module.exports = {
         updatePrice: 3,
         img: 'planet3.png',
         active: 1,
-        rare: 'Обычная',
         forLaboratory: 0,
         createdAt: new Date(),
         updatedAt: new Date()
