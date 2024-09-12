@@ -8,7 +8,7 @@ const User = sequelize.define("user", {
     role: { type: DataTypes.ENUM("user", "admin"), defaultValue: "user" },
     coins: { type: DataTypes.FLOAT, defaultValue: 0 },
     ton: { type: DataTypes.FLOAT, defaultValue: 0 },
-    wallet: { type: DataTypes.STRING, allowNull: true }
+    adress: { type: DataTypes.STRING, allowNull: true }
 });
 
 const Element = sequelize.define('element', {
@@ -31,19 +31,18 @@ const Planet = sequelize.define('planet', {
 
 const Wallet = sequelize.define('wallet', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    value: { type: DataTypes.FLOAT, allowNull: true },
+    value: { type: DataTypes.JSON, allowNull: true, defaultValue: [] },
 });
 
 // PlanetUsers.hasOne(User);
 // PlanetUsers.hasOne(Planet)
-User.hasMany(Wallet);
+User.hasOne(Wallet);
 //Planet.hasMany(Element);
 
 //Element.belongsTo(Planet);
 Planet.belongsToMany(Element, {through: 'element_planets'})
 Element.belongsToMany(Planet, {through: 'element_planets'})
 
-Wallet.belongsTo(Element);
 Wallet.belongsTo(User);
 
 module.exports = {

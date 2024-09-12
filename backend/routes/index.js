@@ -12,7 +12,7 @@ const app = new express();
 
 app.use(crud("/users", sequelizeCrud(User), {
     additionalAttributes: {
-        balance: (user) => Wallet.findAll({where: {userId: user.id}})
+        wallet: (user) => Wallet.findOne({where: {userId: user.id}})
     }
 }));
 app.use(
@@ -29,9 +29,10 @@ app.use(
 app.use(crud("/elements", sequelizeCrud(Element)));
 //router.get('/users', UserController.getAll)
 app.use(crud("/wallet", sequelizeCrud(Wallet), {
-    additionalAttributes: {
-        element: (wallet) => Element.findOne({where: {id: wallet.elementId}})
-    }
+    // additionalAttributes: {
+    //     element: (wallet) => Element.findOne({where: {id: wallet.elementId}})
+    // }
 }));
+//app.use(crud("/wallet", sequelizeCrud(Wallet)));
 
 module.exports = app;

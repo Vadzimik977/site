@@ -2,40 +2,63 @@ import { debounce } from "lodash";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { createWalletElement, updateWalletElement } from "../utils/axios";
 import { fetchDefaultUser } from "../assets/js/getUser";
+import BorderAnimation from "../assets/js/animatedBorder";
 
 export default function Planet({ idx, planet, update }) {
     const { id, name, element, img, speed, updatePrice, forLaboratory } = planet;
     const getInitState = () => {
-        setValue(window?.user?.balance?.find(bal => bal.elementId === element.id)?.value);
+        setValue(window?.user?.wallet?.value.find(bal => bal.element === element.id)?.value);
     }
     const [value, setValue] = useState(0);
 
     const [click, setClick] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
 
-   
-    const updateFn = debounce(async (value) => {
+    const animated = useRef(null);
+
+    const updateFn = debounce(async (val) => {
         if (isLoading) {
             setTimeout(() => {
-                updateFn(value);
+                updateFn(val);
             }, 200);
             return;
         }
-        if (window.user?.balance?.length) {
-            const balance = window.user?.balance;
+        
+        if (window.user?.wallet?.value) {
+            const balance = window.user?.wallet?.value;
+            
             const currentElem = balance.find(
-                (item) => item.elementId === element.id
+                (item) => item.element === element.id
             );
 
-            if (currentElem?.id) {
+            if (currentElem?.element) {
                 setIsLoading(true)
-                console.log(currentElem.value, value, currentElem + value)
-                await putWallet(currentElem, value + currentElem.value);
-                setValue(value + currentElem.value);
-                await fetchDefaultUser()
+                currentElem.value = currentElem.value + val;
+                const data = [...balance.filter(bal => bal.element !== element.id), {...currentElem}];
+                setValue(currentElem.value);
+                console.log(value)
+                await putWallet(window.user.wallet, data);
                 
                 setIsLoading(false)
+            } else {
+                let data;
+                if(window.user.wallet.value?.length) {
+                    data = [
+                        ...window.user.wallet.value,
+                        {element: element.id, value: val}
+                    ]
+                } else {
+                    data = [
+                        {
+                            element: element.id,
+                            value: val
+                        }
+                    ];
+                }
+                setValue(val);
+                await putWallet(window.user.wallet, data);
             }
+            await fetchDefaultUser()
         }
     }, 100);
     const debounceFn = useCallback((click) => updateFn(click), []);
@@ -44,11 +67,20 @@ export default function Planet({ idx, planet, update }) {
         await updateWalletElement(walletId, value);
     };
 
-    const walletUpdate = async () => {
+    const walletUpdate = async (e) => {
+        if (e.target.tagName.toLowerCase() === 'button') return;
+
+        const plusIcon = document.createElement('div');
+        plusIcon.textContent = '+';
+        plusIcon.classList.add('plus-icon');
+        plusIcon.style.left = `${e.pageX}px`;
+        plusIcon.style.top = `${e.pageY}px`;
+
+        document.body.appendChild(plusIcon);
+        plusIcon.addEventListener('animationend', () => plusIcon.remove());
         setClick(click + 1);
 
-        const update = 0.0005;
-
+        const update = speed;
 
         debounceFn(update);
     };
@@ -57,12 +89,16 @@ export default function Planet({ idx, planet, update }) {
         getInitState()
     }, [isLoading, window?.user]);
 
+    useEffect(() => {
+        new BorderAnimation(animated.current)
+    }, [])
+
     return (
         <div
             className="planets__planet animated-border-container ver1 with_To rotate"
-            onClick={() => walletUpdate()}
+            onClick={(e) => walletUpdate(e)}
         >
-            <div className="animated-border">
+            <div className="animated-border" ref={animated}>
                 <div className="planet__img">
                     <img src={`/img/planet/${img}`} alt="" />
                 </div>
@@ -79,7 +115,7 @@ export default function Planet({ idx, planet, update }) {
                         {element?.symbol})
                     </p>
                     <p className="planet__gc">
-                        {value} {element?.symbol}
+                        {value ?? '0.000'} {element?.symbol}
                     </p>
                 </div>
                 <div className="planet__price">

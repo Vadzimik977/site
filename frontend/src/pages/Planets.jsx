@@ -10,50 +10,20 @@ import _ from 'lodash'
 export default function Planets() {
     const [planets, setPlanets] = useState([]);
     const [loading ,setLoading] = useState(true);
-
-    const getWalletValue = async () => {
-        if(!window?.user?.id) { setTimeout(async() => {await getWalletValue()}, 200); return; }
-        const elements = planets.map(planet => planet?.element);
-        
-        const els = elements.filter(item => {
-            if(window.user?.balance?.length) {
-                return !window?.user?.balance.some(val => val.elementId === item.id)
-            };
-            return true;
-        })
-        console.log(els)
-        const uniq = els.filter((obj, idx, arr) => idx === arr.findIndex((t) => t.id === obj.id));
-        
-       uniq.map(async(item) => {
-            await createWalletElement(item.id).then(async () => await fetchDefaultUser());
-        });
-
-        return
-    };
+    const [range, setRange] = useState([0, 9]);
 
     const fetchPlanets = async () => {
         return await getPlanets();
     };
 
-    useEffect(() => {
-        if(!loading) {
-            getWalletValue();
-        }
-    }, [loading])
-
     async function fetch() {
-        const data = await fetchPlanets();
+        const data = await fetchPlanets(range);
         setPlanets(data);
         setLoading(false)
     }
     useEffect(() => {
         setLoading(true)
         fetch();
-
-        document.querySelectorAll(".animated-border").forEach((element) => {
-            new BorderAnimation(element);
-        });
-        plus();
     }, []);
     return (
         <Layout>
@@ -69,6 +39,9 @@ export default function Planets() {
                 </h6>
                 <div className="planets">
                     {planets?.length && planets?.map((item, idx) => <Planet idx={idx + 1} update={fetch} planet={item} key={item.id} />)}
+                    <button className="btn btn-show" onClick={() => fetch(range + 9)}>
+                        Показать ещё
+                    </button>
                 </div>
             </div>
         </Layout>
