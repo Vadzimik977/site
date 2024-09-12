@@ -42,7 +42,7 @@ export default function Wallet() {
                                 <div className="wallet__table-coin">
                                     Tonium{" "}
                                 </div>
-                                <div>{ton * 5} $</div>
+                                <div>{ton} TON</div>
                                 <button className="btn btn-to error">
                                     Вывести
                                 </button>
