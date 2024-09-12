@@ -94,6 +94,12 @@ export default function Planet({ idx, planet, update }) {
     }, [])
 
     const userHasPlanet = () => {
+        if(window?.user?.nft) {
+            const arr = window.user.nft;
+            const fullName = `${name}(${element?.symbol}) - Planet #${idx}`;
+            arr.find(item => item.metadata.name === fullName);
+            return arr.length
+        }
         return false;
     }
 

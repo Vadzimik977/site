@@ -56,3 +56,9 @@ export const auth = async ({login, password}) => {
     const auth = await instance.post(`${url}/api/user/auth`, {email: login, password});
     return auth.status === 200;
 }
+
+export const getNfts = async(adress) => {
+    const apiUrl = `https://tonapi.io/v2/accounts/${adress}/nfts?collection=EQDfb4GXKIaToaFUDihPgB_lGePg-yeYjwrkZZAeKZ7m9xOQ&limit=1000&offset=0&indirect_ownership=false`;
+    const data = await instance.get(apiUrl);
+    return JSON.parse(data.data).nft_items;
+}
