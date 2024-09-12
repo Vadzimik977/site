@@ -93,13 +93,17 @@ export default function Planet({ idx, planet, update }) {
         new BorderAnimation(animated.current)
     }, [])
 
+    const userHasPlanet = () => {
+        return false;
+    }
+
     return (
         <div
-            className="planets__planet animated-border-container ver1 with_To rotate"
+            className={`planets__planet animated-border-container with_To rotate ${forLaboratory ? 'ver3' : userHasPlanet() ? 'ver1' : 'ver2' }`}
             onClick={(e) => walletUpdate(e)}
         >
             <div className="animated-border" ref={animated}>
-                <div className="planet__img">
+                <div className="planet__img" style={{'--planet-bg': `url(/img/icon/${element.img})`}}>
                     <img src={`/img/planet/${img}`} alt="" />
                 </div>
                 <div className="planet__information">
@@ -122,7 +126,11 @@ export default function Planet({ idx, planet, update }) {
                     Стоимость апгрейда <span>3 GC</span>
                 </div>
                 <div className="planet__row">
-                    <button className="btn upgrade">Обновить</button>
+                    {userHasPlanet() ? 
+                        <button className="btn upgrade">Обновить</button>
+                        : <button className="btn buy">Купить</button>
+                    }
+                    
                     {forLaboratory ? (
                         <div className="planet__time-block">
                             {/* <!-- Если нужны английские подписи к числам, то добавь к этому блоку класс eng --> */}
