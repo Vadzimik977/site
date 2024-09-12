@@ -26,8 +26,7 @@ class UserController {
       return res.status(401).json({ message: "Неправильный пароль" });
     }
 
-    const token = createJWT(user.id, user.email, user.role);
-    return res.json({ token });
+    return res.status(200).json({message: 'OK'});
   }
 
   async register(req, res) {

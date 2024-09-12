@@ -51,3 +51,8 @@ export const getUserWallet = async () => {
     const userWallet = await instance.get(`${url}/api/wallet?filter=${JSON.stringify({userId: window.user.id})}`);
     return JSON.parse(userWallet.data);
 }
+
+export const auth = async ({login, password}) => {
+    const auth = await instance.post(`${url}/api/user/auth`, {email: login, password});
+    return auth.status === 200;
+}

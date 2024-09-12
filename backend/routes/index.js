@@ -7,6 +7,7 @@ const User = require("../models/models").User;
 const router = new Router();
 const UserController = require("../controllers/userController");
 const { Planet, Element, Wallet } = require("../models/models");
+const userController = require("../controllers/userController");
 console.log(User.findAll());
 const app = new express();
 
@@ -26,6 +27,7 @@ app.use(
         },
     })
 );
+app.post('/user/auth', userController.login);
 app.use(crud("/elements", sequelizeCrud(Element)));
 //router.get('/users', UserController.getAll)
 app.use(crud("/wallet", sequelizeCrud(Wallet), {

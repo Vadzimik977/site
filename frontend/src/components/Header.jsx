@@ -61,9 +61,9 @@ export default function Header() {
                         <div id="ton-connect">
                             <TonConnectButton />
                         </div>
-                        <div>
+                        {/* <div>
                             <Link to="/admin">Админ панель</Link>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </header>
