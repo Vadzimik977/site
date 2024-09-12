@@ -7,34 +7,97 @@ import popups from "../assets/js/popups";
 import scroll from "../assets/js/scroll";
 import input from "../assets/js/input";
 import newCustomSelect from "../assets/js/newCustomSelect";
-import { getUserWallet } from "../utils/axios";
+import { getUserWallet, updateUser, updateWalletElement } from "../utils/axios";
+import showPopup from "../assets/js/showPopup";
+import { fetchDefaultUser } from "../assets/js/getUser";
 export default function Market() {
     const [first, setFirst] = useState(0);
     const [second, setSecond] = useState(0);
     const [max, setMax] = useState(0);
     const [wallet, setWallet] = useState(true);
+    const [rare, setRare] = useState();
+    const [item, setItem] = useState();
 
     async function getWallet() {
         setTimeout(async() => {
-            await getUserWallet().then((data) => {
-                setWallet(data);
-            });
+            setWallet(window.user.wallet)
         }, 500)
     }
     const changeInput = (value, first) => {
         let newValue = value = value.replace(/[^\d]/g, '');
-        newValue = Math.min(parseInt(value) || 0, max);
-        console.log(value, newValue)
+        newValue = Math.min(parseInt(value) || 0, item.value);
+
         if(first) {
             setFirst(newValue);
-            setSecond(newValue / 3)
+            console.log(rare)
+            let coeff;
+            switch(item.rare) {
+                case 'Обычная':
+                    coeff = 3;
+                    break;
+                case 'Редкая':
+                    coeff = 2;
+                    break;
+                case 'Эпическая':
+                    coeff = 1;
+                    break;
+            }
+            const a = newValue / coeff;
+            console.log(newValue)
+            setSecond(parseFloat((newValue / coeff).toFixed(6)))
         }
         
     }
     useEffect(() => {
         getWallet();
     }, []);
-    console.log(first)
+
+    const showModal = (event, status) => {
+        const planetElement = event.target.closest('.market__trade');
+        let content, additionalClasses = ['market__popup'];
+
+        if (status === 'complete') {
+            content = '<div class="market__popup-title">Обмен выполнен успешно</div><div class="market__popup-text">Баланс в кошельке обновлён!</div>';
+        } else if (status === 'error') {
+            content = '<div class="market__popup-title">Ошибка</div><div class="market__popup-text">Недостаточно средств для обмена</div>';
+        } else {
+            content = '<div class="market__popup-title">Повторите попытку позже</div>';
+        }
+
+        content = '<div class="popup__inner">' + content + '</div>';
+
+        showPopup(planetElement, content, additionalClasses);
+    }
+
+    const exchange = async (event) => {
+        
+        if(first < second) {
+            showModal(event, 'error')
+        };
+        
+        item.value = item.value - first;
+        let data;
+        if (window.user.wallet.value?.length) {
+            data = [
+                ...window.user.wallet.value.filter(i => i.element !== item.element),
+                {
+                    element: item.element,
+                    value: item.value,
+                    name: item.name,
+                    img: item.img,
+                    symbol: item.symbol,
+                    rare: item.rare,
+                },
+            ];
+        } 
+
+        await updateWalletElement(window.user.wallet, data)
+        await updateUser({ton: second + window.user.ton})
+        window.user.ton = second + window.user.ton
+        setWallet((wall) => ({...wall, value: data}));
+        showModal(event, 'complete')
+    }
+    
     return (
         <Layout>
             <div className="main__inner">
@@ -80,19 +143,20 @@ export default function Market() {
                                             />
                                         </div>
                                         <div className="options-list map__options">
-                                        {wallet?.length ? wallet.map(item =>(
+                                            
+                                        {wallet?.value?.length ? wallet?.value?.map(item =>(
                                             <div
-                                                onClick={() => setMax(item.value)}
+                                                onClick={() => {setItem(item), setFirst(0), setSecond(0)}}
                                                 className="option"
-                                                data-value={item?.element?.name}
-                                                data-label={item?.element.symbol}
+                                                data-value={item?.name}
+                                                data-label={item?.symbol}
                                                 data-sublabel="Select"
                                                 data-amount="1"
                                                 data-icon="/images/ton2.svg"
                                                 style={{display: "flex"}}
                                             >
                                                 <img
-                                                    src={`/img/icon/${item.element.img}`}
+                                                    src={`/img/icon/${item.img}`}
                                                     alt=""
                                                     className="crypto-icon"
                                                 />
@@ -100,10 +164,10 @@ export default function Market() {
                                                     <>
                                                     <div onClick={() => setMax(item.value)} key={item.id} className="option-text">
                                                         <span className="crypto-name">
-                                                            {item?.element?.name}
+                                                            {item?.name}
                                                         </span>
                                                         <span className="crypto-sublabel">
-                                                            {item?.element.symbol}
+                                                            {item?.symbol}
                                                         </span>
                                                     </div>
                                                     <span className="crypto-amount">
@@ -193,7 +257,7 @@ export default function Market() {
                                 />
                             </div>
                         </div>
-                        <div className="btn btn-obmen">Обменять</div>
+                        <div className="btn btn-obmen" onClick={(event) => exchange(event)}>Обменять</div>
                     </div>
                     <div className="market__history hidden" style={{display: "none"}}>
                         <div className="market__row">

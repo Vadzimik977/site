@@ -5,10 +5,15 @@ import { fetchDefaultUser } from "../assets/js/getUser";
 import BorderAnimation from "../assets/js/animatedBorder";
 
 export default function Planet({ idx, planet, update }) {
-    const { id, name, element, img, speed, updatePrice, forLaboratory } = planet;
+    const { id, name, element, img, speed, updatePrice, forLaboratory } =
+        planet;
     const getInitState = () => {
-        setValue(window?.user?.wallet?.value.find(bal => bal.element === element.id)?.value);
-    }
+        setValue(
+            window?.user?.wallet?.value?.find(
+                (bal) => bal.element === element.id
+            )?.value
+        );
+    };
     const [value, setValue] = useState(0);
 
     const [click, setClick] = useState(1);
@@ -23,42 +28,57 @@ export default function Planet({ idx, planet, update }) {
             }, 200);
             return;
         }
-        
-        if (window.user?.wallet?.value) {
+
+        if (window.user?.wallet) {
             const balance = window.user?.wallet?.value;
-            
-            const currentElem = balance.find(
+
+            const currentElem = balance?.find(
                 (item) => item.element === element.id
             );
 
             if (currentElem?.element) {
-                setIsLoading(true)
-                currentElem.value = currentElem.value + val;
-                const data = [...balance.filter(bal => bal.element !== element.id), {...currentElem}];
+                setIsLoading(true);
+                currentElem.value = parseFloat(
+                    (currentElem.value + val).toFixed(10)
+                );
+                const data = [
+                    ...balance.filter((bal) => bal.element !== element.id),
+                    { ...currentElem },
+                ];
                 setValue(currentElem.value);
-                console.log(value)
                 await putWallet(window.user.wallet, data);
-                
-                setIsLoading(false)
+
+                setIsLoading(false);
             } else {
                 let data;
-                if(window.user.wallet.value?.length) {
+                if (window.user.wallet.value?.length) {
                     data = [
                         ...window.user.wallet.value,
-                        {element: element.id, value: val}
-                    ]
+                        {
+                            element: element.id,
+                            value: val,
+                            name: element.name,
+                            img: element.img,
+                            symbol: element.symbol,
+                            rare: element.rare,
+                        },
+                    ];
                 } else {
                     data = [
                         {
                             element: element.id,
-                            value: val
-                        }
+                            value: val,
+                            name: element.name,
+                            img: element.img,
+                            symbol: element.symbol,
+                            rare: element.rare,
+                        },
                     ];
                 }
                 setValue(val);
                 await putWallet(window.user.wallet, data);
             }
-            await fetchDefaultUser()
+            await fetchDefaultUser();
         }
     }, 100);
     const debounceFn = useCallback((click) => updateFn(click), []);
@@ -68,48 +88,53 @@ export default function Planet({ idx, planet, update }) {
     };
 
     const walletUpdate = async (e) => {
-        if (e.target.tagName.toLowerCase() === 'button') return;
+        if (e.target.tagName.toLowerCase() === "button") return;
 
-        const plusIcon = document.createElement('div');
-        plusIcon.textContent = '+';
-        plusIcon.classList.add('plus-icon');
+        const plusIcon = document.createElement("div");
+        plusIcon.textContent = "+";
+        plusIcon.classList.add("plus-icon");
         plusIcon.style.left = `${e.pageX}px`;
         plusIcon.style.top = `${e.pageY}px`;
 
         document.body.appendChild(plusIcon);
-        plusIcon.addEventListener('animationend', () => plusIcon.remove());
+        plusIcon.addEventListener("animationend", () => plusIcon.remove());
         setClick(click + 1);
 
-        const update = speed;
+        const update = userHasPlanet() ? speed : 0.00005;
 
         debounceFn(update);
     };
 
     useEffect(() => {
-        getInitState()
+        getInitState();
     }, [isLoading, window?.user]);
 
     useEffect(() => {
-        new BorderAnimation(animated.current)
-    }, [])
+        new BorderAnimation(animated.current);
+    }, []);
 
     const userHasPlanet = () => {
-        if(window?.user?.nft) {
+        if (window?.user?.nft) {
             const arr = window.user.nft;
             const fullName = `${name}(${element?.symbol}) - Planet #${idx}`;
-            arr.find(item => item.metadata.name === fullName);
-            return arr.length
+            const item = arr?.find((item) => item.metadata.name === fullName);
+            return item?.length;
         }
         return false;
-    }
+    };
 
     return (
         <div
-            className={`planets__planet animated-border-container with_To rotate ${forLaboratory ? 'ver3' : userHasPlanet() ? 'ver1' : 'ver2' }`}
+            className={`planets__planet animated-border-container with_To rotate ${
+                forLaboratory ? "ver3" : userHasPlanet() ? "ver1" : "ver2"
+            }`}
             onClick={(e) => walletUpdate(e)}
         >
             <div className="animated-border" ref={animated}>
-                <div className="planet__img" style={{'--planet-bg': `url(/img/icon/${element.img})`}}>
+                <div
+                    className="planet__img"
+                    style={{ "--planet-bg": `url(/img/icon/${element.img})` }}
+                >
                     <img src={`/img/planet/${img}`} alt="" />
                 </div>
                 <div className="planet__information">
@@ -118,25 +143,27 @@ export default function Planet({ idx, planet, update }) {
                     </h4>
                     <p className="planet__lvl">level 1</p>
                     <p className="planet__speed">
-                        Speed: {speed} ({element?.symbol})/час
+                        Speed: {userHasPlanet() ? speed : 0.00005} (
+                        {element?.symbol})/час
                     </p>
                     <p className="planet__description">
                         The extracted resourse is {element?.name}(
                         {element?.symbol})
                     </p>
                     <p className="planet__gc">
-                        {value ?? '0.000'} {element?.symbol}
+                        {value ?? "0.000"} {element?.symbol}
                     </p>
                 </div>
                 <div className="planet__price">
                     Стоимость апгрейда <span>3 GC</span>
                 </div>
                 <div className="planet__row">
-                    {userHasPlanet() ? 
+                    {userHasPlanet() ? (
                         <button className="btn upgrade">Обновить</button>
-                        : <button className="btn buy">Купить</button>
-                    }
-                    
+                    ) : (
+                        <button className="btn buy">Купить</button>
+                    )}
+
                     {forLaboratory ? (
                         <div className="planet__time-block">
                             {/* <!-- Если нужны английские подписи к числам, то добавь к этому блоку класс eng --> */}

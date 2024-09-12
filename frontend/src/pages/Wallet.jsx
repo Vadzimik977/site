@@ -10,9 +10,7 @@ export default function Wallet() {
 
     async function getWallet() {
         setTimeout(async() => {
-            await getUserWallet().then((data) => {
-                setWallet(data);
-            });
+            setWallet(window?.user?.wallet)
         }, 500)
     }
     useEffect(() => {
@@ -51,10 +49,10 @@ export default function Wallet() {
                             </div>
                             <hr className="wallet__table-hr" />
                             <div className="wallet__table-wrapper">
-                                {wallet?.length ? wallet?.map(item => (
-                                    <div className="wallet__table-row">
+                                {wallet?.value?.length ? wallet?.value?.map(item => (
+                                    <div key={item.element} className="wallet__table-row">
                                         <div className="wallet__table-coin">
-                                            {item.element.name}{" "}
+                                            {item.name}{" "}
                                             <span className="usd">
                                                 USD 0,01322 $
                                             </span>

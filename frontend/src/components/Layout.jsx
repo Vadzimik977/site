@@ -16,6 +16,7 @@ import newCustomSelect from "../assets/js/newCustomSelect";
 import { createUser, getNfts, getUser } from "../utils/axios";
 import { fetchDefaultUser } from "../assets/js/getUser";
 import axios from "axios";
+import { ColorRing } from 'react-loader-spinner'
 
 export const DataContext = createContext();
 export default function Layout({ children }) {
@@ -56,7 +57,7 @@ export default function Layout({ children }) {
     }, [isLoading]);
     
     return (
-        !isLoading && (
+        !isLoading ? (
             <>
                 <Header />
                 <main className="main">
@@ -64,6 +65,15 @@ export default function Layout({ children }) {
                 </main>
                 <Footer />
             </>
+        ) : (
+            <div className="color-ring-wrapper">
+                <ColorRing
+                    visible={isLoading}
+                    height={80}
+                    width={80}
+                    colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                />
+            </div>
         )
     );
 }

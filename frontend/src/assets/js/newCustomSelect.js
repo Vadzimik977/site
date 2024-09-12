@@ -56,98 +56,6 @@ export default function newCustomSelect() {
         }
     };
     
-    const obmen = async () => {
-        const input1Value = parseFloat(input1.value) || 0;
-        const input2Value = parseFloat(input2.value) || 0;
-    
-        const { item, money, tonium, user } = await clickOption(selectedItemId);
-    
-        if (item && user) {
-            const newTapsValue = item.taps - input1Value;
-    
-            const tonAddres = localStorage.getItem("ton-connect-storage_bridge-connection");
-            const parsedData = JSON.parse(tonAddres);
-            const addres = parsedData?.connectEvent?.payload?.items[0]?.address;
-    
-            if (!addres) {
-                console.error('Error: Invalid addres');
-                return;
-            }
-    
-            try {
-             
-                const updateUserResponse = await fetch(`${HOST}/planet-taps/${addres}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        id: addres,
-                        auth: addres,
-                        money: user.money + Number(input2Value),
-                        tonium: user.tonium,
-                        planets: user.planets,
-                        time: new Date(user.time).toISOString().replace('T', ' ').slice(0, 19) ,
-                        history: user.history
-                    })
-                });
-                if(updateUserResponse.ok){
-                    const updatePlanetResponse = await fetch(`${HOST}/update-planet/${addres}/${item.id}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            id: item.id,
-                            planetName: item.planetName,
-                            smileName: item.smileName,
-                            hourTap: item.hourTap,
-                            taps: newTapsValue,
-                            price: item.price,
-                            speed: item.speed,
-                            level: item.level,
-                            planetstatus: item.planetstatus,
-                            rand: item.rand,
-                            obmenTaps: item.obmenTaps,
-                            ratio: item.ratio,
-                            buyDay: item.buyDay,
-                            buyTime: item.buyTime
-        
-                        })
-                    });
-                   
-        
-                    const updateHistoryResponse = await fetch(`${HOST}/obmen-history/${addres}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            history: [
-                                ...user.history,
-                                {
-                                    id: user.history.length + 1,
-                                    planetId: item.id,
-                                    planetName: item.planetName,
-                                    smileName: item.smileName,
-                                    minusCoin: input1Value,
-                                    plusGC: input2Value,
-                                    day: new Date().toLocaleDateString(),
-                                    time: new Date().toLocaleTimeString()
-                                }
-                            ]
-                        })
-                    });
-                }
-               
-            } catch (error) {
-               
-            }
-        } else {
-            console.error('Error: No item selected');
-        }
-    };
-    
     
     input1 && input1?.addEventListener('input', () => {
         if (selectedItemId !== null) {
@@ -155,7 +63,7 @@ export default function newCustomSelect() {
         }
     });
     
-    document.querySelector('.btn-obmen')?.addEventListener('click', obmen);
+    //document.querySelector('.btn-obmen')?.addEventListener('click', obmen);
         const compactSelects = document.querySelectorAll('.compact-select');
     
         compactSelects.forEach(compactSelect => {

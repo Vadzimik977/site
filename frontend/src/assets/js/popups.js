@@ -7,7 +7,7 @@ export default function popups() {
             if (existingElement) {
                 existingElement.remove();
             }
-            console.log(existingElement ?? 'asd')
+
             const newDiv = document.createElement('div');
             newDiv.innerHTML = content + '<button class="popup__close">&times;</button>';
             newDiv.classList.add('popup', ...additionalClasses);
@@ -45,7 +45,7 @@ export default function popups() {
             button.addEventListener('click', function(event) {
                 const planetElement = event.currentTarget.closest('.market__trade');
                 let content, additionalClasses = ['market__popup'];
-        
+                console.log(button)
                 if (button.classList.contains('complete')) {
                     content = '<div class="market__popup-title">Обмен выполнен успешно</div><div class="market__popup-text">Баланс в кошельке обновлён!</div>';
                     // setTimeout(() => {

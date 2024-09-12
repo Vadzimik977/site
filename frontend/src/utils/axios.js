@@ -62,3 +62,8 @@ export const getNfts = async(adress) => {
     const data = await instance.get(apiUrl);
     return JSON.parse(data.data).nft_items;
 }
+
+export const updateUser = async(val) => {
+    const user = await instance.put(`${url}/api/users/${window.user.id}`, {...val})
+    return user;
+}

@@ -5,10 +5,10 @@ const sequelizeCrud =
 const crud = require("express-crud-router").default;
 const User = require("../models/models").User;
 const router = new Router();
-const UserController = require("../controllers/userController");
+
 const { Planet, Element, Wallet } = require("../models/models");
 const userController = require("../controllers/userController");
-console.log(User.findAll());
+
 const app = new express();
 
 app.use(crud("/users", sequelizeCrud(User), {
