@@ -7,7 +7,7 @@ const instance = new Axios({
     transformRequest: [...axios.defaults.transformRequest]
 });
 
-export const url = 'http://localhost:8000'
+export const url = 'http://tonium.1423807-cl91000.tw1.ru:8000'
 
 export const getUser = async () => {
     const user = await instance.get(`${url}/api/users?filter=${JSON.stringify({adress: window.adress})}`);
