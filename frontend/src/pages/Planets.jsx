@@ -13,11 +13,15 @@ export default function Planets() {
     const [range, setRange] = useState([0, 9]);
 
     const fetchPlanets = async () => {
-        return await getPlanets();
+        return await getPlanets(range, false);
     };
 
-    async function fetch() {
-        const data = await fetchPlanets(range);
+    async function fetch(endRange) {
+        if(endRange) {
+            range[1] = endRange;
+        }
+        
+        const data = await fetchPlanets();
         setPlanets(data);
         setLoading(false)
     }
@@ -39,7 +43,7 @@ export default function Planets() {
                 </h6>
                 <div className="planets">
                     {planets?.length && planets?.map((item, idx) => <Planet idx={idx + 1} update={fetch} planet={item} key={item.id} />)}
-                    <button className="btn btn-show" onClick={() => fetch(range + 9)}>
+                    <button className={`btn btn-show ${range[1] >= 119 ? 'hidden' : ''}`} onClick={() => fetch(range[1] + 10)}>
                         Показать ещё
                     </button>
                 </div>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { fetchDefaultUser } from "../assets/js/getUser";
-import { getUserWallet } from "../utils/axios";
+import { getUserWallet, updateUser, updateWalletElement } from "../utils/axios";
+import showPopup from "../assets/js/showPopup";
 
 export default function Wallet() {
     const [wallet, setWallet] = useState(true);
@@ -11,11 +12,66 @@ export default function Wallet() {
     async function getWallet() {
         setTimeout(async() => {
             setWallet(window?.user?.wallet)
+            setCoins(window?.user?.coins ?? 0)
+            setTon(window?.user?.ton ?? 0)
         }, 500)
     }
     useEffect(() => {
         getWallet();
     }, []);
+
+    const showModal = (event, status) => {
+        const walletElement = event.target.closest('.wallet__table');
+        let content, additionalClasses = ['wallet__popup'];
+
+        if (status === 'complete') {
+            content = '<div class="wallet__popup-title">Обмен выполнен успешно</div><div class="wallet__popup-text">Баланс в кошельке обновлён!</div>';
+            // setTimeout(() => {
+            //     window.location.reload()
+            // }, 2000);
+        } else if (button.classList.contains('error')) {
+            content = '<div class="wallet__popup-title">Ошибка</div><div class="wallet__popup-text">Недостаточно средств для обмена</div>';
+            // setTimeout(() => {
+            //     window.location.reload()
+            // }, 2000);
+        } else {
+            content = '<div class="wallet__popup-title">Повторите попытку позже</div>';
+        }
+
+        content = '<div class="popup__inner">' + content + '</div>';
+
+        showPopup(walletElement, content, additionalClasses);
+    }
+
+    const changeMonet = async (monet, event) => {
+        let coeff;
+        switch(monet.rare) {
+            case 'Обычная':
+                coeff = 3;
+                break;
+            case 'Редкая':
+                coeff = 2;
+                break;
+            case 'Эпическая':
+                coeff = 1;
+                break;
+        }
+
+        const give = (parseFloat((monet.value / coeff).toFixed(6)))
+        const valueWallet = window.user.wallet.value.filter(item => item.element !== monet.element);
+
+        await updateWalletElement(window.user.wallet, [...valueWallet, {...monet, value: 0}]);
+        await updateUser({coins: give + window.user.coins});
+
+        window.user.coins = give + window.user.coins
+
+        setCoins(window.user.coins);
+        await fetchDefaultUser();
+        await getWallet();
+
+        showModal(event, 'complete')
+    }
+
     return (
         <Layout>
             <div className="main__inner">
@@ -58,7 +114,7 @@ export default function Wallet() {
                                             </span>
                                         </div>
                                         <div>{item.value}</div>
-                                        <button className="btn error">
+                                        <button onClick={(e) => changeMonet(item, e)} className="btn">
                                             Обменять
                                         </button>
                                     </div>

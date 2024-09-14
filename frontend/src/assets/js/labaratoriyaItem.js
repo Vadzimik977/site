@@ -96,10 +96,9 @@ async function displayData(userData, randomData) {
 
     const tonObmen = document.querySelector(".laboratory__button");
     if (tonObmen) {
-        if (isComplete && !hasError) {
+        if (true) {
             tonObmen.classList.add('complete');
             tonObmen.classList.remove('error');
-            tonObmen.addEventListener('click', () => updatePlanetData(userData, randomData));
         } else {
             tonObmen.classList.add('error');
             tonObmen.classList.remove('complete');

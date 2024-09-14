@@ -92,48 +92,12 @@ export default function popups() {
             });
         });
         
-        const walletButtons = document.querySelectorAll('.wallet .btn');
-        walletButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                const walletElement = event.currentTarget.closest('.wallet__table');
-                let content, additionalClasses = ['wallet__popup'];
+
         
-                if (button.classList.contains('complete')) {
-                    content = '<div class="wallet__popup-title">Обмен выполнен успешно</div><div class="wallet__popup-text">Баланс в кошельке обновлён!</div>';
-                    // setTimeout(() => {
-                    //     window.location.reload()
-                    // }, 2000);
-                } else if (button.classList.contains('error')) {
-                    content = '<div class="wallet__popup-title">Ошибка</div><div class="wallet__popup-text">Недостаточно средств для обмена</div>';
-                    // setTimeout(() => {
-                    //     window.location.reload()
-                    // }, 2000);
-                } else {
-                    content = '<div class="wallet__popup-title">Повторите попытку позже</div>';
-                }
-        
-                content = '<div class="popup__inner">' + content + '</div>';
-        
-                showPopup(walletElement, content, additionalClasses);
-            });
-        });
-        
-        const laboratoryButtons = document.querySelectorAll('.laboratory__button');
-        laboratoryButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                const laboratoryElement = event.currentTarget.closest('.laboratory');
-                let content, additionalClasses = ['laboratory__popup'];
-        
-                if (button.classList.contains('complete')) {
-                    content = '<div class="laboratory__popup-title">объединение прошло успешно</div>';
-                } else {
-                    content = '<div class="laboratory__popup-title">Ошибка</div><div class="laboratory__popup-text">Повторите попытку позже</div>';
-                }
-        
-                content = '<div class="popup__inner">' + content + '</div>';
-        
-                showPopup(laboratoryElement, content, additionalClasses);
-            });
-        });
+        // laboratoryButtons.forEach(button => {
+        //     button.addEventListener('click', function(event) {
+                
+        //     });
+        // });
     }, 2000)
 }

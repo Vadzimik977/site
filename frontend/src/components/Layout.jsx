@@ -42,7 +42,7 @@ export default function Layout({ children }) {
             // const apiUrl = `https://tonapi.io/v2/accounts/${wallet.account.address}/nfts?collection=EQDfb4GXKIaToaFUDihPgB_lGePg-yeYjwrkZZAeKZ7m9xOQ&limit=1000&offset=0&indirect_ownership=false`;
             // const resp = axios.get(apiUrl);
         }
-    }, [connectionRestored]);
+    }, [connectionRestored, adress]);
 
     useEffect(() => {
         if(!isLoading) {

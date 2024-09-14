@@ -92,8 +92,8 @@ export default function Market() {
         } 
 
         await updateWalletElement(window.user.wallet, data)
-        await updateUser({ton: second + window.user.ton})
-        window.user.ton = second + window.user.ton
+        await updateUser({coins: second + window.user.coins})
+        window.user.coins = second + window.user.coins
         setWallet((wall) => ({...wall, value: data}));
         showModal(event, 'complete')
     }

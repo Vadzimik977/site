@@ -27,9 +27,21 @@ export const createUser = async () => {
     return user;
 }
 
-export const getPlanets = async (range) => {
+export const getPlanets = async (range, laboratory) => {
     let rang = range ?? [0,9]
-    const planets = await instance.get(`${url}/api/planets?range=${JSON.stringify(rang)}&filter=${JSON.stringify({active: 1})}`);
+    const filters = () => {
+        if(laboratory) {
+            return {
+                active: 1,
+                forLaboratory: 1
+            }
+        } else {
+            return {
+                active: 1
+            }
+        }
+    }
+    const planets = await instance.get(`${url}/api/planets?range=${JSON.stringify(rang)}&filter=${JSON.stringify(filters())}`);
     return JSON.parse(planets.data)
 }
 
@@ -66,4 +78,14 @@ export const getNfts = async(adress) => {
 export const updateUser = async(val) => {
     const user = await instance.put(`${url}/api/users/${window.user.id}`, {...val})
     return user;
+}
+
+export const addPlanetToUser = async(planetId) => {
+    const isOk = await instance.post(`${url}/api/userPlanets`, {userId: window.user.id, planetId});
+    return isOk
+}
+
+export const updateUserPlanet = async(id, level) => {
+    const isOk = await instance.put(`${url}/api/userPlanets/${id}`, {level});
+    return isOk
 }

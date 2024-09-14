@@ -1,12 +1,30 @@
 import { debounce } from "lodash";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { createWalletElement, updateWalletElement } from "../utils/axios";
+import {
+    addPlanetToUser,
+    createWalletElement,
+    updateUser,
+    updateUserPlanet,
+    updateWalletElement,
+} from "../utils/axios";
 import { fetchDefaultUser } from "../assets/js/getUser";
 import BorderAnimation from "../assets/js/animatedBorder";
+import Timer from "./Timer";
 
 export default function Planet({ idx, planet, update }) {
-    const { id, name, element, img, speed, updatePrice, forLaboratory } =
-        planet;
+    const {
+        id,
+        name,
+        element,
+        img,
+        speed,
+        updatePrice,
+        userPlanets,
+        forLaboratory,
+    } = planet;
+
+    const [userPlanet, setUserPlanet] = useState();
+
     const getInitState = () => {
         setValue(
             window?.user?.wallet?.value?.find(
@@ -80,7 +98,7 @@ export default function Planet({ idx, planet, update }) {
             }
             await fetchDefaultUser();
         }
-    }, 100);
+    }, 50);
     const debounceFn = useCallback((click) => updateFn(click), []);
 
     const putWallet = async (walletId, value) => {
@@ -98,11 +116,26 @@ export default function Planet({ idx, planet, update }) {
 
         document.body.appendChild(plusIcon);
         plusIcon.addEventListener("animationend", () => plusIcon.remove());
+
         setClick(click + 1);
-
-        const update = userHasPlanet() ? speed : 0.00005;
-
-        debounceFn(update);
+        
+        if(userHasPlanet()) {
+            const level = window?.user?.userPlanets.find((item) => item.planetId === id).level
+            console.log(level, typeof(level))
+            let update;
+                if (level == 1)
+                    update = 0.05
+                if (level == 2)
+                    update = 0.5
+                if (level == 3)
+                    update = 1
+                    
+            debounceFn(update)
+        } else {
+            debounceFn(0.00005);
+        }
+        
+       
     };
 
     useEffect(() => {
@@ -114,19 +147,53 @@ export default function Planet({ idx, planet, update }) {
     }, []);
 
     const userHasPlanet = () => {
+        if (window?.user?.userPlanets?.length) {
+            const planets = window.user.userPlanets;
+            if (planets.some((item) => item.planetId === id)) {
+                const planet = planets.find((item) => item.planetId === id);
+                //setUserPlanet(planet);
+                return true;
+            }
+        }
         if (window?.user?.nft) {
             const arr = window.user.nft;
             const fullName = `${name}(${element?.symbol}) - Planet #${idx}`;
             const item = arr?.find((item) => item.metadata.name === fullName);
+            if (item?.length && window.user.userPlanets?.length) {
+                const planets = window.user.userPlanets;
+                const planet = planets.find((item) => item.planetId === id);
+                if (!planet?.id) {
+                    addPlanetToUser(id);
+                }
+            }
             return item?.length;
         }
         return false;
     };
 
+    const updatePlanetSpeed = async (e) => {
+        console.log(window.user.coins)
+        if (window.user.coins >= 3) {
+            const userPlanet = window.user.userPlanets.find(
+                (item) => item.planetId === id
+            );
+            if(userPlanet.level === 2) {
+                return
+            }
+            await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
+            await updateUser({ coins: window.user.coins - 3 })
+            window.user.coins = window.user.coins - 3;
+        }
+    };
+
     return (
         <div
             className={`planets__planet animated-border-container with_To rotate ${
-                forLaboratory ? "ver3" : userHasPlanet() ? "ver1" : "ver2"
+                forLaboratory && !userHasPlanet()
+                    ? "ver3"
+                    : userHasPlanet()
+                    ? "ver1"
+                    : "ver2"
             }`}
             onClick={(e) => walletUpdate(e)}
         >
@@ -143,8 +210,14 @@ export default function Planet({ idx, planet, update }) {
                     </h4>
                     <p className="planet__lvl">level 1</p>
                     <p className="planet__speed">
-                        Speed: {userHasPlanet() ? speed : 0.00005} (
-                        {element?.symbol})/час
+                        Speed:{" "}
+                        {userHasPlanet()
+                            ? 
+                              window.user.userPlanets.find(
+                                  (item) => item.planetId === id
+                              ).level == 2 ? 0.5 : 0.05
+                            : 0.00005}{" "}
+                        ({element?.symbol})/час
                     </p>
                     <p className="planet__description">
                         The extracted resourse is {element?.name}(
@@ -159,19 +232,31 @@ export default function Planet({ idx, planet, update }) {
                 </div>
                 <div className="planet__row">
                     {userHasPlanet() ? (
-                        <button className="btn upgrade">Обновить</button>
+                        <button
+                            className="btn upgrade"
+                            onClick={updatePlanetSpeed}
+                        >
+                            Обновить
+                        </button>
                     ) : (
-                        <button className="btn buy">Купить</button>
+                        <button className="btn buy">
+                            <a
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                                href=""
+                            >
+                                Купить
+                            </a>
+                        </button>
                     )}
 
                     {forLaboratory ? (
                         <div className="planet__time-block">
                             {/* <!-- Если нужны английские подписи к числам, то добавь к этому блоку класс eng --> */}
                             <div className="time-block__timer">
-                                <span className="days">003</span> :{" "}
-                                <span className="hours">22</span> :{" "}
-                                <span className="minutes">29</span> :{" "}
-                                <span className="seconds">57</span>
+                                <Timer />
                             </div>
                             <div className="time-block__text">
                                 участвует в объединении тониума

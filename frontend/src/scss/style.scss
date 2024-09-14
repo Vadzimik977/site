@@ -74,6 +74,9 @@
 .btn.btn-show {
     margin: 0 auto;
     margin-top: 5rem;
+    &.hidden {
+        display: none;
+    }
 }
 .header__button {
     line-height: 20px;
@@ -274,7 +277,7 @@ nav {
     &.ver3 {
         background-color: rgba($color: $grey2, $alpha: 0.4);
         .planet__row {
-            margin-top: 61px;
+            margin-top: 0px;
         }
     }
     &.with_To .planet__img::before {
@@ -365,6 +368,13 @@ nav {
     order: 2;
     text-align: right;
     padding-top: 30px;
+}
+
+.ver1 .planet__time-block {
+    padding-top: 0;
+    margin-top: -20px; 
+    position: absolute;
+    right: 35px;
 }
 
 .time-block__timer {
@@ -833,6 +843,7 @@ nav {
             bottom: -36px;
             margin: 0;
             transform: translateX(-50%);
+            min-width: 100px;
         }
         &:hover::before {
             box-shadow: 0 0 85px 60px $blue2;
