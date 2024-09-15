@@ -1,4 +1,4 @@
-.custom-select {
+.custom-select, .lang-select {
     position: relative;
     z-index: 5;
 }
@@ -7,13 +7,13 @@
     display: none;
 }
 
-.select-selected:after {
+.select-selected:after, .lang-select:before {
     position: absolute;
     content: url(../images/arrow.svg);
     transition: all .3s;
 }
 
-.select-selected.select-arrow-active:after {
+.select-selected.select-arrow-active:after, .lang-select:before {
     transform: rotate(-180deg);
 }
 
@@ -47,11 +47,53 @@
     border-radius: 5px;
 }
 
-header {
-    .select-selected:after {
-        left: 0;
+// header {
+//     .select-selected:after {
+//         left: 0;
+//     }
+//     .select-icon {
+//         display: none;
+//     }
+// }
+.react-select__wrapper {
+    width: 60px;
+    background: black !important;
+    color: white !important;
+}
+.react-select__control {
+    background: black !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.react-select__input-container, .react-select__single-value {
+    color: white !important; 
+}
+.react-select__value-container {
+    background: black !important;
+    color: white !important;
+}
+.react-select__menu {
+    background: #000;
+    &-list {
+        background: #000;
     }
-    .select-icon {
-        display: none;
-    }
+}
+.css-13cymwt-control, .css-t {
+    background: black !important;
+    color: white !important;
+}
+.react-select__indicator-separator {
+    display: none;
+}
+.react-select__option {
+    background: #ffffff26 !important;
+}
+.react-select__option--is-focused {
+    
+    background: #ffffff54 !important;
+}
+.react-select__indicators {
+    position: absolute;
+    left: -20px;
 }

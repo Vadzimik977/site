@@ -1,10 +1,33 @@
 import { TonConnectButton } from "@tonconnect/ui-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Select from "react-select";
+import { useTranslation } from 'react-i18next';
 
 export default function Header() {
+    const [lang, setLang] = useState(localStorage.getItem('lang') ?? 'ru');
+    const { t, i18n } = useTranslation();
     const isActive = (page) => {
-        return window.location.pathname === page ? 'active' : '';
-    }
+        return window.location.pathname === page ? "active" : "";
+    };
+
+    useEffect(() => {
+        const lang = localStorage.getItem('lang') ?? 'ru';
+        setLang(lang);
+        i18n.changeLanguage(lang);
+    }, [])
+
+    const [options] = useState([
+        { value: "en", label: "EN" },
+        { value: "ru", label: "RU" },
+    ]);
+
+    const changeLang = (e) => {
+        console.log(e)
+        setLang(e.value);
+        i18n.changeLanguage(e.value);
+        localStorage.setItem('lang', e.value)
+    };
 
     return (
         <>
@@ -31,7 +54,10 @@ export default function Header() {
                                         fill="white"
                                     />
                                 </svg>
-                                <span className="wallet__ton">{window?.user?.ton ?? 0}</span> To
+                                <span className="wallet__ton">
+                                    {window?.user?.ton ?? 0}
+                                </span>{" "}
+                                To
                             </Link>
                         </div>
                         <div className="header__wallet ml">
@@ -49,14 +75,24 @@ export default function Header() {
                                         fill="white"
                                     />
                                 </svg>
-                                <span className="tap__wallet-amout">{window?.user?.coins ?? 0}</span> GC
+                                <span className="tap__wallet-amout">
+                                    {window?.user?.coins.toFixed(4) ?? 0}
+                                </span>{" "}
+                                GC
                             </Link>
                         </div>
-                        <div className="header__language custom-select">
-                            <select>
-                                <option value="0">RU</option>
-                                <option value="1">EN</option>
-                            </select>
+                        <div className="header__language">
+                            <Select
+                                className="react-select__wrapper"
+                                classNamePrefix={'react-select'}
+                                onChange={(e) => changeLang(e)}
+                                defaultValue={options.find(item => item.value === lang)}
+                                options={options}
+                            />
+                            {/* // <select value={lang} onChange={(e) => changeLang(e)}>
+                            //     <option value="RU">RU</option>
+                            //     <option value="EN">EN</option>
+                            // </select> */}
                         </div>
                         <div id="ton-connect">
                             <TonConnectButton />
@@ -70,17 +106,23 @@ export default function Header() {
             <nav className="navigation__wrapper">
                 <div className="container">
                     <ul className="nav__inner">
-                        <li className={"nav__item" + ' ' + isActive('/planets')}>
-                            <Link to="/planets">Главная</Link>
+                        <li
+                            className={"nav__item" + " " + isActive("/planets")}
+                        >
+                            <Link to="/planets">{t('home')}</Link>
                         </li>
-                        <li className={"nav__item" + ' ' + isActive('/market')}>
-                            <Link to="/market">Рынок</Link>
+                        <li className={"nav__item" + " " + isActive("/market")}>
+                            <Link to="/market">{t('market')}</Link>
                         </li>
-                        <li className={"nav__item" + ' ' + isActive('/wallet')}>
-                            <Link to="/wallet">Кошелёк</Link>
+                        <li className={"nav__item" + " " + isActive("/wallet")}>
+                            <Link to="/wallet">{t('wallet')}</Link>
                         </li>
-                        <li className={"nav__item" + ' ' + isActive('/laboratory')}>
-                            <Link to="/laboratory">Лаборатория</Link>
+                        <li
+                            className={
+                                "nav__item" + " " + isActive("/laboratory")
+                            }
+                        >
+                            <Link to="/laboratory">{t('laboratory')}</Link>
                         </li>
                     </ul>
                 </div>

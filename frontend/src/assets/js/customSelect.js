@@ -12,9 +12,12 @@ export default function customSelect() {
     a.setAttribute("class", "select-selected");
   
     // Добавляем иконку к выбранному элементу
-    const selectedOption = selElmnt.options[selElmnt.selectedIndex];
-    const selectedIcon = selectedOption.getAttribute("data-icon") || "";
-    a.innerHTML = `<img src="${selectedIcon}" alt="" class="select-icon"> ${selectedOption.innerHTML}`;
+    if(!selElmnt) {
+      return;
+    }
+    const selectedOption = selElmnt?.options[selElmnt.selectedIndex];
+    const selectedIcon = selectedOption?.getAttribute("data-icon") || "";
+    a.innerHTML = `<img src="${selectedIcon}" alt="" class="select-icon"> ${selectedOption?.innerHTML}`;
     x[i].appendChild(a);
   
     // Создаем контейнер для элементов списка

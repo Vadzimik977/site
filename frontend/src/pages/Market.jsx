@@ -10,6 +10,7 @@ import newCustomSelect from "../assets/js/newCustomSelect";
 import { getUserWallet, updateUser, updateWalletElement } from "../utils/axios";
 import showPopup from "../assets/js/showPopup";
 import { fetchDefaultUser } from "../assets/js/getUser";
+import { useTranslation } from "react-i18next";
 export default function Market() {
     const [first, setFirst] = useState(0);
     const [second, setSecond] = useState(0);
@@ -18,15 +19,22 @@ export default function Market() {
     const [rare, setRare] = useState();
     const [item, setItem] = useState();
 
+    const { t } = useTranslation();
+
     async function getWallet() {
         setTimeout(async() => {
             setWallet(window.user.wallet)
         }, 500)
     }
     const changeInput = (value, first) => {
-        let newValue = value = value.replace(/[^\d]/g, '');
-        newValue = Math.min(parseInt(value) || 0, item.value);
-
+        setFirst(value)
+        //let newValue = value = value.replace(/[^\d]/g, '');
+        //newValue = Math.min(parseInt(value) || 0, item.value);
+        let newValue = value
+        if(newValue > item.value) {
+            console.log(item.value, newValue)
+            newValue = item.value
+        }
         if(first) {
             setFirst(newValue);
             console.log(rare)
@@ -91,28 +99,29 @@ export default function Market() {
             ];
         } 
 
+        console.log(second)
         await updateWalletElement(window.user.wallet, data)
         await updateUser({coins: second + window.user.coins})
         window.user.coins = second + window.user.coins
         setWallet((wall) => ({...wall, value: data}));
         showModal(event, 'complete')
+        setFirst(0)
+        setSecond(0)
     }
     
     return (
         <Layout>
             <div className="main__inner">
                 <h1 className="main__title">
-                    Здесь вы можете обменивать добытые ресурсы на игровую
-                    валюту.
+                    {t('marketTitle')}
                 </h1>
                 <h6 className="main__text">
-                    Используйте эту валюту для улучшения ваших планет или
-                    приобрeтения необходимых ресурсов для создания Tonium.
+                {t('marketSubTitle')}
                 </h6>
                 <div className="market">
                     <div className="market__trade">
                         <div className="market__row">
-                            <div className="market__title">ОБМЕН</div>
+                            <div className="market__title">{t('change').toUpperCase()}</div>
                             <div className="market__settings">
                                 <img src="/images/reload.svg" alt="" />
                             </div>
@@ -120,7 +129,7 @@ export default function Market() {
                         <div className="market__banner">
                             <div className="market__banner-choice">
                                 <div className="compact-select">
-                                    <div className="selected-option">Click</div>
+                                    <div className="selected-option">{t('click')}</div>
                                 </div>
 
                                 <div
@@ -129,8 +138,8 @@ export default function Market() {
                                 >
                                     <div className="modal-content">
                                         <div className="modal-header">
-                                            <h2>Выберите актив</h2>
-                                            <p>вы будете платить с помощью</p>
+                                            <h2>{t('chooseActive')}</h2>
+                                            <p>{t('payFor')}</p>
                                             <button className="close-button">
                                                 &times;
                                             </button>
@@ -139,7 +148,7 @@ export default function Market() {
                                             <input
                                                 type="text"
                                                 className="search-input"
-                                                placeholder="Вставьте адрес монеты, чтобы доб..."
+                                                placeholder={t('monetAdres')}
                                             />
                                         </div>
                                         <div className="options-list map__options">
@@ -204,8 +213,8 @@ export default function Market() {
                                 >
                                     <div className="modal-content">
                                         <div className="modal-header">
-                                            <h2>Выберите актив</h2>
-                                            <p>вы будете платить с помощью</p>
+                                            <h2>{t('chooseActive')}</h2>
+                                            <p>{t('payFor')}</p>
                                             <button className="close-button">
                                                 &times;
                                             </button>
@@ -214,7 +223,7 @@ export default function Market() {
                                             <input
                                                 type="text"
                                                 className="search-input"
-                                                placeholder="Вставьте адрес монеты, чтобы доб..."
+                                                placeholder={t('monetAdres')}
                                             />
                                         </div>
                                         <div className="options-list">
@@ -257,7 +266,7 @@ export default function Market() {
                                 />
                             </div>
                         </div>
-                        <div className="btn btn-obmen" onClick={(event) => exchange(event)}>Обменять</div>
+                        <div className="btn btn-obmen" onClick={(event) => exchange(event)}>{t('martketBtn')}</div>
                     </div>
                     <div className="market__history hidden" style={{display: "none"}}>
                         <div className="market__row">

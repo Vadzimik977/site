@@ -3,11 +3,14 @@ import Layout from "../components/Layout";
 import { fetchDefaultUser } from "../assets/js/getUser";
 import { getUserWallet, updateUser, updateWalletElement } from "../utils/axios";
 import showPopup from "../assets/js/showPopup";
+import { useTranslation } from "react-i18next";
 
 export default function Wallet() {
     const [wallet, setWallet] = useState(true);
     const [ton, setTon] = useState(window?.user?.ton ?? 0);
     const [coins, setCoins] = useState(window?.user?.coins ?? 0);
+
+    const { t } = useTranslation();
 
     async function getWallet() {
         setTimeout(async() => {
@@ -25,17 +28,17 @@ export default function Wallet() {
         let content, additionalClasses = ['wallet__popup'];
 
         if (status === 'complete') {
-            content = '<div class="wallet__popup-title">Обмен выполнен успешно</div><div class="wallet__popup-text">Баланс в кошельке обновлён!</div>';
+            content = `<div class="wallet__popup-title">${t('mergeSuccess')}</div><div class="wallet__popup-text">${t('balanceUpd')}</div>`;
             // setTimeout(() => {
             //     window.location.reload()
             // }, 2000);
         } else if (button.classList.contains('error')) {
-            content = '<div class="wallet__popup-title">Ошибка</div><div class="wallet__popup-text">Недостаточно средств для обмена</div>';
+            content = `<div class="wallet__popup-title">${t('modalError')}</div><div class="wallet__popup-text">${t('notEnought')}</div>`;
             // setTimeout(() => {
             //     window.location.reload()
             // }, 2000);
         } else {
-            content = '<div class="wallet__popup-title">Повторите попытку позже</div>';
+            content = `<div class="wallet__popup-title">${t('tryAgain')}</div>`;
         }
 
         content = '<div class="popup__inner">' + content + '</div>';
@@ -77,9 +80,9 @@ export default function Wallet() {
             <div className="main__inner">
                 <div className="wallet">
                     <div className="wallet__row">
-                        <div className="wallet__title">Кошелёк</div>
+                        <div className="wallet__title">{t('wallet')}</div>
                         <div className="wallet__balance">
-                            Баланс
+                            {t('balance')}
                             <div>
                                 <span className="wallet-total_tap">
                                     {coins ?? 0}
@@ -91,8 +94,8 @@ export default function Wallet() {
                     <div className="wallet__table">
                         <div className="wallet__table-inner">
                             <div className="wallet__table-header">
-                                <div>Монета</div>
-                                <div>Баланс</div>
+                                <div>{t('monet')}</div>
+                                <div>{t('balance')}</div>
                             </div>
                             <div className="wallet__table-row">
                                 <div className="wallet__table-coin">
@@ -100,7 +103,7 @@ export default function Wallet() {
                                 </div>
                                 <div>{ton} TON</div>
                                 <button className="btn btn-to error">
-                                    Вывести
+                                    {t('withdraw')}
                                 </button>
                             </div>
                             <hr className="wallet__table-hr" />
@@ -115,7 +118,7 @@ export default function Wallet() {
                                         </div>
                                         <div>{item.value}</div>
                                         <button onClick={(e) => changeMonet(item, e)} className="btn">
-                                            Обменять
+                                            {t('martketBtn')}
                                         </button>
                                     </div>
                                 )) : ''}

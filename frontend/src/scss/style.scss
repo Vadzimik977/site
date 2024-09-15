@@ -31,7 +31,9 @@
     font-size: 16px;
     font-weight: 700;
 }
-
+.header__language {
+    z-index: 1000;
+}
 .header__wallet {
     line-height: 24px;
     position: relative;
@@ -76,6 +78,11 @@
     margin-top: 5rem;
     &.hidden {
         display: none;
+    }
+
+    @media (max-width: 550px) {
+        max-width: 300px !important;
+        width: 100% !important;
     }
 }
 .header__button {
@@ -141,6 +148,10 @@ nav {
 
 .main {
     margin-top: 100px;
+
+    @media (max-width: 550px) {
+        margin-top: 10px;
+    }
 }
 
 .main.mt {
@@ -276,9 +287,6 @@ nav {
     }
     &.ver3 {
         background-color: rgba($color: $grey2, $alpha: 0.4);
-        .planet__row {
-            margin-top: 0px;
-        }
     }
     &.with_To .planet__img::before {
         content: '';
@@ -328,9 +336,13 @@ nav {
 .planet__gc {
     width: 100%;
 }
+.planet__description {
+    min-height: 40px;
+}
 
 .planet__title {
     font-size: 24px;
+    height: 55px;
 }
 
 .planet__lvl {
@@ -370,7 +382,7 @@ nav {
     padding-top: 30px;
 }
 
-.ver1 .planet__time-block {
+.ver1 .planet__time-block, .ver3 .planet__time-block {
     padding-top: 0;
     margin-top: -20px; 
     position: absolute;

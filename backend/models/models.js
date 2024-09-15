@@ -16,6 +16,7 @@ const Element = sequelize.define('element', {
     name: { type: DataTypes.STRING, allowNull: true },
     symbol: { type: DataTypes.STRING, allowNull: true },
     rare: { type: DataTypes.ENUM("Обычная", "Редкая", "Эпическая"), defaultValue: "Обычная" },
+    index: { type: DataTypes.INTEGER, allowNull: true },
     img: { type: DataTypes.STRING, allowNull: true },
 })
 

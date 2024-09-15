@@ -6,11 +6,14 @@ import Timer from "../components/Timer";
 import showPopup from "../assets/js/showPopup";
 import { updateWalletElement } from "../utils/axios";
 import { fetchDefaultUser } from "../assets/js/getUser";
+import { useTranslation } from "react-i18next";
 
 export default function Laboratory() {
     const [elems, setElems] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [wallet, setWallet] = useState(false);
+
+    const { t } = useTranslation();
 
     const fetchPlanets = async () => {
         const planets = await getPlanets([0, 9], true);
@@ -39,9 +42,9 @@ export default function Laboratory() {
         let content, additionalClasses = ['laboratory__popup'];
 
         if (status === 'complete') {
-            content = '<div class="laboratory__popup-title">объединение прошло успешно</div>';
+            content = `<div class="laboratory__popup-title">${t('mergeSuccess')}</div>`;
         } else {
-            content = '<div class="laboratory__popup-title">Ошибка</div><div class="laboratory__popup-text">Какой-то из элементов равен 0</div>';
+            content = `<div class="laboratory__popup-title">${t('modalError')}</div><div class="laboratory__popup-text">${t('elementZero')}</div>`;
         }
 
         content = '<div class="popup__inner">' + content + '</div>';
@@ -97,13 +100,12 @@ export default function Laboratory() {
         <Layout>
             <div className="main__inner">
                 <h1 className="main__title">
-                    Каждый день tonium меняет свой внутренний код, требуя для
-                    воссоздания семь уникальных элементов.
+                    {t('laboratoryTitle')}
                 </h1>
                 <div className="laboratory">
                     <div className="laboratory__time">
                         <div className="laboratory__time-text">
-                            До смены элементов осталось
+                            {t('laboratorySubTitle')}
                         </div>
                         <div className="laboratory__time-timer">
                             <Timer />
@@ -138,9 +140,9 @@ export default function Laboratory() {
                             />
                         </div>
                     )}
-                    <button className="laboratory__button " onClick={(e) => union(e)}>Объединить</button>
+                    <button className="laboratory__button " onClick={(e) => union(e)}>{t('combine')}</button>
                     <div className="laboratory__text">
-                        Синтез - в разработке!
+                        {t('syntDev')}
                     </div>
                 </div>
             </div>

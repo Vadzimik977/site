@@ -8,6 +8,7 @@ import "./css/libs.min.css";
 import "./assets/js/animatedBorder.js";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import router from "./router.jsx";
+import './i18n.js';
 
 createRoot(document.getElementById("root")).render(
     <>

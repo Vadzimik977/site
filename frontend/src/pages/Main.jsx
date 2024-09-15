@@ -1,16 +1,18 @@
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useEffect, useRef, useState } from "react";
 import { slides } from "./data/main";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function Main() {
     const text = useRef(null);
     const title = useRef(null);
     const img = useRef(null);
     const [currentSlide, setCurrentSlide] = useState(0);
+    const navigate = useNavigate();
 
     function changeSlide(slide) {
+        console.log(slide)
         if(slide === 5) {
-            /* todo: router */
+            navigate('/planets')
         }
         if(slide === -1) {
             return
@@ -32,7 +34,7 @@ export default function Main() {
             <header className="app-header">
                 <div className="container">
                     <div className="header__inner">
-                        <TonConnectButton id="ton-connect" />
+                        
                     </div>
                 </div>
             </header>

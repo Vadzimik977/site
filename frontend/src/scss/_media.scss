@@ -224,6 +224,8 @@
         .btn {
             font-size: 8px;
             padding: 7px 24px 7px 6px;
+            width: 100px;
+            height: 25px;
             &::after {
                 width: 13px;
                 height: 13px;
@@ -250,6 +252,7 @@
     }
     .planet__title {
         font-size: 12px;
+        height: 20px;
     }
     .planet__information p {
         font-size: 8px;
@@ -262,6 +265,7 @@
         max-width: 172px;
     }
     .planet__price {
+        margin-top: 10px;
         font-size: 8px;
     }
     .planet__row {
@@ -276,6 +280,9 @@
             width: 82px;
             height: 82px;
         }
+    }
+    .planet__description {
+        min-height: 20px;
     }
     .planet__time-block {
         font-size: 8px;
@@ -369,16 +376,17 @@
     }
     .laboratory__items {
         margin-top: 0;
+        flex-wrap: wrap;
         div {
             width: calc(25% - 40px);
-            min-width: 41px;
-            height: 41px;
+            min-width: 70px;
+            height: 20px;
             margin: 20px 0;
             &::before {
                 box-shadow: 0 0 60px 30px $blue2;
             }
             span {
-                display: none;
+                font-size: 10px;
             }
             &:hover::before {
                 box-shadow: 0 0 60px 40px $blue2;

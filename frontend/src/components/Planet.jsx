@@ -10,6 +10,7 @@ import {
 import { fetchDefaultUser } from "../assets/js/getUser";
 import BorderAnimation from "../assets/js/animatedBorder";
 import Timer from "./Timer";
+import { useTranslation } from "react-i18next";
 
 export default function Planet({ idx, planet, update }) {
     const {
@@ -24,6 +25,7 @@ export default function Planet({ idx, planet, update }) {
     } = planet;
 
     const [userPlanet, setUserPlanet] = useState();
+    const {t} = useTranslation();
 
     const getInitState = () => {
         setValue(
@@ -208,19 +210,19 @@ export default function Planet({ idx, planet, update }) {
                     <h4 className="planet__title">
                         {name}({element?.symbol}) - Planet #{idx}
                     </h4>
-                    <p className="planet__lvl">level 1</p>
+                    <p className="planet__lvl">{t('level')} 1</p>
                     <p className="planet__speed">
-                        Speed:{" "}
+                        {t('speed')}:{" "}
                         {userHasPlanet()
                             ? 
                               window.user.userPlanets.find(
                                   (item) => item.planetId === id
                               ).level == 2 ? 0.5 : 0.05
                             : 0.00005}{" "}
-                        ({element?.symbol})/час
+                        ({element?.symbol})/{userHasPlanet() ? t('hour') : t('tap')}
                     </p>
                     <p className="planet__description">
-                        The extracted resourse is {element?.name}(
+                        {t('extractedResource')} {element?.name}(
                         {element?.symbol})
                     </p>
                     <p className="planet__gc">
@@ -228,7 +230,7 @@ export default function Planet({ idx, planet, update }) {
                     </p>
                 </div>
                 <div className="planet__price">
-                    Стоимость апгрейда <span>3 GC</span>
+                    {t('updgradePrice')} <span>3 GC</span>
                 </div>
                 <div className="planet__row">
                     {userHasPlanet() ? (
@@ -236,7 +238,7 @@ export default function Planet({ idx, planet, update }) {
                             className="btn upgrade"
                             onClick={updatePlanetSpeed}
                         >
-                            Обновить
+                            {t('update')}
                         </button>
                     ) : (
                         <button className="btn buy">
@@ -247,7 +249,7 @@ export default function Planet({ idx, planet, update }) {
                                 }}
                                 href=""
                             >
-                                Купить
+                                {t('buy')}
                             </a>
                         </button>
                     )}
@@ -259,7 +261,7 @@ export default function Planet({ idx, planet, update }) {
                                 <Timer />
                             </div>
                             <div className="time-block__text">
-                                участвует в объединении тониума
+                                {t('toniumJoin')}
                             </div>
                         </div>
                     ) : (
