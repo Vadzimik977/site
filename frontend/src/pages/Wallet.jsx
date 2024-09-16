@@ -26,17 +26,20 @@ export default function Wallet() {
     const showModal = (event, status) => {
         const walletElement = event.target.closest('.wallet__table');
         let content, additionalClasses = ['wallet__popup'];
-
+        console.log((status) === 'wall')
         if (status === 'complete') {
-            content = `<div class="wallet__popup-title">${t('mergeSuccess')}</div><div class="wallet__popup-text">${t('balanceUpd')}</div>`;
+            content = `<div class="wallet__popup-title">${t('exchangeSuccess')}</div><div class="wallet__popup-text">${t('balanceUpd')}</div>`;
             // setTimeout(() => {
             //     window.location.reload()
             // }, 2000);
-        } else if (button.classList.contains('error')) {
+        } else if (status === 'error') {
             content = `<div class="wallet__popup-title">${t('modalError')}</div><div class="wallet__popup-text">${t('notEnought')}</div>`;
             // setTimeout(() => {
             //     window.location.reload()
             // }, 2000);
+
+        } else if (status === 'wall') {
+            content = `<div class="wallet__popup-title">${t('modalError')}</div><div class="wallet__popup-text">${t('withdrawMsg')}</div>`;
         } else {
             content = `<div class="wallet__popup-title">${t('tryAgain')}</div>`;
         }
@@ -50,17 +53,17 @@ export default function Wallet() {
         let coeff;
         switch(monet.rare) {
             case 'Обычная':
-                coeff = 3;
+                coeff = 1;
                 break;
             case 'Редкая':
                 coeff = 2;
                 break;
             case 'Эпическая':
-                coeff = 1;
+                coeff = 3;
                 break;
         }
 
-        const give = (parseFloat((monet.value / coeff).toFixed(6)))
+        const give = (parseFloat((monet.value * coeff).toFixed(6)))
         const valueWallet = window.user.wallet.value.filter(item => item.element !== monet.element);
 
         await updateWalletElement(window.user.wallet, [...valueWallet, {...monet, value: 0}]);
@@ -102,7 +105,7 @@ export default function Wallet() {
                                     Tonium{" "}
                                 </div>
                                 <div>{ton} TON</div>
-                                <button className="btn btn-to error">
+                                <button className="btn btn-to" onClick={(e) => showModal(e, 'wall')}>
                                     {t('withdraw')}
                                 </button>
                             </div>

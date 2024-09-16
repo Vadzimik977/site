@@ -7,7 +7,7 @@ const instance = new Axios({
     transformRequest: [...axios.defaults.transformRequest],
 });
 
-export const url = "http://tonium.1423807-cl91000.tw1.ru:8000";
+export const url = "http://localhost:8000";
 
 export const getUser = async () => {
     const user = await instance.get(
@@ -27,7 +27,10 @@ export const createUser = async () => {
     const wallet = await instance.post(`${url}/api/wallet`, {
         userId: JSON.parse(user.data).id,
     });
-    user = { ...JSON.parse(user.data), wallet: JSON.parse(wallet.data) };
+    const history = await instance.post(`${url}/api/userHistory`, {
+        userId: JSON.parse(user.data).id
+    })
+    user = { ...JSON.parse(user.data), wallet: JSON.parse(wallet.data), history: JSON.parse(history.data) };
     return user;
 };
 
@@ -112,4 +115,12 @@ export const addPlanetToUser = async (planetId) => {
 export const updateUserPlanet = async (id, level) => {
     const isOk = await instance.put(`${url}/api/userPlanets/${id}`, { level });
     return isOk;
+};
+
+export const updateHistory = async (history, value) => {
+    const updated = await instance.put(`${url}/api/userHistory/${history.id}`, {
+        ...history,
+        value: value,
+    });
+    return updated.data;
 };

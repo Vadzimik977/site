@@ -22,7 +22,7 @@ export default function Planets() {
         if(endRange) {
             range[1] = endRange;
         }
-        
+        console.log(window.user)
         const data = await fetchPlanets();
         setPlanets(data);
         setLoading(false)

@@ -197,6 +197,7 @@ nav {
     .main__text {
         min-height: 130px;
         margin-top: 16px;
+        font-weight: 400;
     }
     .main__btns {
         margin-top: 32px;
@@ -325,7 +326,7 @@ nav {
     font-weight: 600;
     padding-right: 160px;
     p {
-        font-size: 16px;
+        font-size: 15px;
         margin-top: 16px;
     }
 }
@@ -480,7 +481,6 @@ nav {
 .market__row {
     display: flex;
     align-items: center;
-    max-width: 587px;
 }
 
 .market__reload,
@@ -503,9 +503,20 @@ nav {
 .market__settings {
     margin-left: auto;
 }
+.arrows {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+    }
+    .arrow-svg, .arrow-svg-2 {
+        
+    }
+    .arrow-svg-2 {
+        transform: rotate(180deg);
+    }
 
 .market__banner {
-    max-width: 587px;
+    
     min-height: 146px;
     width: 100%;
     padding: 19px 24px 102px;
@@ -518,13 +529,22 @@ nav {
     &:nth-child(2) {
         margin-top: 16px;
     }
-    &:nth-child(2)::after {
-        content: url(../images/arrow2.svg);
-        position: absolute;
-        left: 50%;
-        bottom: -33px;
-        transform: translateX(-50%);
-    }
+    // &:nth-child(2)::after {
+    //     content: url(../images/arrow2.svg);
+    //     position: absolute;
+    //     left: 50%;
+    //     bottom: -33px;
+    //     transform: translateX(-50%);
+    // }
+    // &:nth-child(2)::before {
+    //     content: url(../images/arrow2.svg);
+    //     position: absolute;
+    //     left: 45%;
+    //     bottom: -33px;
+        
+    //     transform: rotate(180deg), translateX(-50%);
+    // }
+    
     &:nth-child(3) {
         margin-top: 41px;
         background-image: url(../images/banner2.png);
@@ -586,8 +606,10 @@ nav {
         margin-left: auto;
         padding-left: 5px;
     }
-    .red {
-        color: $red;
+    &.red {
+        .money {
+            color: $red;
+        }
     }
     & + .history__item {
         margin-top: 8px;

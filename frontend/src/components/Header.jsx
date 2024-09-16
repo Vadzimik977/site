@@ -23,7 +23,6 @@ export default function Header() {
     ]);
 
     const changeLang = (e) => {
-        console.log(e)
         setLang(e.value);
         i18n.changeLanguage(e.value);
         localStorage.setItem('lang', e.value)

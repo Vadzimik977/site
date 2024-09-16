@@ -81,26 +81,7 @@ export default function newCustomSelect() {
                 selectedOption.appendChild(icon);
                 selectedOption.appendChild(document.createTextNode(cryptoName));
             }
-    
-            compactSelect.addEventListener('click', function () {
-                modalSelect.style.display = 'flex';
-            });
-    
-            closeButton.addEventListener('click', function () {
-                modalSelect.style.display = 'none';
-            });
-    
-            optionsList.addEventListener('click', function (e) {
-                const option = e.target.closest('.option');
-                if (option) {
-                    const icon = option.querySelector('img').cloneNode(true);
-                    const cryptoName = option.querySelector('.crypto-name').textContent;
-                    selectedOption.innerHTML = '';
-                    selectedOption.appendChild(icon);
-                    selectedOption.appendChild(document.createTextNode(cryptoName));
-                    modalSelect.style.display = 'none';
-                }
-            });
+
     
             searchInput.addEventListener('input', function () {
                 const searchTerm = this.value.toLowerCase();
@@ -117,11 +98,7 @@ export default function newCustomSelect() {
                 });
             });
     
-            window.addEventListener('click', function (e) {
-                if (e.target === modalSelect) {
-                    modalSelect.style.display = 'none';
-                }
-            });
+           
         });
 }
 

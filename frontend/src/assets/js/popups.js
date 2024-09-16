@@ -41,7 +41,7 @@ export default function popups() {
         
         const marketButtons = document.querySelectorAll('.market__trade .btn');
         console.log(marketButtons)
-        marketButtons.forEach(button => {
+        /* marketButtons.forEach(button => {
             button.addEventListener('click', function(event) {
                 const planetElement = event.currentTarget.closest('.market__trade');
                 let content, additionalClasses = ['market__popup'];
@@ -67,30 +67,30 @@ export default function popups() {
         
                 showPopup(planetElement, content, additionalClasses);
             });
-        });
+        }); */
         
-        const planetButtons = document.querySelectorAll('.planets__planet .btn');
-        planetButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                const planetElement = event.currentTarget.closest('.planets__planet');
-                let content;
+        // const planetButtons = document.querySelectorAll('.planets__planet .btn');
+        // planetButtons.forEach(button => {
+        //     button.addEventListener('click', function(event) {
+        //         const planetElement = event.currentTarget.closest('.planets__planet');
+        //         let content;
         
-                if (button.classList.contains('upgrade')) {
-                    content = '<div class="planet__popup-title">ПЛАНЕТА ОБНОВЛЕНА</div><div class="planet__popup-text">СКорость добычи увеличена</div>';
+        //         if (button.classList.contains('upgrade')) {
+        //             content = '<div class="planet__popup-title">ПЛАНЕТА ОБНОВЛЕНА</div><div class="planet__popup-text">СКорость добычи увеличена</div>';
                  
-                } else if(button.classList.contains('buy')) {
-                    content = '<div class="planet__popup-title">ПЛАНЕТА Куплена</div>';
+        //         } else if(button.classList.contains('buy')) {
+        //             content = '<div class="planet__popup-title">ПЛАНЕТА Куплена</div>';
                 
-                } else {
-                    content = '<div class="planet__popup-title">Ошибка</div><div class="wallet__popup-text">Недостаточно средств для Куплена</div>';
+        //         } else {
+        //             content = '<div class="planet__popup-title">Ошибка</div><div class="wallet__popup-text">Недостаточно средств для Куплена</div>';
     
-                }
+        //         }
         
-                content = '<div class="popup__inner">' + content + '</div>';
+        //         content = '<div class="popup__inner">' + content + '</div>';
         
-                showPopup(planetElement, content, ['planet__popup']);
-            });
-        });
+        //         showPopup(planetElement, content, ['planet__popup']);
+        //     });
+        // });
         
 
         

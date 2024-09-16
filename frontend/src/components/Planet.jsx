@@ -11,6 +11,7 @@ import { fetchDefaultUser } from "../assets/js/getUser";
 import BorderAnimation from "../assets/js/animatedBorder";
 import Timer from "./Timer";
 import { useTranslation } from "react-i18next";
+import showPopup from "../assets/js/showPopup";
 
 export default function Planet({ idx, planet, update }) {
     const {
@@ -25,7 +26,31 @@ export default function Planet({ idx, planet, update }) {
     } = planet;
 
     const [userPlanet, setUserPlanet] = useState();
-    const {t} = useTranslation();
+    const { t } = useTranslation();
+
+    const showModal = (event, status) => {
+        const planetElement = event.currentTarget.closest(".planets__planet");
+        let content;
+
+        if (status === "upgrade") {
+            content =
+                `<div class="planet__popup-title">${t('planetUpg')}</div><div class="planet__popup-text">${t('speedIncrease')}</div>`;
+        } 
+
+        if(status === 'wallet') {
+            content = 
+                `<div class="planet__popup-title">${t('modalError')}</div><div class="planet__popup-text">${t('connectWallet')}</div>`
+        }
+        
+        else {
+            content =
+                `<div class="planet__popup-title">${t('modalError')}</div><div class="wallet__popup-text">Недостаточно средств для Куплена</div>`;
+        }
+
+        content = '<div class="popup__inner">' + content + "</div>";
+
+        showPopup(planetElement, content, ["planet__popup"]);
+    };
 
     const getInitState = () => {
         setValue(
@@ -97,8 +122,9 @@ export default function Planet({ idx, planet, update }) {
                 }
                 setValue(val);
                 await putWallet(window.user.wallet, data);
+                window.user.wallet.value = data;
             }
-            await fetchDefaultUser();
+            //await fetchDefaultUser();
         }
     }, 50);
     const debounceFn = useCallback((click) => updateFn(click), []);
@@ -120,24 +146,24 @@ export default function Planet({ idx, planet, update }) {
         plusIcon.addEventListener("animationend", () => plusIcon.remove());
 
         setClick(click + 1);
-        
-        if(userHasPlanet()) {
-            const level = window?.user?.userPlanets.find((item) => item.planetId === id).level
-            console.log(level, typeof(level))
+        if (!window?.user?.id && click >= 2) {
+            showModal(e, 'wallet')
+        }
+
+        if (userHasPlanet()) {
+            const level = window?.user?.userPlanets.find(
+                (item) => item.planetId === id
+            ).level;
+            console.log(level, typeof level);
             let update;
-                if (level == 1)
-                    update = 0.05
-                if (level == 2)
-                    update = 0.5
-                if (level == 3)
-                    update = 1
-                    
-            debounceFn(update)
+            if (level == 1) update = 0.05;
+            if (level == 2) update = 0.5;
+            if (level == 3) update = 1;
+
+            debounceFn(update);
         } else {
             debounceFn(0.00005);
         }
-        
-       
     };
 
     useEffect(() => {
@@ -174,16 +200,16 @@ export default function Planet({ idx, planet, update }) {
     };
 
     const updatePlanetSpeed = async (e) => {
-        console.log(window.user.coins)
+        console.log(window.user.coins);
         if (window.user.coins >= 3) {
             const userPlanet = window.user.userPlanets.find(
                 (item) => item.planetId === id
             );
-            if(userPlanet.level === 2) {
-                return
+            if (userPlanet.level === 2) {
+                return;
             }
             await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
-            await updateUser({ coins: window.user.coins - 3 })
+            await updateUser({ coins: window.user.coins - 3 });
             window.user.coins = window.user.coins - 3;
         }
     };
@@ -210,19 +236,21 @@ export default function Planet({ idx, planet, update }) {
                     <h4 className="planet__title">
                         {name}({element?.symbol}) - Planet #{idx}
                     </h4>
-                    <p className="planet__lvl">{t('level')} 1</p>
+                    <p className="planet__lvl">{t("level")} 1</p>
                     <p className="planet__speed">
-                        {t('speed')}:{" "}
+                        {t("speed")}:{" "}
                         {userHasPlanet()
-                            ? 
-                              window.user.userPlanets.find(
+                            ? window.user.userPlanets.find(
                                   (item) => item.planetId === id
-                              ).level == 2 ? 0.5 : 0.05
+                              ).level == 2
+                                ? 0.5
+                                : 0.05
                             : 0.00005}{" "}
-                        ({element?.symbol})/{userHasPlanet() ? t('hour') : t('tap')}
+                        ({element?.symbol})/
+                        {userHasPlanet() ? t("hour") : t("tap")}
                     </p>
                     <p className="planet__description">
-                        {t('extractedResource')} {element?.name}(
+                        {t("extractedResource")} {element?.name}(
                         {element?.symbol})
                     </p>
                     <p className="planet__gc">
@@ -230,7 +258,13 @@ export default function Planet({ idx, planet, update }) {
                     </p>
                 </div>
                 <div className="planet__price">
-                    {t('updgradePrice')} <span>3 GC</span>
+                    {userHasPlanet() ? (
+                        <>
+                            {t("updgradePrice")} <span>3 GC</span>
+                        </>
+                    ) : (
+                        ""
+                    )}
                 </div>
                 <div className="planet__row">
                     {userHasPlanet() ? (
@@ -238,20 +272,19 @@ export default function Planet({ idx, planet, update }) {
                             className="btn upgrade"
                             onClick={updatePlanetSpeed}
                         >
-                            {t('update')}
+                            {t("update")}
                         </button>
                     ) : (
-                        <button className="btn buy">
-                            <a
-                                style={{
-                                    textDecoration: "none",
-                                    color: "inherit",
-                                }}
-                                href=""
-                            >
-                                {t('buy')}
-                            </a>
-                        </button>
+                        <a
+                            style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                            }}
+                            href="https://getgems.io/toniumworld"
+                            target="_blank"
+                        >
+                            <button className="btn buy">{t("buy")}</button>
+                        </a>
                     )}
 
                     {forLaboratory ? (
@@ -261,7 +294,7 @@ export default function Planet({ idx, planet, update }) {
                                 <Timer />
                             </div>
                             <div className="time-block__text">
-                                {t('toniumJoin')}
+                                {t("toniumJoin")}
                             </div>
                         </div>
                     ) : (

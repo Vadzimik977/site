@@ -1,13 +1,50 @@
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useEffect, useRef, useState } from "react";
-import { slides } from "./data/main";
+
 import { Link, useNavigate } from "react-router-dom";
+import Select from 'react-select'
+import { useTranslation } from "react-i18next";
 export default function Main() {
     const text = useRef(null);
     const title = useRef(null);
     const img = useRef(null);
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [lang, setLang] = useState(localStorage.getItem('lang') ?? 'ru');
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
+
+    const slides = [
+        {
+            id: 0,
+            title: t("s1Title"),
+            text: t("s1Text"),
+            image: "/images/1.png",
+        },
+        {
+            id: 1,
+            title: t("s2Title"),
+            text: t("s2Text"),
+            image: "/images/2.png",
+        },
+        {
+            id: 2,
+            title: t("s3Title"),
+            text: t("s3Text"),
+            image: "/images/3.png",
+        },
+        {
+            id: 3,
+            title: t("s4Title"),
+            text: t("s4Text"),
+            image: "/images/4.png",
+        },
+        {
+            id: 4,
+            title: t("s5Title"),
+            text: t("s5Text"),
+            image: "/images/5.png",
+        },
+    ];
 
     function changeSlide(slide) {
         console.log(slide)
@@ -28,13 +65,35 @@ export default function Main() {
             img.current.classList.add('fade-out');
         }, 400)
     }
+    useEffect(() => {
+        const lang = localStorage.getItem('lang') ?? 'ru';
+        setLang(lang);
+        i18n.changeLanguage(lang);
+    }, [])
+
+    const [options] = useState([
+        { value: "en", label: "EN" },
+        { value: "ru", label: "RU" },
+    ]);
+
+    const changeLang = (e) => {
+        setLang(e.value);
+        i18n.changeLanguage(e.value);
+        localStorage.setItem('lang', e.value)
+    };
 
     return (
         <>
             <header className="app-header">
                 <div className="container">
-                    <div className="header__inner">
-                        
+                    <div className="header__inner" style={{width: '100%', display: 'flex', justifyContent: 'end'}}>
+                        <Select
+                            className="react-select__wrapper"
+                            classNamePrefix={'react-select'}
+                            onChange={(e) => changeLang(e)}
+                            defaultValue={options.find(item => item.value === lang)}
+                            options={options}
+                        />
                     </div>
                 </div>
             </header>

@@ -6,7 +6,7 @@ export default function Footer() {
                     <div className="footer__inner">
                         <ul className="footer__contacts">
                             <li>
-                                <a href="#">
+                                <a target="_blank" href="https://t.me/ToniumWorld">
                                     <svg
                                         width="39"
                                         height="35"
@@ -24,7 +24,7 @@ export default function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a target="_blank" href="https://t.me/ToniumWorldBot">
                                     <svg
                                         width="36"
                                         height="30"
@@ -57,7 +57,7 @@ export default function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a target="_blank" href="https://t.me/ToWGameChat">
                                     <svg
                                         width="33"
                                         height="30"

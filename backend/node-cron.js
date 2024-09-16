@@ -2,7 +2,7 @@ const cron = require('node-cron');
 const { Planet, UserPlanets, Wallet, Element } = require("./models/models");
 const Sequelize = require('sequelize');
 
-cron.schedule('59 23 * * * *', async () => {
+cron.schedule('59 23 * * *', async () => {
     const ids = await Planet.findAll(
         {
             order: Sequelize.literal('rand()'),

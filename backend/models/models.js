@@ -38,13 +38,19 @@ const Wallet = sequelize.define('wallet', {
 const UserPlanets = sequelize.define('user_planets', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     level: { type: DataTypes.STRING, allowNull: true, defaultValue: 1 },
-})
+});
+
+const History = sequelize.define('user_history', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    value: { type: DataTypes.JSON, allowNull: true, defaultValue: [] }
+});
 
 // PlanetUsers.hasOne(User);
 // PlanetUsers.hasOne(Planet)
 User.hasOne(Wallet);
 User.hasMany(UserPlanets);
 Planet.hasMany(UserPlanets);
+User.hasOne(History);
 //Planet.hasMany(Element);
 
 //Element.belongsTo(Planet);
@@ -54,11 +60,13 @@ Element.belongsToMany(Planet, {through: 'element_planets'})
 Wallet.belongsTo(User);
 UserPlanets.belongsTo(User);
 UserPlanets.belongsTo(Planet);
+History.belongsTo(User)
 
 module.exports = {
     User,
     Planet,
     Wallet,
     Element,
-    UserPlanets
+    UserPlanets,
+    History
 }
