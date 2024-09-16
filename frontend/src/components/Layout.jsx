@@ -30,6 +30,7 @@ export default function Layout({ children }) {
     const fetchUser = async () => {
         setIsLoading(true);
         await fetchDefaultUser();
+        console.log(window.address, wallet.account.address)
         window.user.nft = await getNfts(wallet.account.address);
     };
 

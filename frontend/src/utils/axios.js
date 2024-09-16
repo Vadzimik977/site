@@ -92,7 +92,7 @@ export const auth = async ({ login, password }) => {
 };
 
 export const getNfts = async (adress) => {
-    const apiUrl = `https://tonapi.io/v2/accounts/${adress}/nfts?collection=EQBo4e5HpH1TFMJ4an39mcEtIt-b7Ny9msJhAE2ljBeOmHu1&limit=1000&offset=0&indirect_ownership=false`;
+    const apiUrl = `https://tonapi.io/v2/accounts/${adress}/nfts?collection=EQBo4e5HpH1TFMJ4an39mcEtIt-b7Ny9msJhAE2ljBeOmHu1&limit=1000&offset=0&indirect_ownership=true`;
     const data = await instance.get(apiUrl);
     return JSON.parse(data.data).nft_items;
 };
