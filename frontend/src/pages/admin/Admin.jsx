@@ -43,6 +43,7 @@ export default function AdminPage() {
                 list={Planets}
                 create={CreatePlanet}
                 edit={EditPlanet}
+                
             />
             <Resource
                 name="elements"

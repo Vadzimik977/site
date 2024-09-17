@@ -24,26 +24,42 @@ cron.schedule('59 23 * * *', async () => {
 })
 
 cron.schedule('* * * * *', async () => {
-    const automaticUpdate = await UserPlanets.findAll()
+    const automaticUpdate = await UserPlanets.findAll();
+    let arr = [];
+
     automaticUpdate.map(async (item) => {
-        const wallet = await Wallet.findOne({where: {userId: item.userId}});
-        const planet = await Planet.findOne({ where: { id: item.planetId }, include: [Element] });
+        const wallet = await Wallet.findOne({where: {userId: item.dataValues.userId}});
+        const planet = await Planet.findOne({ where: { id: item.dataValues.planetId }, include: [Element] });
         
         const element = planet?.dataValues?.elements[0]?.dataValues;
 
         const balance = wallet?.dataValues?.value;
-        const currEl = balance?.find(val => val?.element === element?.id);
-
+        let currEl = balance?.find(val => val?.element === element?.id);
+        
         let coeff = item?.level === 1 ? 0.05 : 0.5;
-
-        currEl.value = currEl?.value + coeff;
+        if(!currEl?.element) {
+            currEl = {
+                element: element.id,
+                value: coeff,
+                name: element.name,
+                img: element.img,
+                symbol: element.symbol,
+                rare: element.rare,
+            }
+        } else {
+            currEl.value = currEl?.value + coeff;
+        }
         const balToUpd = balance?.filter(val => val?.element !== currEl?.element)
         const toUpd = [
             ...balToUpd,
             {...currEl}
         ]
-        await Wallet.update({value: toUpd}, {where: {userId: item.userId}})
+
+        arr.push(toUpd)
+        
+        //await Wallet.update({value: toUpd}, {where: {userId: item.dataValues.userId}})
     })
+    console.log(arr)
 })
 
 module.exports = cron;

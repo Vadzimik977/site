@@ -1,4 +1,4 @@
-import { List, Datagrid, TextField, EmailField, NumberField, BooleanField, ReferenceField, useFieldValue } from "react-admin";
+import { List, Datagrid, TextInput, TextField, EmailField, NumberField, BooleanField, ReferenceField, useFieldValue } from "react-admin";
 
 export const ImgField = (props) => {
     const value = useFieldValue(props);
@@ -7,7 +7,7 @@ export const ImgField = (props) => {
 }
 export default function Planets() {
     return (
-        <List>
+        <List filters={[<TextInput source="name" label="Поиск" alwaysOn />]}>
             <Datagrid>
                 <TextField source="id" />
                 <TextField source="active" label="Активность"/>

@@ -13,7 +13,7 @@ import popups from "../assets/js/popups";
 import scroll from "../assets/js/scroll";
 import input from "../assets/js/input";
 import newCustomSelect from "../assets/js/newCustomSelect";
-import { createUser, getNfts, getUser } from "../utils/axios";
+import { addPlanetToUser, createUser, getAllUserPlanets, getNfts, getPlanetByName, getPlanets, getUser } from "../utils/axios";
 import { fetchDefaultUser } from "../assets/js/getUser";
 import axios from "axios";
 import { ColorRing } from 'react-loader-spinner'
@@ -30,8 +30,21 @@ export default function Layout({ children }) {
     const fetchUser = async () => {
         setIsLoading(true);
         await fetchDefaultUser();
-        console.log(window.address, wallet.account.address)
+        
         window.user.nft = await getNfts(wallet.account.address);
+        if(window.user.nft?.length) {
+            const nft = window.user.nft;
+            nft.map(async(item) => {
+                const planet = await getPlanetByName({name: item.metadata.name.split('(')[0]});
+                const allUserPlanets = await getAllUserPlanets();
+
+                if(planet?.id) {
+                    if(!allUserPlanets?.length || !allUserPlanets.some(val => val.planetId === planet.id)) {
+                        await addPlanetToUser(planet.id)
+                    }
+                }
+            })
+        }
     };
 
     useEffect(() => {
@@ -39,9 +52,11 @@ export default function Layout({ children }) {
         if (connectionRestored && adress && !isFetched) {
             setIsFetched(true);
             fetchUser().then(() => setIsLoading(false));
-            console.log(wallet)
             // const apiUrl = `https://tonapi.io/v2/accounts/${wallet.account.address}/nfts?collection=EQDfb4GXKIaToaFUDihPgB_lGePg-yeYjwrkZZAeKZ7m9xOQ&limit=1000&offset=0&indirect_ownership=false`;
             // const resp = axios.get(apiUrl);
+        }
+        if(connectionRestored && !adress) {
+            console.log('asd')
         }
     }, [connectionRestored, adress]);
 

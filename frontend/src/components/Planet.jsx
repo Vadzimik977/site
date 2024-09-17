@@ -191,7 +191,7 @@ export default function Planet({ idx, planet, update }) {
                 const planets = window.user.userPlanets;
                 const planet = planets.find((item) => item.planetId === id);
                 if (!planet?.id) {
-                    addPlanetToUser(id);
+                    //addPlanetToUser(id);
                 }
             }
             return item?.length;

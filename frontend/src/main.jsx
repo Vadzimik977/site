@@ -17,3 +17,7 @@ createRoot(document.getElementById("root")).render(
         </TonConnectUIProvider>
     </>
 );
+
+window.addEventListener('ton-connect-ui-disconnection', (event) => {
+    window.location.reload();
+})

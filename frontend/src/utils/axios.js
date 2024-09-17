@@ -7,7 +7,7 @@ const instance = new Axios({
     transformRequest: [...axios.defaults.transformRequest],
 });
 
-export const url = "http://tonium.1423807-cl91000.tw1.ru:8000";
+export const url = "http://localhost:8000";
 
 export const getUser = async () => {
     const user = await instance.get(
@@ -34,7 +34,7 @@ export const createUser = async () => {
     return user;
 };
 
-export const getPlanets = async (range, laboratory) => {
+export const getPlanets = async (range, laboratory, userId) => {
     let rang = range ?? [0, 9];
     const filters = () => {
         if (laboratory) {
@@ -52,13 +52,21 @@ export const getPlanets = async (range, laboratory) => {
     const planets = await instance.get(
         `${url}/api/planets?range=${JSON.stringify(
             rang
-        )}&filter=${JSON.stringify(filters())}&sort=${JSON.stringify([
+        )}&filter=${JSON.stringify(filters())}&sort=${JSON.stringify([[
             "forLaboratory",
             "DESC",
-        ])}`
+        ]])}&custom=${userId}`
     );
-    return JSON.parse(planets.data);
+    console.log(planets)
+    const planetsData = JSON.parse(planets.data).rows;
+    planetsData.map(item => item.element = item.elements[0])
+    return planetsData;
 };
+
+export const getPlanetByName = async (name) => {
+    const planets = await instance.get(`${url}/api/planets?filter=${JSON.stringify(name)}`)
+    return JSON.parse(planets.data)[0];
+}
 
 export const createWalletElement = async (elementId) => {
     const data = {
@@ -111,6 +119,11 @@ export const addPlanetToUser = async (planetId) => {
     });
     return isOk;
 };
+
+export const getAllUserPlanets = async () => {
+    const planets = await instance.get(`${url}/api/userPlanets?filter=${JSON.stringify({userId: window.user.id})}`)
+    return JSON.parse(planets.data)
+}
 
 export const updateUserPlanet = async (id, level) => {
     const isOk = await instance.put(`${url}/api/userPlanets/${id}`, { level });
