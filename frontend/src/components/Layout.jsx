@@ -36,22 +36,19 @@ export default function Layout({ children }) {
             setIsLoading(true)
             const nft = window.user.nft;
             nft.map(async(item) => {
-                console.log(item.metadata.name.split('(')[0])
+                
                 const planet = await getPlanetByName({name: item.metadata.name.split('(')[0]});
                 const allUserPlanets = await getAllUserPlanets();
-                console.log(allUserPlanets)
+                
                 if(planet?.id) {
                     if(!allUserPlanets.some(val => val?.planetId === planet.id)) {
                         await addPlanetToUser(planet.id);
                     }
                 }
             })
-            setIsLoading(false)
-            window.location.reload()
         }
         
         setIsLoading(false);
-        
     };
 
     useEffect(() => {
