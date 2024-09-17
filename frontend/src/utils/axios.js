@@ -63,6 +63,11 @@ export const getPlanets = async (range, laboratory, userId) => {
     return planetsData;
 };
 
+export const getElements = async () => {
+    const elements = await instance.get(`${url}/api/elements`);
+    return JSON.parse(elements.data);
+}
+
 export const getPlanetByName = async (name) => {
     const planets = await instance.get(`${url}/api/planets?filter=${JSON.stringify(name)}`)
     return JSON.parse(planets.data).rows[0];

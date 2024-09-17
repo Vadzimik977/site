@@ -38,7 +38,10 @@ app.use(
                         limit,
                         offset,
                         include: [{model: Element}, {model: UserPlanets, required: false}],
-                        order: [[UserPlanets, 'userId', 'DESC'], ['forLaboratory', 'DESC'], ['id', 'ASC']],
+                        order: [
+                            ['user_planets', 'userId', 'DESC'],
+                            ['forLaboratory', 'DESC'], 
+                        ],
                         where: filter,
                         subQuery: false
 

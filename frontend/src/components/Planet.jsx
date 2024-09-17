@@ -160,7 +160,7 @@ export default function Planet({ idx, planet, update }) {
             if (level == 2) update = 0.5;
             if (level == 3) update = 1;
 
-            debounceFn(update);
+            debounceFn(0.00005);
         } else {
             debounceFn(0.00005);
         }
@@ -200,7 +200,7 @@ export default function Planet({ idx, planet, update }) {
     };
 
     const updatePlanetSpeed = async (e) => {
-        console.log(window.user.coins);
+        
         if (window.user.coins >= 3) {
             const userPlanet = window.user.userPlanets.find(
                 (item) => item.planetId === id
@@ -243,7 +243,7 @@ export default function Planet({ idx, planet, update }) {
                             ? window.user.userPlanets.find(
                                   (item) => item.planetId === id
                               ).level == 2
-                                ? 0.5
+                                ? 0.1
                                 : 0.05
                             : 0.00005}{" "}
                         ({element?.symbol})/

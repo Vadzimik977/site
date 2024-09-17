@@ -50,6 +50,10 @@ export default function Wallet() {
     }
 
     const changeMonet = async (monet, event) => {
+        if(monet.value === 0) {
+            showModal(event, 'error')
+            return;
+        }
         let coeff;
         switch(monet.rare) {
             case 'Обычная':

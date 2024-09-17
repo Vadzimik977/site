@@ -7,7 +7,7 @@ import Planet from "../components/Planet";
 import { fetchDefaultUser } from "../assets/js/getUser";
 import { useTranslation } from "react-i18next";
 import _ from "lodash";
-import { ColorRing } from 'react-loader-spinner'
+import { ColorRing } from "react-loader-spinner";
 
 export default function Planets() {
     const [planets, setPlanets] = useState([]);
@@ -35,7 +35,7 @@ export default function Planets() {
     }, []);
     return (
         <Layout>
-            <div className="main__inner" style={{position: "relative"}}>
+            <div className="main__inner" style={{ position: "relative" }}>
                 <h1 className="main__title">{t("buyPlanet")}</h1>
                 <h6 className="main__text">{t("upgradePlanet")}</h6>
                 <div className="planets">
@@ -49,14 +49,6 @@ export default function Planets() {
                                     key={item.id}
                                 />
                             ))}
-                            <button
-                                className={`btn btn-show ${
-                                    range[1] >= 119 ? "hidden" : ""
-                                }`}
-                                onClick={() => fetch(range[1] + 10)}
-                            >
-                                {t("showMore")}
-                            </button>
                         </>
                     ) : (
                         <div className="color-ring-wrapper planets-ring">
@@ -74,8 +66,16 @@ export default function Planets() {
                             />
                         </div>
                     )}
-                    
                 </div>
+                <button
+                    className={`btn btn-show ${
+                        range[1] >= 119 ? "hidden" : ""
+                    }`}
+                    onClick={() => fetch(range[1] + 10)}
+                    style={{display: 'flex', justifyContent: 'center'}}
+                >
+                    {t("showMore")}
+                </button>
             </div>
         </Layout>
     );

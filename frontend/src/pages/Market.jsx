@@ -7,7 +7,7 @@ import popups from "../assets/js/popups";
 import scroll from "../assets/js/scroll";
 import input from "../assets/js/input";
 import newCustomSelect from "../assets/js/newCustomSelect";
-import { getUserWallet, updateHistory, updateUser, updateWalletElement } from "../utils/axios";
+import { getElements, getUserWallet, updateHistory, updateUser, updateWalletElement } from "../utils/axios";
 import showPopup from "../assets/js/showPopup";
 import { fetchDefaultUser } from "../assets/js/getUser";
 import { useTranslation } from "react-i18next";
@@ -27,11 +27,16 @@ export default function Market() {
     const [isRevert, setIsRevert] = useState(false);
     const [historyIndex, setHistoryIndex] = useState(5);
 
+    const [elements, setElements] = useState();
+
     const { t } = useTranslation();
 
     async function getWallet() {
         setTimeout(async() => {
             setWallet(window?.user?.wallet)
+            const elems = await getElements();
+            console.log(elems)
+            setElements(elems);
         }, 500)
     }
     const changeInput = (value, first) => {
@@ -105,9 +110,13 @@ export default function Market() {
         let history;
 
         if(!isRevert) {
-            item.value = item.value - first;
+            item.value = +item.value - first;
         } else {
-            item.value = item.value + first;
+            if(item.value) {
+                item.value = +item.value + (+first);
+            } else {
+                item.value = first;
+            }
         }
         let data;
         if (window.user.wallet.value?.length) {
@@ -203,7 +212,7 @@ export default function Market() {
                 
             }
         })
-    }, [item?.element])
+    }, [item?.img])
 
     const replaceAmounts = (e) => {
         setIsRevert(!isRevert);
@@ -285,7 +294,7 @@ export default function Market() {
                                         </div>
                                         <div className="options-list map__options">
                                             
-                                        {wallet?.value?.length ? wallet?.value?.map(item =>(
+                                        {wallet?.value?.length ? !isRevert ? wallet?.value?.map(item =>(
                                             <div
                                                 onClick={() => {
                                                     const rare = item.rare;
@@ -326,6 +335,46 @@ export default function Market() {
                                                     <span className="crypto-amount">
                                                         {item?.value}
                                                     </span>
+                                                </>
+                                            </div>
+                                                )) : elements.map(item => (
+                                                    <div
+                                                        onClick={() => {
+                                                        const rare = item.rare;
+                                                        const rares = ['Обычная', "Редкая", "Эпическая"];
+                                                        const coeff = rares.findIndex(val => val === rare) + 1;
+                                                        
+                                                        setItem(item); 
+                                                        setFirst(0);
+                                                        setSecond(0); 
+                                                        setMax(0); 
+                                                        
+                                                        
+                                                        setFirstModal(false)}}
+                                                className="option"
+                                                data-value={item?.name}
+                                                data-label={item?.symbol}
+                                                data-sublabel="Select"
+                                                data-amount="1"
+                                                key={item?.id}
+                                                data-icon="/images/ton2.svg"
+                                                style={{display: "flex"}}
+                                            >
+                                                <img
+                                                    src={`/img/icon/${item.img}`}
+                                                    alt=""
+                                                    className="crypto-icon"
+                                                />
+                                                
+                                                    <>
+                                                    <div onClick={() => {}} key={item.id} className="option-text">
+                                                        <span className="crypto-name">
+                                                            {item?.name}
+                                                        </span>
+                                                        <span className="crypto-sublabel">
+                                                            {item?.symbol}
+                                                        </span>
+                                                    </div>
                                                 </>
                                             </div>
                                                 )) : ''}

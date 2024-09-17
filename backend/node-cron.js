@@ -36,7 +36,7 @@ cron.schedule('* * * * *', async () => {
         const balance = wallet?.dataValues?.value;
         let currEl = balance?.find(val => val?.element === element?.id);
         
-        let coeff = item?.level === 1 ? 0.05 : 0.5;
+        let coeff = item?.level === 1 ? 0.05 : 0.1;
         if(!currEl?.element) {
             currEl = {
                 element: element.id,

@@ -43,6 +43,7 @@ export default function Layout({ children }) {
                 if(planet?.id) {
                     if(!allUserPlanets.some(val => val?.planetId === planet.id)) {
                         await addPlanetToUser(planet.id);
+                        window.location.reload();
                     }
                 }
             })
