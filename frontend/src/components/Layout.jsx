@@ -33,25 +33,32 @@ export default function Layout({ children }) {
         
         window.user.nft = await getNfts(wallet.account.address);
         if(window.user.nft?.length) {
+            setIsLoading(true)
             const nft = window.user.nft;
             nft.map(async(item) => {
+                console.log(item.metadata.name.split('(')[0])
                 const planet = await getPlanetByName({name: item.metadata.name.split('(')[0]});
                 const allUserPlanets = await getAllUserPlanets();
-
+                console.log(allUserPlanets)
                 if(planet?.id) {
-                    if(!allUserPlanets?.length || !allUserPlanets.some(val => val.planetId === planet.id)) {
-                        await addPlanetToUser(planet.id)
+                    if(!allUserPlanets.some(val => val?.planetId === planet.id)) {
+                        await addPlanetToUser(planet.id);
                     }
                 }
             })
+            setIsLoading(false)
+            window.location.reload()
         }
+        
+        setIsLoading(false);
+        
     };
 
     useEffect(() => {
         
         if (connectionRestored && adress && !isFetched) {
             setIsFetched(true);
-            fetchUser().then(() => setIsLoading(false));
+            fetchUser();
             // const apiUrl = `https://tonapi.io/v2/accounts/${wallet.account.address}/nfts?collection=EQDfb4GXKIaToaFUDihPgB_lGePg-yeYjwrkZZAeKZ7m9xOQ&limit=1000&offset=0&indirect_ownership=false`;
             // const resp = axios.get(apiUrl);
         }
