@@ -56,7 +56,7 @@ app.use(
                         include: Element,
                     }).then((data) => data.elements[0]),
                 userHasPlanet: async (planet, { req }) => {
-                    if (req.query.custom) {
+                    if (req.query.userId) {
                         const customPlanet = await UserPlanets.findOne({
                             where: {
                                 userId: req.query.custom,
