@@ -5,6 +5,7 @@ const sequelizeCrud =
 const crud = require("express-crud-router").default;
 const User = require("../models/models").User;
 const router = new Router();
+const seq = require('sequelize');
 
 const {
     Planet,
@@ -39,7 +40,9 @@ app.use(
                         offset,
                         include: [{model: Element}, {model: UserPlanets, required: false}],
                         order: [
-                            ['user_planets', 'userId', 'DESC'],
+                            //['user_planets', 'userId', 'LIKE 7'],
+                            //[seq.fn('ISNULL', seq.col('user_planets.id'), 'LIKE 7')],
+                            [seq.literal(`case when user_planets.userId LIKE ${req.query.userId ?? '0'} then 1 else 2 end`)],
                             ['forLaboratory', 'DESC'], 
                         ],
                         where: filter,
@@ -48,29 +51,29 @@ app.use(
                     })
                 ),
         },
-        {
-            additionalAttributes: {
-                element: (planet) =>
-                    Planet.findOne({
-                        where: { id: planet.id },
-                        include: Element,
-                    }).then((data) => data.elements[0]),
-                userHasPlanet: async (planet, { req }) => {
-                    if (req.query.userId) {
-                        const customPlanet = await UserPlanets.findOne({
-                            where: {
-                                userId: req.query.custom,
-                                planetId: planet.id,
-                            },
-                        });
-                        if (customPlanet?.dataValues?.level) {
-                            return 1;
-                        }
-                    }
-                    return 0;
-                },
-            },
-        }
+        // {
+        //     additionalAttributes: {
+        //         element: (planet) =>
+        //             Planet.findOne({
+        //                 where: { id: planet.id },
+        //                 include: Element,
+        //             }).then((data) => data.elements[0]),
+        //         userHasPlanet: async (planet, { req }) => {
+        //             if (req.query.userId) {
+        //                 const customPlanet = await UserPlanets.findOne({
+        //                     where: {
+        //                         userId: req.query.custom,
+        //                         planetId: planet.id,
+        //                     },
+        //                 });
+        //                 if (customPlanet?.dataValues?.level) {
+        //                     return 1;
+        //                 }
+        //             }
+        //             return 0;
+        //         },
+        //     },
+        // }
     )
 );
 app.post("/user/auth", userController.login);

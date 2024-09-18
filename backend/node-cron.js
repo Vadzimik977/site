@@ -26,40 +26,63 @@ cron.schedule('59 23 * * *', async () => {
 cron.schedule('* * * * *', async () => {
     const automaticUpdate = await UserPlanets.findAll();
     let arr = [];
-
-    automaticUpdate.map(async (item) => {
+    const updates = await Promise.all(
+        automaticUpdate.map(async (item) => {
         const wallet = await Wallet.findOne({where: {userId: item.dataValues.userId}});
         const planet = await Planet.findOne({ where: { id: item.dataValues.planetId }, include: [Element] });
         
         const element = planet?.dataValues?.elements[0]?.dataValues;
-
         const balance = wallet?.dataValues?.value;
+
         let currEl = balance?.find(val => val?.element === element?.id);
+        const currElIndex = balance?.findIndex(val => val?.element === element?.id)
         
-        let coeff = item?.level === 1 ? 0.05 : 0.1;
+        let coeff = item?.dataValues.level == 1 ? 0.05 : 0.1;
+        
         if(!currEl?.element) {
-            currEl = {
+            return {
                 element: element.id,
                 value: coeff,
                 name: element.name,
                 img: element.img,
                 symbol: element.symbol,
                 rare: element.rare,
+                userId: item.dataValues.userId
             }
         } else {
-            currEl.value = currEl?.value + coeff;
+            balance[currElIndex].value += coeff
+            balance[currElIndex].userId = item.dataValues.userId
+            return balance[currElIndex]
         }
-        const balToUpd = balance?.filter(val => val?.element !== currEl?.element)
-        const toUpd = [
-            ...balToUpd,
-            {...currEl}
-        ]
+    }))
+    
+    const groupedUpdates = updates.reduce((acc, update) => {
+        const userId = update.userId;
+        delete update.userId;
+        if (!acc[userId]) {
+            acc[userId] = [];
+        }
+        acc[userId].push(update);
+        return acc;
+    }, {});
 
-        arr.push(toUpd)
+    
+    await Promise.all(Object.keys(groupedUpdates).map(async (userId) => {
+        const wallet = await Wallet.findOne({ where: { userId } });
+        const currentBalance = wallet?.dataValues?.value || [];
         
-        //await Wallet.update({value: toUpd}, {where: {userId: item.dataValues.userId}})
-    })
-    console.log(arr)
+        const updatedBalance = groupedUpdates[userId].reduce((acc, update) => {
+            const existingIndex = acc.findIndex(el => el.element === update.element);
+            if (existingIndex === -1) {
+                acc.push(update);
+            } else {
+                acc[existingIndex].value = update.value;
+            }
+            return acc;
+        }, [...currentBalance]);
+        
+        await Wallet.update({ value: updatedBalance }, { where: { userId } });
+    }));
 })
 
 module.exports = cron;
