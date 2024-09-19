@@ -23,7 +23,7 @@ export default function Layout({ children }) {
     const adress = useTonAddress();
     const wallet = useTonWallet();
     const connectionRestored = useIsConnectionRestored();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isFetched, setIsFetched] = useState(false);
 
     window.adress = adress;
@@ -33,7 +33,6 @@ export default function Layout({ children }) {
         
         window.user.nft = await getNfts(wallet.account.address);
         if(window.user.nft?.length) {
-            setIsLoading(true)
             const nft = window.user.nft;
             nft.map(async(item) => {
                 
@@ -61,7 +60,7 @@ export default function Layout({ children }) {
             // const resp = axios.get(apiUrl);
         }
         if(connectionRestored && !adress) {
-            console.log('asd')
+            setIsLoading(false)
         }
     }, [connectionRestored, adress]);
 

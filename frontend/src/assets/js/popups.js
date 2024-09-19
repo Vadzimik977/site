@@ -39,8 +39,8 @@ export default function popups() {
             }, 5000);
         }
         
-        const marketButtons = document.querySelectorAll('.market__trade .btn');
-        console.log(marketButtons)
+        // const marketButtons = document.querySelectorAll('.market__trade .btn');
+        // console.log(marketButtons)
         /* marketButtons.forEach(button => {
             button.addEventListener('click', function(event) {
                 const planetElement = event.currentTarget.closest('.market__trade');

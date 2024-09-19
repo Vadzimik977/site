@@ -29,17 +29,22 @@ export default function Planet({ idx, planet, update }) {
     const { t } = useTranslation();
 
     const showModal = (event, status) => {
-        const planetElement = event.currentTarget.closest(".planets__planet");
+        const planetElement = event.target.closest(".planets__planet");
         let content;
-
+        console.log(status)
         if (status === "upgrade") {
             content =
                 `<div class="planet__popup-title">${t('planetUpg')}</div><div class="planet__popup-text">${t('speedIncrease')}</div>`;
         } 
 
-        if(status === 'wallet') {
+        else if(status === 'wallet') {
             content = 
                 `<div class="planet__popup-title">${t('modalError')}</div><div class="planet__popup-text">${t('connectWallet')}</div>`
+        }
+
+        else if(status === 'updateError') {
+            content = 
+            `<div class="planet__popup-title">${t('modalError')}</div><div class="planet__popup-text">${t('updateError')}</div>`
         }
         
         else {
@@ -87,7 +92,7 @@ export default function Planet({ idx, planet, update }) {
                     (currentElem.value + val).toFixed(10)
                 );
                 const data = [
-                    ...balance.filter((bal) => bal.element !== element.id),
+                    ...balance.filter((bal) => bal.element !== element?.id),
                     { ...currentElem },
                 ];
                 setValue(currentElem.value);
@@ -175,6 +180,13 @@ export default function Planet({ idx, planet, update }) {
     }, []);
 
     const userHasPlanet = () => {
+        if(planet?.user_planets) {
+            const plData = planet.user_planets;
+            const idx = plData?.find((item) => item?.planetId === id && item?.userId === window?.user?.id);
+            if(idx?.id) {
+                return true;
+            }
+        }
         if (window?.user?.userPlanets?.length) {
             const planets = window.user.userPlanets;
             if (planets.some((item) => item.planetId === id)) {
@@ -205,13 +217,15 @@ export default function Planet({ idx, planet, update }) {
             const userPlanet = window.user.userPlanets.find(
                 (item) => item.planetId === id
             );
-            if (userPlanet.level === 2) {
+            
+            if (+userPlanet.level >= 2) {
+                showModal(e, 'updateError')
                 return;
             }
             await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
             await updateUser({ coins: window.user.coins - 3 });
             window.user.coins = window.user.coins - 3;
-            showModal(e, 'upgrade')
+             showModal(e, 'upgrade')
             await update();
         }
     };
@@ -238,11 +252,11 @@ export default function Planet({ idx, planet, update }) {
                     <h4 className="planet__title">
                         {name}({element?.symbol}) - Planet #{idx}
                     </h4>
-                    <p className="planet__lvl">{t("level")} 1</p>
+                    <p className="planet__lvl">{t("level")} {userHasPlanet() ? planet.user_planets.find(item => item.planetId === id)?.level : 1}</p>
                     <p className="planet__speed">
                         {t("speed")}:{" "}
                         {userHasPlanet()
-                            ? window.user.userPlanets.find(
+                            ? planet.user_planets.find(
                                   (item) => item.planetId === id
                               ).level == 2
                                 ? 0.1

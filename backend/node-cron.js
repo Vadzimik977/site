@@ -38,7 +38,7 @@ cron.schedule('* * * * *', async () => {
         
         let coeff = item?.dataValues.level == 1 ? 0.05 : 0.1;
         
-        if(currElIndex !== -1) {
+        if(currElIndex === -1) {
             return {
                 element: element.id,
                 value: coeff,

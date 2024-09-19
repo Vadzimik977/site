@@ -46,10 +46,12 @@
     "s4Text": "However, the greatest adventure is just beginning. Recreating the original element Thonium is possible, but to do this it is necessary to collect seven special elements. Every day, Toniy changes his internal code, and to recreate it, seven new elements must be found.",
     "s4Title": "Tonium Quest",
     "s5Text": "Tonium has not only historical and scientific value, but also real value. Once collected, you can exchange tonium on the market for real currency. This opens up unlimited possibilities for players, turning virtual achievements into real value.",
+    
     "s5Title": "Real Reward",
     "planetUpg": "PLANET IS UPGRADED",
     "speedIncrease": "The speed of the planet has been increased",
     "connectWallet": "To save resources you need to connect a wallet",
     "history": "History",
-    "withdrawMsg": "The withdrawal will be available after listing on the trading exchange"
+    "withdrawMsg": "The withdrawal will be available after listing on the trading exchange",
+    "updateError": "For now, the planet cannot be upgraded beyond level 2!"
 }
