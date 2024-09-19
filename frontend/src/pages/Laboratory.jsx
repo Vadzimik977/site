@@ -16,7 +16,7 @@ export default function Laboratory() {
     const { t } = useTranslation();
 
     const fetchPlanets = async () => {
-        const planets = await getPlanets([0, 9], true);
+        const planets = await getPlanets([0, 9], true, 0);
         setIsLoading(false);
         setElems(planets);
     };
