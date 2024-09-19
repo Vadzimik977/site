@@ -7,7 +7,7 @@ const instance = new Axios({
     transformRequest: [...axios.defaults.transformRequest],
 });
 
-export const url = "http://localhost:8000";
+export const url = "https://harmonara.art";
 
 export const getUser = async () => {
     const user = await instance.get(
