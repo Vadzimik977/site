@@ -211,6 +211,8 @@ export default function Planet({ idx, planet, update }) {
             await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
             await updateUser({ coins: window.user.coins - 3 });
             window.user.coins = window.user.coins - 3;
+            showModal(e, 'upgrade')
+            await update();
         }
     };
 

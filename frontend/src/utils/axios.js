@@ -55,7 +55,7 @@ export const getPlanets = async (range, laboratory, userId) => {
         )}&filter=${JSON.stringify(filters())}&sort=${JSON.stringify([[
             "forLaboratory",
             "DESC",
-        ]])}&userId=${userId}`
+        ]])}&userId=${userId ?? 0}`
     );
     console.log(planets)
     const planetsData = JSON.parse(planets.data).rows;

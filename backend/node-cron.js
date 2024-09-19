@@ -25,7 +25,7 @@ cron.schedule('59 23 * * *', async () => {
 
 cron.schedule('* * * * *', async () => {
     const automaticUpdate = await UserPlanets.findAll();
-    let arr = [];
+
     const updates = await Promise.all(
         automaticUpdate.map(async (item) => {
         const wallet = await Wallet.findOne({where: {userId: item.dataValues.userId}});
@@ -34,12 +34,11 @@ cron.schedule('* * * * *', async () => {
         const element = planet?.dataValues?.elements[0]?.dataValues;
         const balance = wallet?.dataValues?.value;
 
-        let currEl = balance?.find(val => val?.element === element?.id);
         const currElIndex = balance?.findIndex(val => val?.element === element?.id)
         
         let coeff = item?.dataValues.level == 1 ? 0.05 : 0.1;
         
-        if(!currEl?.element) {
+        if(currElIndex !== -1) {
             return {
                 element: element.id,
                 value: coeff,
@@ -50,7 +49,7 @@ cron.schedule('* * * * *', async () => {
                 userId: item.dataValues.userId
             }
         } else {
-            balance[currElIndex].value += coeff
+            parseFloat((balance[currElIndex].value += coeff).toFixed(5));
             balance[currElIndex].userId = item.dataValues.userId
             return balance[currElIndex]
         }
