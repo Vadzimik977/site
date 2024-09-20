@@ -71,8 +71,11 @@ export default function Market() {
                     break;
             }
 
-           
-            setSecond(parseFloat((newValue * coeff).toFixed(6)))
+           if(!isRevert) {
+               setSecond(parseFloat((newValue * coeff).toFixed(6)))
+           } else {
+            setSecond(parseFloat(newValue / coeff).toFixed(6))
+           }
         }
         
     }
@@ -108,14 +111,18 @@ export default function Market() {
 
     const exchange = async (event) => {
         let history;
+        let oldValue;
 
         if(!isRevert) {
+            oldValue = item.value
             item.value = +item.value - first;
         } else {
             if(item.value) {
                 console.log(item.value)
+                oldValue = item.value
                 item.value = +item.value + (+second);
             } else {
+                oldValue = 0;
                 item.value = +second;
             }
         }
@@ -140,7 +147,7 @@ export default function Market() {
                 {
                     element: item.element,
                     newValue: +item.value,
-                    oldValue: isRevert ? (parseFloat(item.value)) - parseFloat(first) : parseFloat(item.value) + parseFloat(first),
+                    oldValue: oldValue,
                     name: item.name,
                     img: item.img,
                     symbol: item.symbol,
@@ -152,7 +159,7 @@ export default function Market() {
                 {
                     element: item.element,
                     newValue: +item.value,
-                    oldValue: isRevert ? (parseFloat(item.value)) - (parseFloat(first)) : +(item.value) + (+first),
+                    oldValue: oldValue,
                     name: item.name,
                     img: item.img,
                     symbol: item.symbol,
@@ -257,7 +264,7 @@ export default function Market() {
                     <div className="market__trade">
                         <div className="market__row">
                             <div className="market__title">{t('change').toUpperCase()}</div>
-                            <div className="market__settings" onClick={() => setIsHistory(true)}>
+                            <div className="market__settings" onClick={() => {setIsHistory(true); setIsRevert(false)}}>
                                 <img src="/images/reload.svg" alt="" />
                             </div>
                         </div>
