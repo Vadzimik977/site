@@ -89,7 +89,7 @@ export default function Planet({ idx, planet, update }) {
             if (currentElem?.element) {
                 setIsLoading(true);
                 currentElem.value = parseFloat(
-                    (currentElem.value + val).toFixed(10)
+                    (parseFloat(currentElem.value) + val).toFixed(10)
                 );
                 const data = [
                     ...balance.filter((bal) => bal.element !== element?.id),

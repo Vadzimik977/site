@@ -115,7 +115,7 @@ export default function Market() {
             if(item.value) {
                 item.value = +item.value + (+first);
             } else {
-                item.value = first;
+                item.value = +first;
             }
         }
         let data;
