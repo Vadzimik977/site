@@ -71,7 +71,7 @@ export default function Market() {
                     break;
             }
 
-            console.log(newValue)
+           
             setSecond(parseFloat((newValue * coeff).toFixed(6)))
         }
         
@@ -113,13 +113,15 @@ export default function Market() {
             item.value = +item.value - first;
         } else {
             if(item.value) {
-                item.value = +item.value + (+first);
+                console.log(item.value)
+                item.value = +item.value + (+second);
             } else {
-                item.value = +first;
+                item.value = +second;
             }
         }
         let data;
         if (window.user.wallet.value?.length) {
+            console.log(item.value)
             data = [
                 ...window.user.wallet.value.filter(i => i.element !== item.element),
                 {
