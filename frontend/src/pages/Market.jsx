@@ -202,6 +202,7 @@ export default function Market() {
         showModal(event, 'complete')
         updateHistory(window.user.history, history);
         window.user.history.value = history;
+        window.user.wallet.value = data;
         setFirst(0)
         setSecond(0)
     }
