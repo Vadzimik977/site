@@ -123,7 +123,7 @@ export default function Market() {
             data = [
                 ...window.user.wallet.value.filter(i => i.element !== item.element),
                 {
-                    element: item.element,
+                    element: item.element ?? item?.id,
                     value: item.value,
                     name: item.name,
                     img: item.img,
@@ -137,8 +137,8 @@ export default function Market() {
                 ...window.user.history.value,
                 {
                     element: item.element,
-                    newValue: item.value,
-                    oldValue: isRevert ? (+item.value) - (+first) : +item.value + (+first),
+                    newValue: +item.value,
+                    oldValue: isRevert ? (parseFloat(item.value)) - parseFloat(first) : parseFloat(item.value) + parseFloat(first),
                     name: item.name,
                     img: item.img,
                     symbol: item.symbol,
@@ -149,8 +149,8 @@ export default function Market() {
             history = [
                 {
                     element: item.element,
-                    newValue: item.value,
-                    oldValue: isRevert ? item.value - first : item.value + first,
+                    newValue: +item.value,
+                    oldValue: isRevert ? (parseFloat(item.value)) - (parseFloat(first)) : +(item.value) + (+first),
                     name: item.name,
                     img: item.img,
                     symbol: item.symbol,
@@ -169,7 +169,7 @@ export default function Market() {
                     img: '/images/ton2.svg',
                     name: 'GameCoin',
                     newValue: window.user.coins,
-                    oldValue: window.user.coins - second,
+                    oldValue: parseFloat(window.user.coins) - parseFloat(second),
                 }
             )
         } else {
@@ -183,8 +183,8 @@ export default function Market() {
                 {
                     img: '/images/ton2.svg',
                     name: 'GameCoin',
-                    newValue: window.user.coins,
-                    oldValue: window.user.coins + first,
+                    newValue: parseFloat(window.user.coins),
+                    oldValue: parseFloat(window.user.coins) + parseFloat(first),
                 }
             )
             
@@ -192,6 +192,7 @@ export default function Market() {
         setWallet((wall) => ({...wall, value: data}));
         showModal(event, 'complete')
         updateHistory(window.user.history, history);
+        window.user.history.value = history;
         setFirst(0)
         setSecond(0)
     }
@@ -301,7 +302,7 @@ export default function Market() {
                                                     const rares = ['Обычная', "Редкая", "Эпическая"];
                                                     const coeff = rares.findIndex(val => val === rare) + 1;
                                                     console.log(coeff)
-                                                    setItem(item); 
+                                                    setItem({...item, element: item?.element ?? item?.id}); 
                                                     setFirst(item.value);
                                                     setSecond(parseFloat((item.value * coeff).toFixed(6))); 
                                                     setMax(item.value); 
@@ -343,8 +344,8 @@ export default function Market() {
                                                         const rare = item.rare;
                                                         const rares = ['Обычная', "Редкая", "Эпическая"];
                                                         const coeff = rares.findIndex(val => val === rare) + 1;
-                                                        
-                                                        setItem(item); 
+                                                        console.log(item)
+                                                        setItem({...item, element: item.id}); 
                                                         setFirst(0);
                                                         setSecond(0); 
                                                         setMax(0); 
@@ -477,7 +478,7 @@ export default function Market() {
                         </div>
                         <div className="history__items">
                             {
-                                window?.user?.history?.value?.map((item, i) => (
+                                window?.user?.history?.value?.reverse()?.map((item, i) => (
                                     i !== historyIndex && i < historyIndex ?
                                     <div className={`history__item ${item?.newValue < item?.oldValue ? 'red' : ''}`}>
                                         <img src="/images/ton2.svg" alt="" />

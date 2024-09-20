@@ -42,7 +42,7 @@ app.use(
                         order: [
                             //['user_planets', 'userId', 'LIKE 7'],
                             //[seq.fn('ISNULL', seq.col('user_planets.id'), 'LIKE 7')],
-                            [seq.literal(`case when user_planets.userId LIKE ${req.query.userId ?? '0'} then 1 else 2 end`)],
+                            [seq.literal(`case when user_planets.userId LIKE ${req?.query?.userId ?? '0'} then 1 else 2 end`)],
                             ['forLaboratory', 'DESC'], 
                         ],
                         where: filter,
