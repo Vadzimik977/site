@@ -83,20 +83,20 @@ export default function newCustomSelect() {
             }
 
     
-            searchInput.addEventListener('input', function () {
-                const searchTerm = this.value.toLowerCase();
-                const options = optionsList.querySelectorAll('.option');
+            // searchInput.addEventListener('input', function () {
+            //     const searchTerm = this.value.toLowerCase();
+            //     const options = optionsList.querySelectorAll('.option');
     
-                options.forEach(option => {
-                    const cryptoName = option.querySelector('.crypto-name').textContent.toLowerCase();
-                    const cryptoSubLabel = option.querySelector('.crypto-sublabel').textContent.toLowerCase();
-                    if (cryptoName.includes(searchTerm) || cryptoSubLabel.includes(searchTerm)) {
-                        option.style.display = 'flex';
-                    } else {
-                        option.style.display = 'none';
-                    }
-                });
-            });
+            //     options.forEach(option => {
+            //         const cryptoName = option.querySelector('.crypto-name').textContent.toLowerCase();
+            //         const cryptoSubLabel = option.querySelector('.crypto-sublabel').textContent.toLowerCase();
+            //         if (cryptoName.includes(searchTerm) || cryptoSubLabel.includes(searchTerm)) {
+            //             option.style.display = 'flex';
+            //         } else {
+            //             option.style.display = 'none';
+            //         }
+            //     });
+            // });
     
            
         });

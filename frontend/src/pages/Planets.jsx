@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Layout from "../components/Layout";
 import BorderAnimation from "../assets/js/animatedBorder";
 import { createWalletElement, getPlanets } from "../utils/axios";
@@ -30,53 +30,58 @@ export default function Planets() {
         }, 500);
     }
     useEffect(() => {
+        if(!window.user?.id && !window.adress === 'not') {
+            return
+        }
         setLoading(true);
         fetch();
-    }, []);
+    }, [window.user, window.adress]);
     return (
         <Layout>
-            <div className="main__inner" style={{ position: "relative" }}>
-                <h1 className="main__title">{t("buyPlanet")}</h1>
-                <h6 className="main__text">{t("upgradePlanet")}</h6>
-                <div className="planets">
-                    {planets?.length ? (
-                        <>
-                            {planets?.map((item, idx) => (
-                                <Planet
-                                    idx={item.element.index}
-                                    update={fetch}
-                                    planet={item}
-                                    key={item.id}
+            <Suspense>
+                <div className="main__inner" style={{ position: "relative" }}>
+                    <h1 className="main__title">{t("buyPlanet")}</h1>
+                    <h6 className="main__text">{t("upgradePlanet")}</h6>
+                    <div className="planets">
+                        {planets?.length ? (
+                            <>
+                                {planets?.map((item, idx) => (
+                                    <Planet
+                                        idx={item.element.index}
+                                        update={fetch}
+                                        planet={item}
+                                        key={item.id}
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                            <div className="color-ring-wrapper planets-ring">
+                                <ColorRing
+                                    visible={true}
+                                    height={1000}
+                                    width={500}
+                                    colors={[
+                                        "#e15b64",
+                                        "#f47e60",
+                                        "#f8b26a",
+                                        "#abbd81",
+                                        "#849b87",
+                                    ]}
                                 />
-                            ))}
-                        </>
-                    ) : (
-                        <div className="color-ring-wrapper planets-ring">
-                            <ColorRing
-                                visible={true}
-                                height={1000}
-                                width={500}
-                                colors={[
-                                    "#e15b64",
-                                    "#f47e60",
-                                    "#f8b26a",
-                                    "#abbd81",
-                                    "#849b87",
-                                ]}
-                            />
-                        </div>
-                    )}
+                            </div>
+                        )}
+                    </div>
+                    <button
+                        className={`btn btn-show ${
+                            range[1] >= 119 ? "hidden" : ""
+                        }`}
+                        onClick={() => fetch(range[1] + 10)}
+                        style={{display: 'flex', justifyContent: 'center'}}
+                    >
+                        {t("showMore")}
+                    </button>
                 </div>
-                <button
-                    className={`btn btn-show ${
-                        range[1] >= 119 ? "hidden" : ""
-                    }`}
-                    onClick={() => fetch(range[1] + 10)}
-                    style={{display: 'flex', justifyContent: 'center'}}
-                >
-                    {t("showMore")}
-                </button>
-            </div>
+            </Suspense>
         </Layout>
     );
 }

@@ -45,14 +45,14 @@ export default function Market() {
         //let newValue = value = value.replace(/^[.0-9]*$/, '');
         //newValue = Math.min(parseInt(value) || 0, item.value);
         let newValue = value
-        console.log(value)
+            console.log(item, maxTon, max)
         if(!isRevert) {
-            if(newValue > max) {
+            if(newValue > item?.value) {
                 newValue = max
             }
         } else {
-            if(newValue > maxTon) {
-                newValue = maxTon
+            if(newValue > window.user.coins) {
+                newValue = window.user.coins
             }
         }
         if(first) {
@@ -80,6 +80,9 @@ export default function Market() {
         
     }
     useEffect(() => {
+        if(!window.user?.id && !window.adress === 'not') {
+            return
+        }
         getWallet();
 
         window.addEventListener('click', (e) => {
@@ -90,7 +93,7 @@ export default function Market() {
                 }
             }
         });
-    }, []);
+    }, [window.user, window.adress]);
 
     const showModal = (event, status) => {
         const planetElement = event.target.closest('.market__trade');
@@ -248,7 +251,25 @@ export default function Market() {
 
         setFirst(0);
         setSecond(0);
+        if(isRevert) {
+            setMaxTon(window.user.coins)
+        }
     }   
+
+    const search = (target) => {
+        const searchTerm = target.value.toLowerCase();
+        const options = target.parentNode.parentNode.querySelectorAll('.option');
+        console.log(target.parentNode.parentNode.querySelectorAll('.option'))
+        options.forEach(option => {
+            const cryptoName = option.querySelector('.crypto-name').textContent.toLowerCase();
+            const cryptoSubLabel = option.querySelector('.crypto-sublabel').textContent.toLowerCase();
+            if (cryptoName.includes(searchTerm) || cryptoSubLabel.includes(searchTerm)) {
+                option.style.display = 'flex';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+    }
     
     return (
         <Layout>
@@ -300,6 +321,7 @@ export default function Market() {
                                             <input
                                                 type="text"
                                                 className="search-input"
+                                                onChange={(e) => search(e.target)}
                                                 placeholder={t('monetAdres')}
                                             />
                                         </div>
@@ -433,6 +455,7 @@ export default function Market() {
                                             <input
                                                 type="text"
                                                 className="search-input"
+                                                onChange={(e) => search(e.target)}
                                                 placeholder={t('monetAdres')}
                                             />
                                         </div>
@@ -490,7 +513,7 @@ export default function Market() {
                             {
                                 window?.user?.history?.value?.reverse()?.map((item, i) => (
                                     i !== historyIndex && i < historyIndex ?
-                                    <div className={`history__item ${item?.newValue < item?.oldValue ? 'red' : ''}`}>
+                                    <div key={i} className={`history__item ${item?.newValue < item?.oldValue ? 'red' : ''}`}>
                                         <img src="/images/ton2.svg" alt="" />
                                         <span>{item?.name}</span>
                                         <span className="money">{

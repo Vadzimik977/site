@@ -61,6 +61,7 @@ export default function Layout({ children }) {
         }
         if(connectionRestored && !adress) {
             setIsLoading(false)
+            window.adress = 'not'
         }
     }, [connectionRestored, adress]);
 
