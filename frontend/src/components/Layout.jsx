@@ -19,7 +19,7 @@ import axios from "axios";
 import { ColorRing } from 'react-loader-spinner'
 
 export const DataContext = createContext();
-export default function Layout({ children }) {
+export default function Layout({ children, without = false }) {
     const adress = useTonAddress();
     const wallet = useTonWallet();
     const connectionRestored = useIsConnectionRestored();
@@ -47,7 +47,8 @@ export default function Layout({ children }) {
                 }
             })
         }
-        
+        const ev = new Event('getUser');
+        document.dispatchEvent(ev);
         setIsLoading(false);
     };
 
@@ -61,7 +62,8 @@ export default function Layout({ children }) {
         }
         if(connectionRestored && !adress) {
             setIsLoading(false)
-            window.adress = 'not'
+            const ev = new Event('getUser');
+            document.dispatchEvent(ev);
         }
     }, [connectionRestored, adress]);
 
@@ -71,7 +73,7 @@ export default function Layout({ children }) {
             marketAdaptiv();
             customSelect();
             popups();
-            scroll();
+            without ? '' : scroll();
             input();
             newCustomSelect();
         }
@@ -80,11 +82,11 @@ export default function Layout({ children }) {
     return (
         !isLoading ? (
             <>
-                <Header />
-                <main className="main">
-                    <div className="container">{children}</div>
+                {without ? '' : <Header />}
+                <main className={`main ${without ? 'without' : ''}`}>
+                    <div className={`container ${without ? 'without' : ''}`}>{children}</div>
                 </main>
-                <Footer />
+                {without ? null : <Footer />}
             </>
         ) : (
             <div className="color-ring-wrapper">

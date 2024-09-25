@@ -20,10 +20,9 @@ export default function Wallet() {
         }, 500)
     }
     useEffect(() => {
-        if(!window.user?.id && !window.adress === 'not') {
-            return
-        }
-        getWallet();
+        document.addEventListener('getUser', () => {
+            getWallet()
+        })
     }, [window.user, window.adress]);
 
     const showModal = (event, status) => {

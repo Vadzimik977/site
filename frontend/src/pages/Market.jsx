@@ -48,7 +48,7 @@ export default function Market() {
             console.log(item, maxTon, max)
         if(!isRevert) {
             if(newValue > item?.value) {
-                newValue = max
+                newValue = item?.value
             }
         } else {
             if(newValue > window.user.coins) {
@@ -80,10 +80,9 @@ export default function Market() {
         
     }
     useEffect(() => {
-        if(!window.user?.id && !window.adress === 'not') {
-            return
-        }
-        getWallet();
+        document.addEventListener('getUser', () => {
+            getWallet();
+        })
 
         window.addEventListener('click', (e) => {
             if(!e.target.classList.contains('modal-select')) {
@@ -226,7 +225,7 @@ export default function Market() {
                 
             }
         })
-    }, [item?.img])
+    }, [item?.img, window?.user, window?.adress])
 
     const replaceAmounts = (e) => {
         setIsRevert(!isRevert);

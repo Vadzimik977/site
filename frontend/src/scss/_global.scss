@@ -28,6 +28,9 @@ body {
     width: 100%;
     margin: 0 auto;
     padding: 0 20px;
+    &.without {
+        max-width: calc(100% - 65px);
+    }
 }
 
 h1, h2, h3, h4, h5, h6, p {

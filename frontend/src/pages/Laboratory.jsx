@@ -53,11 +53,10 @@ export default function Laboratory() {
     }
 
     useEffect(() => {
-        if(!window.user?.id && !window.adress === 'not') {
-            return
-        }
-        fetchPlanets();
-        getWallet();
+        document.addEventListener('getUser', () => {
+            fetchPlanets();
+            getWallet();
+        })
     }, [window.user, window.adress]);
 
 

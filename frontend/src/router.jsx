@@ -5,6 +5,7 @@ import Market from "./pages/Market";
 import Laboratory from './pages/Laboratory';
 import Wallet from './pages/Wallet';
 import AdminPage from "./pages/admin/Admin";
+import Detail from "./pages/Detail";
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
     {
         path: '/admin/*',
         element: <AdminPage />
+    },
+    {
+        path: '/planet/:planetId',
+        element: <Detail />
     }
 ]);
 

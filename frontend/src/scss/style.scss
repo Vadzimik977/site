@@ -162,6 +162,14 @@ nav {
 
     @media (max-width: 550px) {
         margin-top: 10px;
+
+        &.without {
+            margin-top: 20px !important;
+        }
+    }
+
+    &.without {
+        margin-top: 25px !important;
     }
 }
 
@@ -979,5 +987,166 @@ footer {
     pointer-events: none;
     animation: fadeOut 1s forwards;
 } 
+
+.planet__detail {
+    display: flex;
+    flex-direction: column;
+    .header-back {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        cursor: pointer;
+        
+        img {
+            position: absolute;
+            top: 0;
+
+            left: 4%;
+        }
+        .back-title {
+            position: relative;
+            font-size: 25px;
+            line-height: 26px;
+            text-align: center;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-weight: 700;
+            background-image: linear-gradient(to left, rgb(102, 102, 102), rgba(165, 165, 165, 1))
+        }
+    }
+    &-header {
+        .header-planet {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            font-size: 70px;
+            font-weight: 700;
+            
+            span {
+                border-bottom: 1px solid white;
+            }
+        }
+    }
+    .planet__detail-wrapper {
+        display: flex;
+        margin-top: 35px;
+        
+
+        .planet-information {
+            margin-left: 30px;
+            
+            .info-header {
+                color: rgba(124, 124, 124, 1);
+                font-size: 28px;
+            }
+            .info-content {
+                background-image: linear-gradient(to left, rgba(20, 27, 37, 1), rgba(6, 9, 14, 1));
+                padding: 25px 40px;
+                border-radius: 50px;
+
+                .info-content-wrapper {
+                    background: #0C1015;
+                    padding: 5px 30px;
+                    border-radius: 50px;
+                    font-size: 20px;
+                }
+            }
+
+            .planet__gc {
+                width: 100%;
+                max-width: none;
+                margin-top: 15px;
+                font-weight: 600;
+                font-size: 20px;
+            }
+        }
+
+        .planet-farm {
+            margin-top: 30px;
+            margin-left: 130px;
+            height: 50%;
+            padding: 25px 40px;
+            padding-right: 0;
+            border-radius: 50px;
+            background-image: linear-gradient(to left, rgba(20, 27, 37, 1), rgba(6, 9, 14, 1));
+
+            &-content {
+                padding: 5px 30px;
+                padding-left: 5px;
+                border-radius: 50px;
+                font-size: 20px;
+                img {
+                    margin-right: 10px;
+                    cursor: pointer;
+                    transition: 0.5s all;
+                    &.open {
+                        transform: rotate(90deg);
+                    }
+                }
+                span {
+                    font-size: 40px;
+                    font-weight: 700
+                }
+            }
+            .planet-farm-tasks {
+                
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                font-weight: 700;
+                transition: 0.5s all;
+                opacity: 1;
+                background: #0C1015;
+                border-end-end-radius: 50px;
+                border-end-start-radius: 50px;
+                font-size: 18px;
+                margin-top: 15px;
+                padding: 25px 15px;
+                padding-top: 15px;
+
+                .farm-task {
+                    
+                    padding: 5px 30px;
+                    padding-right: 0;
+                    display: flex;
+                    align-items: center;
+                    border-bottom: 1px solid white;
+                    
+                }
+                &.hidden {
+                    visibility: hidden;
+                    opacity: 0;
+                    padding: 0;
+                    height: 0;
+                }
+            }
+        }
+        
+    }
+    .planet__detail-builds {
+        display: flex;
+        flex-wrap: nowrap;
+        background-image: url('/builds/bg.png');
+        background-size: cover;
+        background-attachment: fixed;
+        background-color: rgba(0,0,0, 0.1);
+        .wrapper {
+            display: flex;
+            flex-wrap: nowrap;
+            
+            img {
+                object-fit: contain;
+                opacity: 0.7;
+                position: relative;
+                z-index: 1000;
+                width: 14.28%;
+            }
+        }
+    }
+}
 
 @import 'media';

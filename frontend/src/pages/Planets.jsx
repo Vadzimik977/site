@@ -30,11 +30,10 @@ export default function Planets() {
         }, 500);
     }
     useEffect(() => {
-        if(!window.user?.id && !window.adress === 'not') {
-            return
-        }
-        setLoading(true);
-        fetch();
+        document.addEventListener('getUser', () => {
+            setLoading(true);
+            fetch();
+        })
     }, [window.user, window.adress]);
     return (
         <Layout>

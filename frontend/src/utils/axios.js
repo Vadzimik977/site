@@ -35,6 +35,14 @@ export const createUser = async () => {
     return user;
 };
 
+export const getPlanet = async (id, userId) => {
+    const planet = await instance.get(`${url}/api/planets/${id}?userId=${userId ?? 0}`);
+    const planetData = JSON.parse(planet.data).rows[0];
+    
+    planetData.element = planetData.elements[0]
+    return planetData
+}
+
 export const getPlanets = async (range, laboratory, userId) => {
     let rang = range ?? [0, 9];
     const filters = () => {
