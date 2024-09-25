@@ -8,7 +8,8 @@ export default defineConfig(({command, mode}) => {
   return {
     plugins: [react(), nodePolyfills()],
     build: {
-      outDir: '../build'
+      outDir: '../build',
+      emptyOutDir: true
     },
     define: {
       'process.env.VITE_BACKEND': JSON.stringify(env.VITE_BACKEND_URL)
