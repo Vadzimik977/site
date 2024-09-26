@@ -272,7 +272,7 @@ export default function Planet({ idx, planet, update }) {
                         {element?.symbol})
                     </p>
                     <p className="planet__gc">
-                        {value ?? "0.000"} {element?.symbol}
+                        {value?.toFixed(5) ?? "0.000"} {element?.symbol}
                     </p>
                 </div>
                 <div className="planet__price">
