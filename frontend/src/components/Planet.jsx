@@ -228,7 +228,7 @@ export default function Planet({ idx, planet, update }) {
              showModal(e, 'upgrade')
             await update();
         } else {
-            showModal(e, '')
+            showModal(e, 'balance')
         }
     };
 
