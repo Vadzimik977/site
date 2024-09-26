@@ -47,9 +47,9 @@ export default function Planet({ idx, planet, update }) {
             `<div class="planet__popup-title">${t('modalError')}</div><div class="planet__popup-text">${t('updateError')}</div>`
         }
         
-        else {
+        else if(status === 'balance') {
             content =
-                `<div class="planet__popup-title">${t('modalError')}</div><div class="wallet__popup-text">Недостаточно средств для Куплена</div>`;
+                `<div class="planet__popup-title">${t('modalError')}</div><div class="wallet__popup-text">${t('notEnoughtMoney')}</div>`;
         }
 
         content = '<div class="popup__inner">' + content + "</div>";
@@ -227,6 +227,8 @@ export default function Planet({ idx, planet, update }) {
             window.user.coins = window.user.coins - 3;
              showModal(e, 'upgrade')
             await update();
+        } else {
+            showModal(e, '')
         }
     };
 
