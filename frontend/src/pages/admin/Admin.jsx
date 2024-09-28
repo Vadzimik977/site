@@ -20,6 +20,7 @@ import { url } from "../../utils/axios";
 import CreatePlanet from "./tables/CreatePlanet";
 import CreateElement from "./tables/CreateElement";
 import { authProvider } from "./authProvider";
+import EditUser from "./tables/EditUser";
 export default function AdminPage() {
     return (
         <Admin
@@ -30,6 +31,7 @@ export default function AdminPage() {
             <Resource
                 name="users"
                 list={Users}
+                edit={EditUser}
                 create={
                     <Create>
                         <SimpleForm>

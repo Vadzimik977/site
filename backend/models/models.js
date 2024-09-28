@@ -6,8 +6,8 @@ const User = sequelize.define("user", {
     email: { type: DataTypes.STRING, unique: true, allowNull: true },
     password: { type: DataTypes.STRING, allowNull: true },
     role: { type: DataTypes.ENUM("user", "admin"), defaultValue: "user" },
-    coins: { type: DataTypes.FLOAT, defaultValue: 0 },
-    ton: { type: DataTypes.FLOAT, defaultValue: 0 },
+    coins: { type: DataTypes.DOUBLE, defaultValue: 0 },
+    ton: { type: DataTypes.DOUBLE, defaultValue: 0 },
     adress: { type: DataTypes.STRING, allowNull: true }
 });
 

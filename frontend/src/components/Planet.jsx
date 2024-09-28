@@ -12,7 +12,7 @@ import BorderAnimation from "../assets/js/animatedBorder";
 import Timer from "./Timer";
 import { useTranslation } from "react-i18next";
 import showPopup from "../assets/js/showPopup";
-
+import { Link } from "react-router-dom";
 export default function Planet({ idx, planet, update }) {
     const {
         id,
@@ -304,7 +304,7 @@ export default function Planet({ idx, planet, update }) {
                             <button className="btn buy">{t("buy")}</button>
                         </a>
                     )}
-
+                    <Link to={`/planet/${id}`}><button className="btn">Добывать ресурс</button></Link>
                     {forLaboratory ? (
                         <div className="planet__time-block">
                             {/* <!-- Если нужны английские подписи к числам, то добавь к этому блоку класс eng --> */}

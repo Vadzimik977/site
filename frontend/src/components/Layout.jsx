@@ -84,7 +84,7 @@ export default function Layout({ children, without = false }) {
             <>
                 {without ? '' : <Header />}
                 <main className={`main ${without ? 'without' : ''}`}>
-                    <div className={`container ${without ? 'without' : ''}`}>{children}</div>
+                    <div className={`${without ? 'without' : 'container'}`}>{children}</div>
                 </main>
                 {without ? null : <Footer />}
             </>

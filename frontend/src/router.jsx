@@ -32,10 +32,10 @@ const router = createBrowserRouter([
         path: '/admin/*',
         element: <AdminPage />
     },
-    // {
-    //     path: '/planet/:planetId',
-    //     element: <Detail />
-    // }
+    {
+        path: '/planet/:planetId',
+        element: <Detail />
+    }
 ]);
 
 export default router;

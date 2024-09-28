@@ -4,44 +4,51 @@ import { Link, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import { ColorRing } from "react-loader-spinner";
 import { useTranslation } from "react-i18next";
-import { debounce } from 'lodash';
+import { debounce } from "lodash";
 
 export default function Detail() {
 	const { planetId } = useParams();
 	const [planet, setPlanet] = useState();
 	const [loading, setIsLoading] = useState(false);
-    const [value, setValue] = useState(0);
-    const [resource, setResource] = useState(false)
-    const [click, setClick] = useState(0)
+	const [value, setValue] = useState(0);
+	const [resource, setResource] = useState(false);
+	const [click, setClick] = useState(0);
 
 	const { t } = useTranslation();
 
 	const fetchPlanet = async () => {
 		const a = await getPlanet(planetId, window?.user?.id);
-        setPlanet(a);
-        setIsLoading(false);
+		setPlanet(a);
+        console.log(a)
+		setIsLoading(false);
+        getInitState(a);
 	};
 
-    const getInitState = () => {
-        setValue(
-            window?.user?.wallet?.value?.find(
-                (bal) => bal.element === planet?.element?.id
-            )?.value
-        );
-    };
-    
+	const getInitState = (a) => {
+		setValue(
+			window?.user?.wallet?.value?.find(
+				(bal) => bal.element === a?.element?.id
+			)?.value
+		);
+	};
 
 	useEffect(() => {
-        document.addEventListener('getUser', () => {
-            setIsLoading(true);
-            getInitState();
-            fetchPlanet();
-        })
+		document.addEventListener("getUser", () => {
+			setIsLoading(true);
+			fetchPlanet();
+		});
+	}, [window, localStorage.getItem("user")]);
 
-	}, [window, localStorage.getItem('user')]);
+    const getPlanetLevel = () => {
+        if(planet?.user_planets?.length) {
+            return planet?.user_planets?.find(item => item?.planetId === planet?.id)?.level
+        }
+        return 0
+    }
 
 	const userHasPlanet = () => {
 		if (planet?.user_planets) {
+            console.log(planet)
 			const plData = planet.user_planets;
 			const idx = plData?.find(
 				(item) =>
@@ -80,106 +87,116 @@ export default function Detail() {
 		return false;
 	};
 
-    const putWallet = async (walletId, value) => {
-        await updateWalletElement(walletId, value);
-    };
+	const putWallet = async (walletId, value) => {
+		await updateWalletElement(walletId, value);
+	};
 
-    const updateFn = debounce(async (val) => {
-        if (loading) {
-            setTimeout(() => {
-                updateFn(val);
-            }, 200);
-            return;
-        }
+	const updateFn = debounce(async (val, planet) => {
+		if (loading) {
+			setTimeout(() => {
+				updateFn(val);
+			}, 200);
+			return;
+		}
 
-        if (window.user?.wallet) {
-            const balance = window.user?.wallet?.value;
+		if (window.user?.wallet) {
+			const balance = window.user?.wallet?.value;
 
-            const currentElem = balance?.find(
-                (item) => item.element === planet?.element?.id
-            );
+			const currentElem = balance?.find(
+				(item) => item.element === planet?.element?.id
+			);
 
-            if (currentElem?.element) {
-                setIsLoading(true);
-                currentElem.value = parseFloat(
-                    (parseFloat(currentElem.value) + val).toFixed(10)
-                );
-                const data = [
-                    ...balance.filter((bal) => bal.element !== planet?.element?.id),
-                    { ...currentElem },
-                ];
-                setValue(currentElem.value);
-                await putWallet(window.user.wallet, data);
+			if (currentElem?.element) {
+				setIsLoading(true);
+				currentElem.value = parseFloat(
+					(parseFloat(currentElem.value) + val).toFixed(10)
+				);
+				const data = [
+					...balance.filter(
+						(bal) => bal.element !== planet?.element?.id
+					),
+					{ ...currentElem },
+				];
+				setValue(currentElem.value);
+				await putWallet(window.user.wallet, data);
 
-                setIsLoading(false);
-            } else {
-                let data;
-                console.log(planet, planetId)
-                if (window.user.wallet.value?.length) {
-                    data = [
-                        ...window.user.wallet.value,
-                        {
-                            element: planet?.element.id,
-                            value: val,
-                            name: planet?.element.name,
-                            img: planet?.element.img,
-                            symbol: planet?.element.symbol,
-                            rare: planet?.element.rare,
-                        },
-                    ];
-                } else {
-                    data = [
-                        {
-                            element: planet?.element.id,
-                            value: val,
-                            name: planet?.element.name,
-                            img: planet?.element.img,
-                            symbol: planet?.element.symbol,
-                            rare: planet?.element.rare,
-                        },
-                    ];
-                }
-                setValue(val);
-                await putWallet(window.user.wallet, data);
-                window.user.wallet.value = data;
-            }
-            //await fetchDefaultUser();
-        }
-    }, 50);
-    const debounceFn = useCallback((click) => updateFn(click), []);
+				setIsLoading(false);
+			} else {
+				let data;
+				console.log(planet, planetId);
+				if (window.user.wallet.value?.length) {
+					data = [
+						...window.user.wallet.value,
+						{
+							element: planet?.element.id,
+							value: val,
+							name: planet?.element.name,
+							img: planet?.element.img,
+							symbol: planet?.element.symbol,
+							rare: planet?.element.rare,
+						},
+					];
+				} else {
+					data = [
+						{
+							element: planet?.element.id,
+							value: val,
+							name: planet?.element.name,
+							img: planet?.element.img,
+							symbol: planet?.element.symbol,
+							rare: planet?.element.rare,
+						},
+					];
+				}
+				setValue(val);
+				await putWallet(window.user.wallet, data);
+				window.user.wallet.value = data;
+			}
+			//await fetchDefaultUser();
+		}
+	}, 50);
+	const debounceFn = useCallback((click, planet) => updateFn(click, planet), []);
 
-    const walletUpdate = async (e) => {
-        if (e.target.tagName.toLowerCase() === "button") return;
+	const walletUpdate = async (e) => {
+		if (e.target.tagName.toLowerCase() === "button") return;
 
-        const plusIcon = document.createElement("div");
-        plusIcon.textContent = "+";
-        plusIcon.classList.add("plus-icon");
-        plusIcon.style.left = `${e.pageX}px`;
-        plusIcon.style.top = `${e.pageY}px`;
+		const plusIcon = document.createElement("div");
+		plusIcon.textContent = "+";
+		plusIcon.classList.add("plus-icon");
+		plusIcon.style.left = `${e.pageX}px`;
+		plusIcon.style.top = `${e.pageY}px`;
 
-        document.body.appendChild(plusIcon);
-        plusIcon.addEventListener("animationend", () => plusIcon.remove());
+		document.body.appendChild(plusIcon);
+		plusIcon.addEventListener("animationend", () => plusIcon.remove());
 
-        setClick(click + 1);
-        if (!window?.user?.id && click >= 2) {
-            showModal(e, 'wallet')
-        }
+		setClick(click + 1);
+		if (!window?.user?.id && click >= 2) {
+			showModal(e, "wallet");
+		}
 
-        if (userHasPlanet()) {
-            const level = window?.user?.userPlanets.find(
-                (item) => item.planetId === id
-            ).level;
-            console.log(level, typeof level);
-            let update;
-            if (level == 1) update = 0.05;
-            if (level == 2) update = 0.5;
-            if (level == 3) update = 1;
+		if (userHasPlanet()) {
+			const level = window?.user?.userPlanets.find(
+				(item) => item.planetId === planet?.id
+			).level;
+			console.log(level, typeof level);
+			let update;
+			if (level == 1) update = 0.05;
+			if (level == 2) update = 0.5;
+			if (level == 3) update = 1;
 
-            debounceFn(0.00005);
-        } else {
-            debounceFn(0.00005);
-        }
-    };
+			debounceFn(0.00005, planet);
+		} else {
+			debounceFn(0.00005, planet);
+		}
+	};
+
+    const Up = ({visible}) => 
+    visible ?
+    <img
+        className="up"
+        src="/builds/up.png"
+        alt="" 
+    /> : null
 
 	return (
 		<Layout without>
@@ -201,7 +218,10 @@ export default function Detail() {
 					</div>
 				) : (
 					<div className="planet__detail">
-						<Link style={{textDecoration: 'none'}} to='/planets' className="header-back">
+						<Link
+							style={{ textDecoration: "none" }}
+							to="/planets"
+							className="header-back container without">
 							<div className="back-title">
 								<span>
 									Вернуться <br /> назад
@@ -210,7 +230,7 @@ export default function Detail() {
 							</div>
 							<img src="/builds/back.png" alt="Вернуться назад" />
 						</Link>
-						<div className="planet__detail-header">
+						<div className="planet__detail-header container without">
 							<div className="header-planet">
 								<span>
 									{planet?.name}({planet?.element?.symbol}) -
@@ -219,12 +239,12 @@ export default function Detail() {
 							</div>
 							<div></div>
 						</div>
-						<div className="planet__detail-wrapper">
+						<div className="planet__detail-wrapper container without">
 							<div className="planet-img">
 								<img
 									src={`/img/planet/${planet?.img}`}
 									alt=""
-                                    onClick={(e) => walletUpdate(e)}
+									onClick={(e) => walletUpdate(e)}
 								/>
 							</div>
 							<div className="planet-information">
@@ -240,7 +260,7 @@ export default function Detail() {
 													? planet?.user_planets?.find(
 															(item) =>
 																item?.planetId ===
-																id
+																planet?.id
 													  ).level == 2
 														? 0.1
 														: 0.05
@@ -251,54 +271,127 @@ export default function Detail() {
 													: t("tap")}
 											</span>
 										</div>
-                                        <div className="">
-                                            <span className="bold-title">
-                                                    {t('level')} - {}
-                                            </span>
-                                            <span className="info-text">
-                                                {userHasPlanet() ? planet.user_planets.find(item => item?.planetId === planet?.id)?.level : 1}
-                                            </span>
-                                        </div>
+										<div className="">
+											<span className="bold-title">
+												{t("level")} - {}
+											</span>
+											<span className="info-text">
+												{userHasPlanet()
+													? planet.user_planets.find(
+															(item) =>
+																item?.planetId ===
+																planet?.id
+													  )?.level
+													: 1}
+											</span>
+										</div>
 									</div>
 								</div>
-                                <p className="planet__gc">
-                                    {value ?? "0.000"} {planet?.element?.symbol}
-                                </p>
+								<p className="planet__gc">
+									{value ?? "0.000"} {planet?.element?.symbol}
+								</p>
 							</div>
-                            <div className="planet-farm">
-                                <div className="planet-farm-content">
-                                    <img onClick={() => setResource(!resource)} className={resource ? 'open' : ''} src="/builds/arrow-right.png" alt="" />
-                                    <span>FREE <span style={{fontSize: '29px'}}>resource</span></span>
-                                    <div className={`planet-farm-tasks ${resource ? 'flex' : 'hidden'}`}>
-                                        <div className="farm-task">
-                                            <div>
-                                                Чтобы получить 10 {planet?.element?.symbol} <br />
-                                                Подпишись на канал
-                                            </div>
-                                            <img src="/builds/tg.png" alt="" />
-                                        </div>
-                                        <div className="farm-task">
-                                            <div>
-                                                Чтобы получить 10 {planet?.element?.symbol} <br />
-                                                Подпишись на канал
-                                            </div>
-                                            <img src="/builds/tg.png" alt="" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+							<div className="planet-farm">
+								<div className="planet-farm-content">
+									<img
+										onClick={() => setResource(!resource)}
+										className={resource ? "open" : ""}
+										src="/builds/arrow-right.png"
+										alt=""
+									/>
+									<span>
+										FREE{" "}
+										<span style={{ fontSize: "29px" }}>
+											resource
+										</span>
+									</span>
+									<div
+										className={`planet-farm-tasks ${
+											resource ? "flex" : "hidden"
+										}`}>
+										<div className="farm-task">
+											<div>
+												Чтобы получить 10{" "}
+												{planet?.element?.symbol} <br />
+												Подпишись на канал
+											</div>
+											<img src="/builds/tg.png" alt="" />
+										</div>
+										<div className="farm-task">
+											<div>
+												Чтобы получить 10{" "}
+												{planet?.element?.symbol} <br />
+												Подпишись на канал
+											</div>
+											<img src="/builds/tg.png" alt="" />
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-                        <div className="planet__detail-builds">
-                            <div className="wrapper">
-                                <img src="/builds/1.png" alt="" />
-                                <img src="/builds/2.png" alt="" />
-                                <img src="/builds/3.png" alt="" />
-                                <img src="/builds/4.png" alt="" />
-                                <img src="/builds/5.png" alt="" />
-                                <img src="/builds/6.png" alt="" />
-                                <img src="/builds/7.png" alt="" />
-                            </div>
-                        </div>
+						<div className="planet__detail-builds">
+							<div className="wrapper container without">
+								<div className="content-build  build-1-w">
+									<img
+										className={`build build-1 ${getPlanetLevel() >= 1 ? 'active' : ''}`}
+										src="/builds/1.png"
+										alt=""
+									/>
+                                    <Up visible={getPlanetLevel() < 1} />
+								</div>
+								<div className="content-build build-2-w">
+									<img
+										className={`build build-2 ${getPlanetLevel() >= 2 ? 'active' : ''}`}
+										src="/builds/2.png"
+										alt=""
+									/>
+									<Up visible={getPlanetLevel() < 2} />
+								</div>
+								<div className="content-build build-3-w">
+									<img
+										className={`build build-3 ${getPlanetLevel() >= 3 ? 'active' : ''}`}
+										src="/builds/3.png"
+										alt=""
+									/>
+                                    <Up visible={getPlanetLevel() < 3} />
+								</div>
+								<div className="content-build build-4-w">
+									<img
+										className={`build build-4 ${getPlanetLevel() >= 4 ? 'active' : ''}`}
+										src="/builds/4.png"
+										alt=""
+									/>
+                                    <Up visible={getPlanetLevel() < 4} />
+								</div>
+								<div className="content-build build-5-w">
+									<img
+										className={`build build-5 ${getPlanetLevel() >= 5 ? 'active' : ''}`}
+										src="/builds/5.png"
+										alt=""
+									/>
+                                    <Up visible={getPlanetLevel() < 5} />
+								</div>
+								<div className="content-build build-6-w">
+									<img
+										className={`build build-6 ${getPlanetLevel() >= 6 ? 'active' : ''}`}
+										src="/builds/6.png"
+										alt=""
+									/>
+                                    <Up visible={getPlanetLevel() < 6} />
+								</div>
+								<div className="content-build build-7-w">
+									<img
+										className={`build build-1 ${getPlanetLevel() >= 7 ? 'active' : ''}`}
+										src="/builds/7.png"
+										alt=""
+									/>
+                                    <Up visible={getPlanetLevel() < 7} />
+                                    <img className="corable" src="/builds/corable.png" alt="" />
+								</div>
+							</div>
+                            <img className="ten"src="/builds/ten.png" alt="" />
+                            
+						</div>
 					</div>
 				)}
 				{/* <div className="main__bg" style={{backgroundImage: 'url(/builds/bg.png)', width: '100%', height: '100%', position: 'absolute'}}>
