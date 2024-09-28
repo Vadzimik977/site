@@ -23,7 +23,7 @@ cron.schedule('59 23 * * *', async () => {
     ids.forEach( async (item) => await item.update({ forLaboratory: 1 }));
 })
 
-cron.schedule('0 * * * * *', async () => {
+cron.schedule('0 * * * *', async () => {
     const automaticUpdate = await UserPlanets.findAll();
 
     const updates = await Promise.all(
