@@ -94,7 +94,7 @@ export default function Wallet() {
                             {t('balance')}
                             <div>
                                 <span className="wallet-total_tap">
-                                    {coins ?? 0}
+                                    {coins?.toFixed(5) ?? 0}
                                 </span>{" "}
                                 GC
                             </div>
@@ -110,14 +110,14 @@ export default function Wallet() {
                                 <div className="wallet__table-coin">
                                     Tonium{" "}
                                 </div>
-                                <div>{ton} TON</div>
+                                <div>{ton?.toFixed(5)} TON</div>
                                 <button className="btn btn-to" onClick={(e) => showModal(e, 'wall')}>
                                     {t('withdraw')}
                                 </button>
                             </div>
                             <hr className="wallet__table-hr" />
                             <div className="wallet__table-wrapper">
-                                {wallet?.value?.length ? wallet?.value?.map(item => (
+                                {wallet?.value?.length ? wallet?.value?.sort((a,b) => b?.value - a?.value).map(item => (
                                     <div key={item.element} className="wallet__table-row">
                                         <div className="wallet__table-coin">
                                             {item.name}{" "}

@@ -20,6 +20,7 @@ export default function Market() {
     const [rare, setRare] = useState();
     const [item, setItem] = useState();
     const [isHistory, setIsHistory] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [firstModal, setFirstModal] = useState(false);
     const [secondModal, setSecondModal] = useState(false);
@@ -45,7 +46,7 @@ export default function Market() {
         //let newValue = value = value.replace(/^[.0-9]*$/, '');
         //newValue = Math.min(parseInt(value) || 0, item.value);
         let newValue = value
-            console.log(item, maxTon, max)
+            
         if(!isRevert) {
             if(newValue > item?.value) {
                 newValue = item?.value
@@ -114,13 +115,14 @@ export default function Market() {
     const exchange = async (event) => {
         let history;
         let oldValue;
-
+        if(first == 0) {
+            return
+        }
         if(!isRevert) {
             oldValue = item.value
             item.value = +item.value - first;
         } else {
             if(item.value) {
-                console.log(item.value)
                 oldValue = item.value
                 item.value = +item.value + (+second);
             } else {
@@ -130,7 +132,9 @@ export default function Market() {
         }
         let data;
         if (window.user.wallet.value?.length) {
-            console.log(item.value)
+            if(item?.value < 0) {
+                item.value = 0;
+            }
             data = [
                 ...window.user.wallet.value.filter(i => i.element !== item.element),
                 {
@@ -205,8 +209,8 @@ export default function Market() {
         updateHistory(window.user.history, history);
         window.user.history.value = history;
         window.user.wallet.value = data;
-        setFirst(0)
-        setSecond(0)
+        setFirst(0);
+        setSecond(0);
     }
 
     useEffect(() => {
@@ -258,7 +262,7 @@ export default function Market() {
     const search = (target) => {
         const searchTerm = target.value.toLowerCase();
         const options = target.parentNode.parentNode.querySelectorAll('.option');
-        console.log(target.parentNode.parentNode.querySelectorAll('.option'))
+        
         options.forEach(option => {
             const cryptoName = option.querySelector('.crypto-name').textContent.toLowerCase();
             const cryptoSubLabel = option.querySelector('.crypto-sublabel').textContent.toLowerCase();

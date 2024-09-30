@@ -54,7 +54,7 @@ export default function Header() {
                                     />
                                 </svg>
                                 <span className="wallet__ton">
-                                    {window?.user?.ton ?? 0}
+                                    {window?.user?.ton?.toFixed(5) ?? 0}
                                 </span>{" "}
                                 To
                             </Link>
@@ -75,7 +75,7 @@ export default function Header() {
                                     />
                                 </svg>
                                 <span className="tap__wallet-amout">
-                                    {window?.user?.coins.toFixed(4) ?? 0}
+                                    {window?.user?.coins?.toFixed(5) ?? 0}
                                 </span>{" "}
                                 GC
                             </Link>
