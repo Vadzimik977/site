@@ -54,5 +54,10 @@
     "history": "History",
     "withdrawMsg": "The withdrawal will be available after listing on the trading exchange",
     "updateError": "For now, the planet cannot be upgraded beyond level 2!",
-    "notEnoughtMoney": "Not enough GC to buy the planet"
+    "notEnoughtMoney": "Not enough GC to buy the planet",
+    "free": "FREE",
+    "resource": "resource",
+    "return": "Return",
+    "back": "back",
+    "information": "Information"
 }

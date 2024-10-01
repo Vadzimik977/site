@@ -5,6 +5,15 @@ import Layout from "../components/Layout";
 import { ColorRing } from "react-loader-spinner";
 import { useTranslation } from "react-i18next";
 import { debounce } from "lodash";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+
+import "../scss/detail.scss";
 
 export default function Detail() {
 	const { planetId } = useParams();
@@ -19,9 +28,9 @@ export default function Detail() {
 	const fetchPlanet = async () => {
 		const a = await getPlanet(planetId, window?.user?.id);
 		setPlanet(a);
-        console.log(a)
+		console.log(a);
 		setIsLoading(false);
-        getInitState(a);
+		getInitState(a);
 	};
 
 	const getInitState = (a) => {
@@ -39,16 +48,18 @@ export default function Detail() {
 		});
 	}, [window, localStorage.getItem("user")]);
 
-    const getPlanetLevel = () => {
-        if(planet?.user_planets?.length) {
-            return planet?.user_planets?.find(item => item?.planetId === planet?.id)?.level
-        }
-        return 0
-    }
+	const getPlanetLevel = () => {
+		if (planet?.user_planets?.length) {
+			return planet?.user_planets?.find(
+				(item) => item?.planetId === planet?.id
+			)?.level;
+		}
+		return 0;
+	};
 
 	const userHasPlanet = () => {
 		if (planet?.user_planets) {
-            console.log(planet)
+			console.log(planet);
 			const plData = planet.user_planets;
 			const idx = plData?.find(
 				(item) =>
@@ -155,7 +166,10 @@ export default function Detail() {
 			//await fetchDefaultUser();
 		}
 	}, 50);
-	const debounceFn = useCallback((click, planet) => updateFn(click, planet), []);
+	const debounceFn = useCallback(
+		(click, planet) => updateFn(click, planet),
+		[]
+	);
 
 	const walletUpdate = async (e) => {
 		if (e.target.tagName.toLowerCase() === "button") return;
@@ -175,29 +189,22 @@ export default function Detail() {
 		}
 
 		if (userHasPlanet()) {
-			const level = window?.user?.userPlanets.find(
-				(item) => item.planetId === planet?.id
-			).level;
-
-			if (level == 1) update = 0.05;
-			if (level == 2) update = 0.5;
-			if (level == 3) update = 1;
-
 			debounceFn(0.00005, planet);
 		} else {
 			debounceFn(0.00005, planet);
 		}
 	};
 
-    const Up = ({visible}) => 
-    visible ?
-   	<div className="up">
-		<div className="symbols">
-			<span className="symbol">❰</span>
-			<span className="symbol">❰</span>
-		</div>
-		<span>BUY</span>
-	</div> : null
+	const Up = ({ visible }) =>
+		visible ? (
+			<div className="up">
+				<div className="symbols">
+					<span className="symbol">❰</span>
+					<span className="symbol">❰</span>
+				</div>
+				<span>BUY</span>
+			</div>
+		) : null;
 
 	return (
 		<Layout without>
@@ -225,13 +232,22 @@ export default function Detail() {
 							className="header-back container without">
 							<div className="back-title">
 								<span>
-									Вернуться <br /> назад
+									{t("return")} <br /> {t("back")}
 								</span>{" "}
 								<br />
 							</div>
 							<img src="/builds/back.png" alt="Вернуться назад" />
+							<div className="planet__detail-header container without max-visible m-hidden">
+								<div className="header-planet">
+									<span>
+										{planet?.name}({planet?.element?.symbol}
+										) - Planet #{planet?.element?.index}
+									</span>
+								</div>
+								<div></div>
+							</div>
 						</Link>
-						<div className="planet__detail-header container without">
+						<div className="planet__detail-header container without max-hidden">
 							<div className="header-planet">
 								<span>
 									{planet?.name}({planet?.element?.symbol}) -
@@ -249,7 +265,9 @@ export default function Detail() {
 								/>
 							</div>
 							<div className="planet-information">
-								<span className="info-header">Information</span>
+								<span className="info-header">
+									{t("information")}
+								</span>
 								<div className="info-content">
 									<div className="info-content-wrapper">
 										<div>
@@ -292,7 +310,7 @@ export default function Detail() {
 									{value ?? "0.000"} {planet?.element?.symbol}
 								</p>
 							</div>
-							<div className="planet-farm">
+							<div className="planet-farm max-hidden">
 								<div className="planet-farm-content">
 									<img
 										onClick={() => setResource(!resource)}
@@ -301,9 +319,9 @@ export default function Detail() {
 										alt=""
 									/>
 									<span>
-										FREE{" "}
+										{t("free")}{" "}
 										<span style={{ fontSize: "29px" }}>
-											resource
+											{t("resource")}
 										</span>
 									</span>
 									<div
@@ -331,18 +349,26 @@ export default function Detail() {
 							</div>
 						</div>
 						<div className="planet__detail-builds">
-							<div className="wrapper container without">
+							<div className="wrapper container without max-hidden">
 								<div className="content-build  build-1-w">
 									<img
-										className={`build build-1 ${getPlanetLevel() >= 1 ? 'active' : ''}`}
+										className={`build build-1 ${
+											getPlanetLevel() >= 1
+												? "active"
+												: ""
+										}`}
 										src="/builds/1.png"
 										alt=""
 									/>
-                                    <Up visible={getPlanetLevel() < 1} />
+									<Up visible={getPlanetLevel() < 1} />
 								</div>
 								<div className="content-build build-2-w">
 									<img
-										className={`build build-2 ${getPlanetLevel() >= 2 ? 'active' : ''}`}
+										className={`build build-2 ${
+											getPlanetLevel() >= 2
+												? "active"
+												: ""
+										}`}
 										src="/builds/2.png"
 										alt=""
 									/>
@@ -350,48 +376,112 @@ export default function Detail() {
 								</div>
 								<div className="content-build build-3-w">
 									<img
-										className={`build build-3 ${getPlanetLevel() >= 3 ? 'active' : ''}`}
+										className={`build build-3 ${
+											getPlanetLevel() >= 3
+												? "active"
+												: ""
+										}`}
 										src="/builds/3.png"
 										alt=""
 									/>
-                                    <Up visible={getPlanetLevel() < 3} />
+									<Up visible={getPlanetLevel() < 3} />
 								</div>
 								<div className="content-build build-4-w">
 									<img
-										className={`build build-4 ${getPlanetLevel() >= 4 ? 'active' : ''}`}
+										className={`build build-4 ${
+											getPlanetLevel() >= 4
+												? "active"
+												: ""
+										}`}
 										src="/builds/4.png"
 										alt=""
 									/>
-                                    <Up visible={getPlanetLevel() < 4} />
+									<Up visible={getPlanetLevel() < 4} />
 								</div>
 								<div className="content-build build-5-w">
 									<img
-										className={`build build-5 ${getPlanetLevel() >= 5 ? 'active' : ''}`}
+										className={`build build-5 ${
+											getPlanetLevel() >= 5
+												? "active"
+												: ""
+										}`}
 										src="/builds/5.png"
 										alt=""
 									/>
-                                    <Up visible={getPlanetLevel() < 5} />
+									<Up visible={getPlanetLevel() < 5} />
 								</div>
 								<div className="content-build build-6-w">
 									<img
-										className={`build build-6 ${getPlanetLevel() >= 6 ? 'active' : ''}`}
+										className={`build build-6 ${
+											getPlanetLevel() >= 6
+												? "active"
+												: ""
+										}`}
 										src="/builds/6.png"
 										alt=""
 									/>
-                                    <Up visible={getPlanetLevel() < 6} />
+									<Up visible={getPlanetLevel() < 6} />
 								</div>
 								<div className="content-build build-7-w">
 									<img
-										className={`build build-1 ${getPlanetLevel() >= 7 ? 'active' : ''}`}
+										className={`build build-1 ${
+											getPlanetLevel() >= 7
+												? "active"
+												: ""
+										}`}
 										src="/builds/7.png"
 										alt=""
 									/>
-                                    <Up visible={getPlanetLevel() < 7} />
-                                    <img className="corable" src="/builds/corable.png" alt="" />
+									<Up visible={getPlanetLevel() < 7} />
+									<img
+										className="corable"
+										src="/builds/corable.png"
+										alt=""
+									/>
 								</div>
 							</div>
-                            <img className="ten"src="/builds/ten.png" alt="" />
-                            
+							<div className="wrapper container without slider m-hidden max-visible">
+								<Swiper loop centeredSlides centeredSlidesBounds modules={[Navigation]} slidesPerView={1} spaceBetween={50} navigation
+								>
+									<SwiperSlide className="swiper-container-slide">
+										<div className="content-build  build-1-w">
+											<img
+												className={`build build-1 ${
+													getPlanetLevel() >= 1
+														? "active"
+														: ""
+												}`}
+												src="/builds/1.png"
+												alt=""
+											/>
+											<Up
+												visible={true}
+											/>
+										</div>
+									</SwiperSlide>
+									<SwiperSlide className="swiper-container-slide">
+										<div className="content-build build-7-w">
+											<img
+												className={`build build-1 ${
+													getPlanetLevel() >= 7
+														? "active"
+														: ""
+												}`}
+												src="/builds/7.png"
+												alt=""
+											/>
+											<Up
+												visible={getPlanetLevel() < 7}
+											/>
+										</div>
+									</SwiperSlide>
+								</Swiper>
+							</div>
+							<img
+								className="ten max-hidden"
+								src="/builds/ten.png"
+								alt=""
+							/>
 						</div>
 					</div>
 				)}

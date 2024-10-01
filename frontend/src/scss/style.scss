@@ -994,6 +994,9 @@ footer {
 .planet__detail {
     display: flex;
     flex-direction: column;
+    .m-hidden {
+        display: none !important;
+    }
     .header-back {
         position: relative;
         display: flex;
@@ -1042,10 +1045,10 @@ footer {
             content:'TAP';
             color: #f8c335;
             background: #3d3636;
-            border-radius: 50%;
+            border-radius: 80px;
             padding: 5px;
             border-top-left-radius: 0;
-            border-bottom-left-radius: 100%;
+            
             font-weight: 700;
             font-size: 10px;
         }
@@ -1062,6 +1065,7 @@ footer {
             .info-header {
                 color: rgba(124, 124, 124, 1);
                 font-size: 28px;
+                font-weight: 600;
             }
             .info-content {
                 background-image: linear-gradient(to left, rgba(20, 27, 37, 1), rgba(6, 9, 14, 1));
@@ -1168,7 +1172,7 @@ footer {
         background-image:  url('/builds/te1n.png'), url('/builds/bg.png');
         background-size: contain, cover;
         background-attachment: fixed, fixed;
-        background-position: bottom, center;
+        
         background-repeat: no-repeat no-repeat;
         background-color: rgba(0,0,0, 0.1);
         
@@ -1207,7 +1211,7 @@ footer {
                             height: 1px;
                             background-color: transparent;
                             box-shadow: 0 0 80px 50px #7fc8ef;
-                            transform: translate(-50%, -50%);
+                            
                             z-index: 0;
                         }
                     }
@@ -1282,7 +1286,7 @@ footer {
                     grid-row-end: 1;
 
                     .up {
-                         left: -7%;
+                         left: -10px;
                     }
                 }
                 /* &-1 {
@@ -1327,12 +1331,12 @@ footer {
         flex-direction: column;
         align-items: center;
         top: -150px;
-        left: 0%;
+        left: 0;
         z-index: 100000;
         height: auto;
         font-size: 35px;
         font-weight: 500;
-
+        width: 100%;
         
 
         .symbols {
