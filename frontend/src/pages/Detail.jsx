@@ -178,8 +178,7 @@ export default function Detail() {
 			const level = window?.user?.userPlanets.find(
 				(item) => item.planetId === planet?.id
 			).level;
-			console.log(level, typeof level);
-			let update;
+
 			if (level == 1) update = 0.05;
 			if (level == 2) update = 0.5;
 			if (level == 3) update = 1;
@@ -192,11 +191,13 @@ export default function Detail() {
 
     const Up = ({visible}) => 
     visible ?
-    <img
-        className="up"
-        src="/builds/up.png"
-        alt="" 
-    /> : null
+   	<div className="up">
+		<div className="symbols">
+			<span className="symbol">❰</span>
+			<span className="symbol">❰</span>
+		</div>
+		<span>BUY</span>
+	</div> : null
 
 	return (
 		<Layout without>

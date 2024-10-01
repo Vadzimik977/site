@@ -1196,6 +1196,21 @@ footer {
                         transition: 0.5s all;
                         opacity: 1;
                     }
+                    .up {
+
+                        color: #7fc8ef;
+                        transition: 0.5s all;
+                        &::before {
+                            transition: 0.5s all;
+                            content: '';
+                            width: 1px;
+                            height: 1px;
+                            background-color: transparent;
+                            box-shadow: 0 0 80px 50px #7fc8ef;
+                            transform: translate(-50%, -50%);
+                            z-index: 0;
+                        }
+                    }
                 }
             }
 
@@ -1236,8 +1251,8 @@ footer {
                     grid-row-end: 3;
 
                     .up {
-                        top: -80px;
-                        left: 40%;
+                        top: -65px;
+                        // left: 40%;
                     }
                 }
                 &-4-w {
@@ -1252,7 +1267,7 @@ footer {
 
                     .up {
                         top: -80px;
-                        left: 40%;
+                        // left: 40%;
                     }
                 }
                 &-6-w {
@@ -1267,7 +1282,7 @@ footer {
                     grid-row-end: 1;
 
                     .up {
-                        left: 30%;
+                         left: -7%;
                     }
                 }
                 /* &-1 {
@@ -1307,11 +1322,32 @@ footer {
     .up 
     {
         position: absolute;
-        top: -120px;
-        left: 35%;
+        color:#f8c335;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        top: -150px;
+        left: 0%;
         z-index: 100000;
-        max-width: 74px;
         height: auto;
+        font-size: 35px;
+        font-weight: 500;
+
+        
+
+        .symbols {
+            display: flex;
+            flex-direction: column;
+            gap: 45px 0;
+            margin-left: 20px;
+            .symbol {
+                display: flex;
+                width: 200px;
+                rotate: 90deg;
+                font-size: 90px;
+                line-height: 0px;
+            }
+        }
     }
 }
 
