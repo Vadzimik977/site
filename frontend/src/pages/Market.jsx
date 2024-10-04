@@ -119,7 +119,7 @@ export default function Market() {
             return
         }
         if(!isRevert) {
-            oldValue = item.value
+            oldValue = item?.value
             item.value = +item.value - first;
         } else {
             if(item.value) {

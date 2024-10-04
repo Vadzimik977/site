@@ -59,5 +59,13 @@
     "resource": "resource",
     "return": "Return",
     "back": "back",
-    "information": "Information"
+    "information": "Information",
+    "firstBuild": "Gravity Mine",
+    "secondBuild": "Кварковая Переработка",
+    "thirdBuild": "Quark Recycling",
+    "fourthBuild": "Solar Plasma Generator",
+    "fivethBuild": "Tritium Laboratory",
+    "sixthBuild": "Planetary Bioextractor",
+    "seventhBuild": "Magnetary Complex",
+    "buyPlanetModal": "Buy build"
 }

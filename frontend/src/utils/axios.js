@@ -151,3 +151,11 @@ export const updateHistory = async (history, value) => {
     });
     return updated.data;
 };
+
+export const updateBuilds = async (wallet, value) => {
+    const updated = await instance.put(`${url}/api/wallet/${wallet.id}`, {
+        ...wallet,
+        builds: value,
+    });
+    return updated.data;
+};

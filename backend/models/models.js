@@ -33,6 +33,7 @@ const Planet = sequelize.define('planet', {
 const Wallet = sequelize.define('wallet', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     value: { type: DataTypes.JSON, allowNull: true, defaultValue: [] },
+    builds: { type: DataTypes.JSON, allowNull: true, defaultValue: [] }
 });
 
 const UserPlanets = sequelize.define('user_planets', {

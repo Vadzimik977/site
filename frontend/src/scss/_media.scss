@@ -237,6 +237,20 @@
         top: 250px !important;
         left: 40px;
     }
+    .content-build {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .swiper-wrapper {
+        align-items: stretch;
+    }
+    .swiper-container-slide {
+        height: auto !important;
+    }
+
 }
 
 @media (max-width: 430px) {
@@ -286,6 +300,7 @@
             }
         }
     }
+    
 }
 
 @media (max-width: 800px) {

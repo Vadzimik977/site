@@ -125,14 +125,14 @@ export default function Planet({ idx, planet, update }) {
                         },
                     ];
                 }
-                setValue(val);
+                
                 await putWallet(window.user.wallet, data);
                 window.user.wallet.value = data;
             }
             //await fetchDefaultUser();
         }
     }, 50);
-    const debounceFn = useCallback((click) => updateFn(click), []);
+    const debounceFn = useCallback((click) => {updateFn(click);}, []);
 
     const putWallet = async (walletId, value) => {
         await updateWalletElement(walletId, value);
@@ -304,7 +304,7 @@ export default function Planet({ idx, planet, update }) {
                             <button className="btn buy">{t("buy")}</button>
                         </a>
                     )}
-                    {/* <Link to={`/planet/${id}`}><button className="btn">Добывать ресурс</button></Link> */}
+                    <Link to={`/planet/${id}`}><button className="btn">Добывать ресурс</button></Link>
                     {forLaboratory ? (
                         <div className="planet__time-block">
                             {/* <!-- Если нужны английские подписи к числам, то добавь к этому блоку класс eng --> */}
