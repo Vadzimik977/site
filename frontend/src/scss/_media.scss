@@ -250,7 +250,47 @@
     .swiper-container-slide {
         height: auto !important;
     }
+    .planet-img {
+        flex-grow: 1;
+        flex-shrink: 0;
+    }
+    .planet__detail .planet__detail-wrapper .planet-farm {
+        margin-left: 0;
+        margin-top: 0;
+        height: fit-content;
+        align-items: center;
+        max-width: 195px;
+        
+        padding: 0 15px;
+        .planet-farm-content {
+            display: flex;
+            align-items: center;
+            flex-direction: column;    
+            span {
+                font-size: 16px !important;
+            }
+            &__first {
+                display: flex;
+                align-items: center;
+                
+                
+                
+            }
+        }
 
+        .planet-farm-tasks {
+            margin-top: 0;
+            .farm-task {
+                padding: 0;
+                font-size: 8px;
+
+                img {
+                    max-width: 30px;
+                    margin-right: 0;
+                }
+            }
+        }
+    }
 }
 
 @media (max-width: 430px) {

@@ -399,12 +399,52 @@ export default function Detail() {
 									alt=""
 									onClick={(e) => walletUpdate(e)}
 								/>
+								<div className="planet-farm m-hidden max-visible">
+									<div className="planet-farm-content">
+										<div className="planet-farm-content__first">
+											<img
+												onClick={() => setResource(!resource)}
+												className={resource ? "open" : ""}
+												src="/builds/arrow-right.png"
+												alt=""
+											/>
+											<span>
+												{t("free")}{" "}
+												<span style={{ fontSize: "29px" }}>
+													{t("resource")}
+												</span>
+											</span>
+										</div>
+										<div
+											className={`planet-farm-tasks ${
+												resource ? "flex" : "hidden"
+											}`}>
+											<div className="farm-task">
+												<div>
+													Чтобы получить 10{" "}
+													{planet?.element?.symbol} <br />
+													Подпишись на канал
+												</div>
+												<img src="/builds/tg.png" alt="" />
+											</div>
+											<div className="farm-task">
+												<div>
+													Чтобы получить 10{" "}
+													{planet?.element?.symbol} <br />
+													Подпишись на канал
+												</div>
+												<img src="/builds/tg.png" alt="" />
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div className="planet-information">
 								<span className="info-header">
 									{t("information")}
 								</span>
 								<div className="info-content">
+									
 									<div className="info-content-wrapper">
 										<div>
 											<span className="bold-title">
