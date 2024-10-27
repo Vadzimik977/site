@@ -17,7 +17,6 @@ export const getUser = async () => {
     if (user?.data?.length > 2) {
         return JSON.parse(user.data)[0];
     } else {
-        console.log(undefined);
         return undefined;
     }
 };
@@ -38,7 +37,7 @@ export const createUser = async () => {
 export const getPlanet = async (id, userId) => {
     const planet = await instance.get(`${url}/api/planets/${id}?userId=${userId ?? 0}`);
     const planetData = JSON.parse(planet.data).rows[0];
-    
+
     planetData.element = planetData.elements[0]
     return planetData
 }
@@ -57,7 +56,7 @@ export const getPlanets = async (range, laboratory, userId) => {
             };
         }
     };
-   
+
     const planets = await instance.get(
         `${url}/api/planets?range=${JSON.stringify(
             rang
@@ -66,9 +65,10 @@ export const getPlanets = async (range, laboratory, userId) => {
             "DESC",
         ]])}&userId=${userId ?? 0}`
     );
-    console.log(planets)
+
     const planetsData = JSON.parse(planets.data).rows;
     planetsData.map(item => item.element = item.elements[0])
+
     return planetsData;
 };
 
@@ -135,7 +135,7 @@ export const addPlanetToUser = async (planetId) => {
 };
 
 export const getAllUserPlanets = async () => {
-    const planets = await instance.get(`${url}/api/userPlanets?filter=${JSON.stringify({userId: window.user.id})}`)
+    const planets = await instance.get(`${url}/api/userPlanets?filter=${JSON.stringify({ userId: window.user.id })}`)
     return JSON.parse(planets.data)
 }
 

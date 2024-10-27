@@ -508,6 +508,7 @@
     }
     .planets {
         margin-top: 12px;
+        grid-template-columns: 100%;
         .btn {
             font-size: 8px;
             padding: 7px 24px 7px 6px;

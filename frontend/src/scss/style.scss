@@ -264,9 +264,9 @@ nav {
 }
 
 .planets {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 36px;
     margin-top: 64px;
     svg {
         position: absolute;
@@ -1006,7 +1006,7 @@ footer {
         @media (max-width: 1000px) {
             margin-top: 20px;
         }
-        cursor: pointer;
+        
         
         img {
             position: absolute;
