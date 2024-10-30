@@ -5,7 +5,7 @@ const sequelizeCrud =
 const crud = require("express-crud-router").default;
 const User = require("../models/models").User;
 const router = new Router();
-const seq = require('sequelize');
+const seq = require("sequelize");
 
 const {
     Planet,
@@ -38,19 +38,26 @@ app.use(
                     await Planet.findAndCountAll({
                         limit,
                         offset,
-                        include: [{model: Element}, {model: UserPlanets, required: false}],
+                        include: [
+                            { model: Element },
+                            { model: UserPlanets, required: false },
+                        ],
                         order: [
                             //['user_planets', 'userId', 'LIKE 7'],
                             //[seq.fn('ISNULL', seq.col('user_planets.id'), 'LIKE 7')],
-                            [seq.literal(`case when user_planets.userId LIKE ${req?.query?.userId ?? '0'} then 1 else 2 end`)],
-                            ['forLaboratory', 'DESC'], 
+                            [
+                                seq.literal(
+                                    `case when user_planets.userId LIKE ${req?.query?.userId ?? "0"
+                                    } then 1 else 2 end`
+                                ),
+                            ],
+                            ["forLaboratory", "DESC"],
                         ],
                         where: filter,
-                        subQuery: false
-
+                        subQuery: false,
                     })
                 ),
-        },
+        }
         // {
         //     additionalAttributes: {
         //         element: (planet) =>
@@ -86,7 +93,26 @@ app.use(
         // }
     })
 );
-app.use(crud("/userPlanets", sequelizeCrud(UserPlanets)));
+app.use(
+    crud("/userPlanets", {
+        ...sequelizeCrud(UserPlanets),
+        get: async ({ }, { req, res }) => {
+            const token = req.headers.authorization;
+            const user = await User.findOne({ where: { adress: token } });
+
+            if (!user) {
+                return res.status(403).json({ result: [] });
+            }
+            const result = await UserPlanets.findAndCountAll({
+                where: { userId: user.id },
+            })
+            return res.json(
+                { result: result.rows }
+
+            )
+        },
+    })
+);
 app.use(crud("/userHistory", sequelizeCrud(History)));
 // app.post('/hasPlanet', async (req, res) => {
 //     const { userId, planetId } = req.body;
@@ -99,5 +125,50 @@ app.use(crud("/userHistory", sequelizeCrud(History)));
 //     return res.status(200);
 // })
 //app.use(crud("/wallet", sequelizeCrud(Wallet)));
+
+///
+app.get("/user", async (req, res) => {
+    const token = req.headers.authorization;
+    if (!token) {
+        return res.status(403).json({ user: null });
+    }
+
+    User.findOne({ where: { adress: token } })
+        .then((user) => {
+            if (!user) {
+                return res.status(401).send({ user: null });
+            }
+
+            return res.status(200).json(user);
+        })
+        .catch((err) => {
+            return res.status(404).send({ user: null });
+        });
+});
+// create user
+app.post("/user", async (req, res) => {
+    const token = req.headers.authorization;
+    if (!token) {
+        return res.status(403).send("No token provided");
+    }
+
+    const isUserCreated = await User.findOne({ where: { adress: token } });
+
+    if (isUserCreated) {
+        return res.status(409).send("User already created");
+    } else {
+        const newUser = await User.create();
+        const wallet = await Wallet.create({
+            userId: newUser.dataValues.id,
+        });
+        const history = await History.create({
+            userId: newUser.dataValues.id,
+        });
+
+        console.log("newUser: ", newUser.dataValues);
+
+        return res.json({ user: newUser.dataValues });
+    }
+});
 
 module.exports = app;

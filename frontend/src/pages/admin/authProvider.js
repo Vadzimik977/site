@@ -1,25 +1,26 @@
 
+
 import { auth } from "../../utils/axios";
 
 export const authProvider = {
     // called when the user attempts to log in
     login: async ({ username, password }) => {
-        
-        // accept all username/password combinations
-        
-            try {
-                const user = await auth({login: username, password});
-                if(!user) {
-                    console.log(user)
-                    return Promise.reject();
-                }
-                localStorage.setItem('auth', true);
-                return Promise.resolve()
-            } catch(err) {
-                return Promise.reject()
-            }
 
-        
+        // accept all username/password combinations
+
+        try {
+            const user = await auth({ login: username, password });
+            if (!user) {
+                console.log(user)
+                return Promise.reject();
+            }
+            localStorage.setItem('auth', true);
+            return Promise.resolve()
+        } catch (err) {
+            return Promise.reject()
+        }
+
+
     },
     // called when the user clicks on the logout button
     logout: () => {

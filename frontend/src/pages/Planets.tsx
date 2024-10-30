@@ -3,10 +3,10 @@ import { Suspense, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ColorRing } from "react-loader-spinner";
 import Layout from "../components/Layout";
+import PlanetMain from "../components/main/PlanetMain";
 import { useUserStore } from "../store/userStore";
 import { IPlanet } from "../types/planets.type";
 import { getPlanets } from "../utils/axios";
-import PlanetMain from "../components/main/PlanetMain";
 
 export default function Planets() {
   const [planets, setPlanets] = useState<IPlanet[]>([]);

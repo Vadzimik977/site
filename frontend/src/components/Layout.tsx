@@ -22,29 +22,47 @@ import {
 import Footer from "./Footer";
 import Header from "./Header";
 
-export const DataContext = createContext();
-export default function Layout({ children, without = false }) {
-  const { setNft } = useUserStore();
-  const adress = useTonAddress();
+export const DataContext = createContext({});
+export default function Layout({
+  children,
+  without = false,
+}: {
+  children: React.ReactNode;
+  without?: boolean;
+}) {
+  const { setNft, setAddress, setUser } = useUserStore();
+  const address = useTonAddress();
   const wallet = useTonWallet();
   const connectionRestored = useIsConnectionRestored();
   const [isLoading, setIsLoading] = useState(true);
   const [isFetched, setIsFetched] = useState(false);
 
+  useEffect(() => {
+    if (address) {
+      // setAddress(address);
+    }
+  }, [address]);
+
   const fetchUser = async () => {
+    if (!address) return;
+
     setIsLoading(true);
-    await fetchDefaultUser();
+    const user = await fetchDefaultUser();
+    setUser(user);
 
-    const nft = await getNfts(wallet.account.address);
-
+    const nft = await getNfts();
     setNft(nft);
 
-    if (nft?.length) {
+    if (nft?.length > 0) {
+      const allUserPlanets = await getAllUserPlanets();
+
+      console.log(allUserPlanets);
       nft.map(async (item) => {
         const planet = await getPlanetByName({
           name: item.metadata.name.split("(")[0],
         });
-        const allUserPlanets = await getAllUserPlanets();
+
+        console.log(planet);
 
         if (planet?.id) {
           if (!allUserPlanets.some((val) => val?.planetId === planet.id)) {
@@ -54,24 +72,22 @@ export default function Layout({ children, without = false }) {
         }
       });
     }
-    const ev = new Event("getUser");
-    document.dispatchEvent(ev);
     setIsLoading(false);
   };
 
   useEffect(() => {
-    if (connectionRestored && adress && !isFetched) {
+    if (connectionRestored && address && !isFetched) {
       setIsFetched(true);
       fetchUser();
       // const apiUrl = `https://tonapi.io/v2/accounts/${wallet.account.address}/nfts?collection=EQDfb4GXKIaToaFUDihPgB_lGePg-yeYjwrkZZAeKZ7m9xOQ&limit=1000&offset=0&indirect_ownership=false`;
       // const resp = axios.get(apiUrl);
     }
-    if (connectionRestored && !adress) {
+    if (connectionRestored && !address) {
       setIsLoading(false);
       const ev = new Event("getUser");
       document.dispatchEvent(ev);
     }
-  }, [connectionRestored, adress]);
+  }, [connectionRestored, address]);
 
   useEffect(() => {
     if (!isLoading) {
