@@ -1,10 +1,266 @@
+import classNames from "classnames";
+import { t } from "i18next";
+import { debounce, update } from "lodash";
+import { useCallback, useEffect, useState } from "react";
+import showPopup from "../../assets/js/showPopup";
+import { useUserStore } from "../../store/userStore";
 import { IPlanet } from "../../types/planets.type";
+import { IWallet, IWalletElement } from "../../types/user.type";
+import {
+  updateUser,
+  updateUserPlanet,
+  updateWalletElement,
+} from "../../utils/axios";
 import TimerUI from "../TimerUI/TimerUI";
 import styles from "./PlanetMain.module.css";
 
-const PlanetMain = ({ planet }: { planet: IPlanet }) => {
+// enum POPUP_STATUS {
+//   UPGRADE = "upgrade",
+//   WALLET = "wallet",
+//   UPDATE_ERROR = "updateError",
+//   BALANCE = "balance",
+//   SUCCESS = "success",
+// }
+
+type POPUP_STATUS =
+  | "upgrade"
+  | "wallet"
+  | "updateError"
+  | "balance"
+  | "success";
+
+const PlanetMain = ({
+  planet,
+  wallet,
+}: {
+  planet: IPlanet;
+  wallet: IWallet;
+}) => {
+  const { user, nft, setWallet } = useUserStore();
+
+  const [elementValue, setElementValue] = useState(0);
+
+  const [click, setClick] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const showModal = (event: any, status: POPUP_STATUS) => {
+    const planetElement = event.target.closest(".planets__planet");
+    let content;
+    if (status === "upgrade") {
+      content = `<div class="planet__popup-title">${t(
+        "planetUpg"
+      )}</div><div class="planet__popup-text">${t("speedIncrease")}</div>`;
+    } else if (status === "wallet") {
+      content = `<div class="planet__popup-title">${t(
+        "modalError"
+      )}</div><div class="planet__popup-text">${t("connectWallet")}</div>`;
+    } else if (status === "updateError") {
+      content = `<div class="planet__popup-title">${t(
+        "modalError"
+      )}</div><div class="planet__popup-text">${t("updateError")}</div>`;
+    } else if (status === "balance") {
+      content = `<div class="planet__popup-title">${t(
+        "modalError"
+      )}</div><div class="wallet__popup-text">${t("notEnoughtMoney")}</div>`;
+    }
+
+    content = '<div class="popup__inner">' + content + "</div>";
+
+    showPopup(planetElement, content, ["planet__popup"]);
+  };
+
+  const getInitState = () => {
+    const elemntWallet = wallet.value.find(
+      (item) => item.symbol === planet.element.symbol
+    );
+    setElementValue(elemntWallet?.value || 0);
+  };
+
+  const updateFn = debounce(async (val: number) => {
+    if (isLoading) {
+      return setTimeout(() => {
+        updateFn(val);
+      }, 200);
+    }
+
+    if (!wallet) {
+      return;
+    }
+
+    const balance = wallet.value;
+    const currentElem = wallet.value.find(
+      (item) => item.symbol === planet.element.symbol
+    );
+
+    if (currentElem) {
+      setIsLoading(true);
+
+      currentElem.value = parseFloat((currentElem.value + val).toFixed(10));
+
+      const data = [
+        ...balance.filter((bal) => bal.symbol !== planet.element?.symbol),
+        { ...currentElem },
+      ];
+
+      setElementValue(currentElem.value);
+      await putWallet(wallet, data);
+
+      setIsLoading(false);
+    } else {
+      let data: IWalletElement[];
+      if (wallet.value?.length > 0) {
+        data = [
+          ...wallet.value,
+          {
+            element: String(planet.element.id),
+            value: val,
+            name: planet.element.name,
+            img: planet.element.img,
+            symbol: planet.element.symbol,
+            rare: planet.element.rare,
+          },
+        ];
+      } else {
+        data = [
+          {
+            element: String(planet.element.id),
+            value: val,
+            name: planet.element.name,
+            img: planet.element.img,
+            symbol: planet.element.symbol,
+            rare: planet.element.rare,
+          },
+        ];
+      }
+      setElementValue(val);
+
+      const newWallet = await putWallet(wallet, data);
+      setWallet(newWallet);
+      // window.user.wallet.value = data;
+    }
+  }, 50);
+
+  const debounceFn = useCallback(
+    (click: number) => {
+      updateFn(click);
+    },
+    [wallet]
+  );
+
+  const putWallet = async (wallet: IWallet, value: IWalletElement[]) => {
+    return await updateWalletElement(wallet, value);
+  };
+
+  const walletUpdate = async (e: any) => {
+    if (e.target.tagName.toLowerCase() === "button") return;
+
+    const plusIcon = document.createElement("div");
+    plusIcon.textContent = "+";
+    plusIcon.classList.add("plus-icon");
+    plusIcon.style.left = `${e.pageX}px`;
+    plusIcon.style.top = `${e.pageY}px`;
+
+    document.body.appendChild(plusIcon);
+    plusIcon.addEventListener("animationend", () => plusIcon.remove());
+
+    setClick(click + 1);
+    if (!wallet && click >= 2) {
+      showModal(e, "wallet");
+    }
+
+    if (userHasPlanet() && user?.userPlanets) {
+      const userPlanet = user.userPlanets.find(
+        (item) => item.planetId === planet.id
+      );
+      if (!userPlanet) return;
+
+      const level = userPlanet.level;
+
+      console.log(level, typeof level);
+      let update;
+      if (Number(level) == 1) update = 0.05;
+      if (Number(level) == 2) update = 0.5;
+      if (Number(level) == 3) update = 1;
+
+      debounceFn(0.00005);
+    } else {
+      debounceFn(0.00005);
+    }
+    debounceFn(0.00005);
+  };
+
+  useEffect(() => {
+    getInitState();
+  }, [isLoading, wallet, planet]);
+
+  const userHasPlanet = () => {
+    if (!user) return false;
+
+    if (planet?.user_planets) {
+      const plData = planet.user_planets;
+
+      const idx = plData?.find(
+        (item) => item?.planetId === planet.id && item?.userId === user.id
+      );
+
+      if (idx?.id) {
+        return true;
+      }
+    }
+    if (user?.userPlanets?.length > 0) {
+      const planets = user.userPlanets;
+      if (planets.some((item) => item.planetId === planet.id)) {
+        // const planet = planets.find((item) => item.planetId === planet?.id);
+        // setUserPlanet(planet);
+        return true;
+      }
+    }
+    if (nft) {
+      const fullName = `${planet.name}(${planet.element?.symbol}) - Planet #${planet.id}`;
+      const item = nft?.find((item) => item.metadata.name === fullName);
+      if (item && user.userPlanets.length > 0) {
+        const planets = user.userPlanets;
+        // const planet = planets.find((item) => item.planetId === planet.id);
+
+        // if (!planet?.id) {
+        //   // addPlanetToUser(id);
+        // }
+      }
+      return item;
+    }
+    return false;
+  };
+
+  const updatePlanetSpeed = async (e) => {
+    if (!user) return;
+
+    if (user.coins >= 3) {
+      const userPlanet = user.userPlanets.find(
+        (item) => item.planetId === planet.id
+      );
+
+      if (!userPlanet) return;
+
+      if (+userPlanet.level >= 2) {
+        showModal(e, "updateError");
+        return;
+      }
+      await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
+      await updateUser({ coins: user.coins - 3 });
+      window.user.coins = window.user.coins - 3;
+      showModal(e, "upgrade");
+      await update();
+    } else {
+      showModal(e, "balance");
+    }
+  };
+
   return (
-    <div className={styles.planetWrapper}>
+    <div
+      className={classNames(styles.planetWrapper, "planets__planet")}
+      onClick={walletUpdate}
+      // ref={animated}
+    >
       <div className={styles.planet_left}>
         <h4>
           {planet.element.name}({planet.element.symbol}) - Planet #
@@ -80,7 +336,7 @@ const PlanetMain = ({ planet }: { planet: IPlanet }) => {
           </div>
         </div>
         <div className={styles.planet_user_farm}>
-          0.000 {planet.element.symbol}
+          {elementValue} {planet.element.symbol}
         </div>
         <div className={styles.alliance}>
           <img src="/icons/alliance.png" width={56} height={56} />

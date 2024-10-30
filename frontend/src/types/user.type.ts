@@ -1,5 +1,6 @@
-import { RARE_TYPE } from "./planets.type";
+import { IUserPlanet, RARE_TYPE } from "./planets.type";
 
+export type USER_ROLE = "user" | "admin";
 export interface IWalletElement {
   element: string;
   value: number;
@@ -8,9 +9,13 @@ export interface IWalletElement {
   symbol: string;
   rare: RARE_TYPE;
 }
-
-export type USER_ROLE = "user" | "admin";
-
+export interface IWallet {
+  id: number;
+  value: IWalletElement[];
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+}
 export interface IUser {
   id: number;
   email: null; // string
@@ -21,14 +26,8 @@ export interface IUser {
   adress: string;
   createdAt: string;
   updatedAt: string;
-  wallet: {
-    id: number;
-    value: IWalletElement[];
-    createdAt: string;
-    updatedAt: string;
-    userId: number;
-  };
-  userPlanets: [];
+  wallet: IWallet;
+  userPlanets: IUserPlanet[];
   history: {
     id: number;
     value: []; // ????

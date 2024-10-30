@@ -134,14 +134,26 @@ app.get("/user", async (req, res) => {
     }
 
     User.findOne({ where: { adress: token } })
-        .then((user) => {
+        .then(async (user) => {
             if (!user) {
                 return res.status(401).send({ user: null });
             }
+            const userV = user.dataValues
 
-            return res.status(200).json(user);
+            console.log(userV)
+            console.log(userV.id)
+
+            const wallet = await Wallet.findOne({ where: { userId: userV.id } });
+            const history = await History.findOne({ where: { userId: userV.id } });
+            const usersPlanet = await UserPlanets.findAll({ where: { userId: userV.id } });
+
+
+
+            return res.status(200).json({ user: { ...userV, wallet, history, usersPlanet } });
         })
         .catch((err) => {
+            console.log(err)
+
             return res.status(404).send({ user: null });
         });
 });
@@ -165,9 +177,7 @@ app.post("/user", async (req, res) => {
             userId: newUser.dataValues.id,
         });
 
-        console.log("newUser: ", newUser.dataValues);
-
-        return res.json({ user: newUser.dataValues });
+        return res.json({ user: { ...newUser.dataValues, wallet, history } });
     }
 });
 

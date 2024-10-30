@@ -30,16 +30,16 @@ export default function Layout({
   children: React.ReactNode;
   without?: boolean;
 }) {
-  const { setNft, setAddress, setUser } = useUserStore();
+  const { setNft, setAddress, setUser, user } = useUserStore();
   const address = useTonAddress();
   const wallet = useTonWallet();
   const connectionRestored = useIsConnectionRestored();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isFetched, setIsFetched] = useState(false);
 
   useEffect(() => {
     if (address) {
-      // setAddress(address);
+      setAddress(address);
     }
   }, [address]);
 
@@ -56,13 +56,10 @@ export default function Layout({
     if (nft?.length > 0) {
       const allUserPlanets = await getAllUserPlanets();
 
-      console.log(allUserPlanets);
       nft.map(async (item) => {
         const planet = await getPlanetByName({
           name: item.metadata.name.split("(")[0],
         });
-
-        console.log(planet);
 
         if (planet?.id) {
           if (!allUserPlanets.some((val) => val?.planetId === planet.id)) {
@@ -76,16 +73,12 @@ export default function Layout({
   };
 
   useEffect(() => {
-    if (connectionRestored && address && !isFetched) {
+    if (connectionRestored && address && !isFetched && !user) {
       setIsFetched(true);
       fetchUser();
-      // const apiUrl = `https://tonapi.io/v2/accounts/${wallet.account.address}/nfts?collection=EQDfb4GXKIaToaFUDihPgB_lGePg-yeYjwrkZZAeKZ7m9xOQ&limit=1000&offset=0&indirect_ownership=false`;
-      // const resp = axios.get(apiUrl);
     }
     if (connectionRestored && !address) {
       setIsLoading(false);
-      const ev = new Event("getUser");
-      document.dispatchEvent(ev);
     }
   }, [connectionRestored, address]);
 

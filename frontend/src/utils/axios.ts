@@ -2,7 +2,7 @@ import axios, { Axios } from "axios";
 import { useUserStore } from "../store/userStore";
 import { INft } from "../types/nft";
 import { IPlanet, IUserPlanet } from "../types/planets.type";
-import { IUser } from "../types/user.type";
+import { IUser, IWallet, IWalletElement } from "../types/user.type";
 
 const getAxios = () => {
   const address = useUserStore.getState().address;
@@ -25,7 +25,7 @@ export const getUser = async () => {
 
   try {
     const user = await instance.get<{ user: IUser | null }>(`${url}/api/user`);
-    return user.data.user ?? null;
+    return user.data.user;
   } catch (error) {
     return null;
   }
@@ -52,7 +52,13 @@ export const getPlanet = async (id, userId) => {
   return planetData;
 };
 
-export const getPlanets = async (range, laboratory, userId) => {
+export const getPlanets = async (
+  range: number[],
+  laboratory: boolean,
+  userId: number
+) => {
+  const instance = getAxios();
+
   let rang = range ?? [0, 9];
   const filters = () => {
     if (laboratory) {
@@ -75,7 +81,7 @@ export const getPlanets = async (range, laboratory, userId) => {
     }`
   );
 
-  const planetsData = JSON.parse(planets.data).rows;
+  const planetsData = planets.data.rows;
   planetsData.map((item) => (item.element = item.elements[0]));
 
   return planetsData;
@@ -104,12 +110,15 @@ export const createWalletElement = async (elementId) => {
   return JSON.parse(created.data);
 };
 
-export const updateWalletElement = async (wallet, value) => {
+export const updateWalletElement = async (
+  wallet: IWallet,
+  value: IWalletElement[]
+) => {
   const updated = await instance.put(`${url}/api/wallet/${wallet.id}`, {
     ...wallet,
     value: value,
   });
-  return updated.data;
+  return updated.data.dataValues;
 };
 
 export const getUserWallet = async () => {
@@ -131,7 +140,6 @@ export const getNfts = async () => {
   const instance = getAxios();
 
   const adress = useUserStore.getState().address;
-
   if (!adress) return [];
 
   const apiUrl = `https://tonapi.io/v2/accounts/${adress}/nfts?collection=EQBo4e5HpH1TFMJ4an39mcEtIt-b7Ny9msJhAE2ljBeOmHu1&limit=1000&offset=0&indirect_ownership=true`;
@@ -139,11 +147,16 @@ export const getNfts = async () => {
   return data.data.nft_items;
 };
 
-export const updateUser = async (val) => {
-  const user = await instance.put(`${url}/api/users/${window.user.id}`, {
+export const updateUser = async (val: { coins: number }) => {
+  const instance = getAxios();
+
+  const user = useUserStore.getState().user;
+  if (!user) return null;
+
+  const newUser = await instance.put(`${url}/api/users/${user?.id}`, {
     ...val,
   });
-  return user;
+  return newUser;
 };
 
 export const addPlanetToUser = async (planetId) => {

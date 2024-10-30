@@ -28,10 +28,8 @@ export default function Planets() {
   }
 
   useEffect(() => {
-    document.addEventListener("getUser", () => {
-      setLoading(true);
-      fetch();
-    });
+    setLoading(true);
+    fetch();
   }, [user, adress]);
 
   return (
@@ -41,10 +39,31 @@ export default function Planets() {
           <h1 className="main__title">{t("buyPlanet")}</h1>
           <h6 className="main__text">{t("upgradePlanet")}</h6>
           <div className="planets">
-            {planets?.length ? (
+            {!user && (
+              <div className="color-ring-wrapper planets-ring">
+                <ColorRing
+                  visible={true}
+                  height={1000}
+                  width={500}
+                  colors={[
+                    "#e15b64",
+                    "#f47e60",
+                    "#f8b26a",
+                    "#abbd81",
+                    "#849b87",
+                  ]}
+                />
+              </div>
+            )}
+
+            {planets?.length && user ? (
               <>
                 {planets?.map((item, idx) => (
-                  <PlanetMain planet={item} key={item.id} />
+                  <PlanetMain
+                    planet={item}
+                    key={item.id}
+                    wallet={user.wallet}
+                  />
                   // <Planet
                   //   idx={item.element.index}
                   //   update={fetch}
