@@ -3,8 +3,9 @@ import { useTranslation } from "react-i18next";
 import "../assets/js/input";
 import showPopup from "../assets/js/showPopup";
 import Layout from "../components/Layout";
+import { useElementsStore } from "../store/elementsStore";
 import { useUserStore } from "../store/userStore";
-import { IElement, IPlanetElement } from "../types/planets.type";
+import { IElement } from "../types/planets.type";
 import { IWalletElement } from "../types/user.type";
 import {
   getElements,
@@ -16,15 +17,13 @@ type MODAL_STATUS = "complete" | "error" | "balance";
 
 export default function Market() {
   const { user, setWallet, setUser } = useUserStore();
+  const { setPlanetElements, planetElements } = useElementsStore();
 
   const [first, setFirst] = useState(0);
   const [second, setSecond] = useState(0);
   const [max, setMax] = useState(0);
-  const [maxTon, setMaxTon] = useState(0);
-  const [rare, setRare] = useState();
   const [item, setItem] = useState<IElement>();
   const [isHistory, setIsHistory] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [firstModal, setFirstModal] = useState(false);
   const [secondModal, setSecondModal] = useState(false);
@@ -32,22 +31,19 @@ export default function Market() {
   const [isRevert, setIsRevert] = useState(false);
   const [historyIndex, setHistoryIndex] = useState(5);
 
-  const [elements, setElements] = useState<IPlanetElement[]>();
-
   const { t } = useTranslation();
 
   async function getWallet() {
-    setTimeout(async () => {
+    if (planetElements.length == 0) {
       const elems = await getElements();
 
-      setElements(elems);
-    }, 500);
+      setPlanetElements(elems);
+    }
   }
   const changeInput = (value: number, first: boolean) => {
     if (!user || !item) return;
 
     setFirst(value);
-    setMaxTon(user?.coins || 0);
     //let newValue = value = value.replace(/^[.0-9]*$/, '');
     //newValue = Math.min(parseInt(value) || 0, item.value);
     let newValue = value;
@@ -263,9 +259,6 @@ export default function Market() {
 
     setFirst(0);
     setSecond(0);
-    if (isRevert) {
-      setMaxTon(user.coins);
-    }
   };
 
   const search = (e: any) => {
@@ -421,8 +414,7 @@ export default function Market() {
                                   </>
                                 </div>
                               ))
-                            : elements &&
-                              elements.map((item) => (
+                            : planetElements.map((item) => (
                                 <div
                                   onClick={() => {
                                     const rare = item.rare;

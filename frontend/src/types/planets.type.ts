@@ -1,7 +1,7 @@
 export type RARE_TYPE = "Обычная" | "Редкая" | "Эпическая";
 
 export interface IPlanetElement {
-  id: 119;
+  id: number;
   name: string; // enum "Flerovium"
   symbol: string; // enum "Fl"
   rare: RARE_TYPE; // enum "Эпическая"
