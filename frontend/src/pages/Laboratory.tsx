@@ -1,42 +1,40 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ColorRing } from "react-loader-spinner";
-import { fetchDefaultUser } from "../assets/js/getUser";
 import showPopup from "../assets/js/showPopup";
 import Layout from "../components/Layout";
 import Timer from "../components/Timer";
+import { useUserStore } from "../store/userStore";
+import { IPlanet } from "../types/planets.type";
 import { getPlanets, updateUser, updateWalletElement } from "../utils/axios";
 
-export default function Laboratory() {
-  const [elems, setElems] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-  const [wallet, setWallet] = useState(false);
+type POPUP_STATUS = "complete" | "error";
 
+export default function Laboratory() {
+  const [elems, setElems] = useState<IPlanet[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user, setWallet, setUser } = useUserStore();
   const { t } = useTranslation();
 
   const fetchPlanets = async () => {
     const planets = await getPlanets([0, 9], true, 0);
     setIsLoading(false);
+
+    console.log(planets);
     setElems(planets);
   };
 
-  async function getWallet() {
-    setTimeout(async () => {
-      setWallet(window?.user?.wallet);
-    }, 500);
-  }
-
-  const getPlanetWallet = (id) => {
-    if (window?.user?.wallet?.value) {
-      const walletValue = window?.user?.wallet.value;
-      const elem = walletValue.find((item) => item.element === id);
+  const getPlanetWallet = (id: number) => {
+    if (user?.wallet?.value) {
+      const walletValue = user?.wallet?.value;
+      const elem = walletValue.find((item) => Number(item.element) === id);
 
       return elem?.value ?? 0;
     }
     return 0;
   };
 
-  const showModal = (event, status) => {
+  const showModal = (event: any, status: POPUP_STATUS | null) => {
     const laboratoryElement = event.target.closest(".laboratory");
     let content,
       additionalClasses = ["laboratory__popup"];
@@ -57,16 +55,17 @@ export default function Laboratory() {
   };
 
   useEffect(() => {
-    document.addEventListener("getUser", () => {
-      fetchPlanets();
-      getWallet();
-    });
-  }, [window.user, window.adress]);
+    fetchPlanets();
+  }, []);
 
-  const union = async (event) => {
-    if (!window.user.wallet.value?.length) {
-      showModal(event);
+  const union = async (event: any) => {
+    if (!user) return;
+
+    if (!user?.wallet.value?.length) {
+      showModal(event, null);
     }
+
+    if (elems?.length <= 0) return;
 
     const minVal = elems.map((item) => ({
       ...item.element,
@@ -74,10 +73,9 @@ export default function Laboratory() {
     }));
 
     const min = Math.min(...minVal.map((item) => item.value));
-    const data = window.user.wallet.balance;
 
     if (min === 0) {
-      showModal(event);
+      showModal(event, null);
       return;
     }
 
@@ -87,27 +85,29 @@ export default function Laboratory() {
       value: parseFloat((item.value - min).toFixed(10)),
     }));
 
-    newValues = newValues.map((item) => ({
-      element: item.id,
-      img: item.img,
-      name: item.name,
-      rare: item.rare,
-      symbol: item.symbol,
-      value: item.value,
-    }));
+    // newValues = newValues.map((item) => ({
+    //   ...item,
+
+    //   element: item.id,
+    //   img: item.img,
+    //   name: item.name,
+    //   rare: item.rare,
+    //   symbol: item.symbol,
+    //   value: item.value,
+    // }));
 
     const updatedValues = [
-      ...window.user.wallet.value.filter(
-        (item) => !newValues.some((val) => val.element === item.element)
+      ...user.wallet.value.filter(
+        (item) => !newValues.some((val) => String(val.element) === item.element)
       ),
       ...newValues,
     ];
 
-    await updateWalletElement(window.user.wallet, updatedValues);
-    await updateUser({ ton: min + window.user.ton });
-    window.user.ton = min + window.user.ton;
-    await fetchDefaultUser();
-    await getWallet();
+    // @ts-expect-error vaules fuckfuck
+    await updateWalletElement(user.wallet, updatedValues);
+    const newUser = await updateUser({ ton: min + user.ton });
+    setUser(newUser);
+
     showModal(event, "complete");
   };
 

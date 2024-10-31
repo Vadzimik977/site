@@ -162,7 +162,7 @@ export const getNfts = async () => {
   return data.data.nft_items;
 };
 
-export const updateUser = async (val: { coins: number }) => {
+export const updateUser = async (val: { coins?: number; ton?: number }) => {
   const instance = getAxios();
 
   const user = useUserStore.getState().user;

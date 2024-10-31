@@ -8,7 +8,7 @@ import { updateUser, updateWalletElement } from "../utils/axios";
 type POPUP_STATUS = "complete" | "error" | "wall";
 
 export default function Wallet() {
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
 
   const { t } = useTranslation();
 
@@ -72,8 +72,9 @@ export default function Wallet() {
       { ...monet, value: 0 },
     ]);
 
-    await updateUser({ coins: give + user.coins });
+    const newUser = await updateUser({ coins: give + user.coins });
 
+    setUser(newUser);
     // !!!!!!!!!!!!!!!!!
     // window.user.coins = give + user.coins;
 
