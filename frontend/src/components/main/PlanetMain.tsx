@@ -12,7 +12,7 @@ import {
   updateUserPlanet,
   updateWalletElement,
 } from "../../utils/axios";
-import TimerUI from "../TimerUI/TimerUI";
+import Timer from "../Timer";
 import styles from "./PlanetMain.module.css";
 
 // enum POPUP_STATUS {
@@ -374,8 +374,8 @@ const PlanetMain = ({
         </div>
 
         {planet.forLaboratory && (
-          <div className={styles.timer}>
-            <TimerUI />
+          <div className="planet__time-timer">
+            <Timer />
           </div>
         )}
       </div>
