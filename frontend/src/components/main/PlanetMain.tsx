@@ -6,7 +6,12 @@ import showPopup from "../../assets/js/showPopup";
 import { useUserStore } from "../../store/userStore";
 import { IPlanet } from "../../types/planets.type";
 import { IWallet, IWalletElement } from "../../types/user.type";
-import { updateWalletElement } from "../../utils/axios";
+import {
+  addPlanetToUser,
+  updateUser,
+  updateUserPlanet,
+  updateWalletElement,
+} from "../../utils/axios";
 import TimerUI from "../TimerUI/TimerUI";
 import styles from "./PlanetMain.module.css";
 
@@ -32,7 +37,7 @@ const PlanetMain = ({
   planet: IPlanet;
   wallet: IWallet;
 }) => {
-  const { user, nft, setWallet } = useUserStore();
+  const { user, nft, setWallet, setUser } = useUserStore();
 
   const [elementValue, setElementValue] = useState(0);
 
@@ -73,11 +78,15 @@ const PlanetMain = ({
   };
 
   const updateFn = debounce(async (val: number) => {
-    if (isLoading) {
-      return setTimeout(() => {
-        updateFn(val);
-      }, 200);
-    }
+    console.log(isLoading, val);
+
+    // if (isLoading) {
+    //   setTimeout(() => {
+    //     updateFn(val);
+    //   }, 200);
+
+    //   return;
+    // }
 
     if (!wallet) {
       return;
@@ -140,7 +149,7 @@ const PlanetMain = ({
     (click: number) => {
       updateFn(click);
     },
-    [wallet]
+    [wallet, planet]
   );
 
   const putWallet = async (wallet: IWallet, value: IWalletElement[]) => {
@@ -148,8 +157,9 @@ const PlanetMain = ({
   };
 
   const walletUpdate = async (e: any) => {
-    if (e.target.tagName.toLowerCase() === "button") return;
+    // if (e.target.tagName.toLowerCase() === "button") return;
 
+    console.log("here 1");
     const plusIcon = document.createElement("div");
     plusIcon.textContent = "+";
     plusIcon.classList.add("plus-icon");
@@ -160,29 +170,32 @@ const PlanetMain = ({
     plusIcon.addEventListener("animationend", () => plusIcon.remove());
 
     setClick(click + 1);
-    if (!wallet && click >= 2) {
+    if (!wallet && click >= 4) {
       showModal(e, "wallet");
     }
 
-    if (userHasPlanet() && user?.userPlanets) {
-      const userPlanet = user.userPlanets.find(
-        (item) => item.planetId === planet.id
+    console.log("here 2");
+    if (userHasPlanet() && user) {
+      const userPlanet = planet.user_planets.find(
+        (item) => item.userId === user.id
       );
       if (!userPlanet) return;
 
       const level = userPlanet.level;
 
-      console.log(level, typeof level);
-      let update;
+      let update = 0.00005;
       if (Number(level) == 1) update = 0.05;
       if (Number(level) == 2) update = 0.5;
       if (Number(level) == 3) update = 1;
+      if (Number(level) == 4) update = 1.5;
 
-      debounceFn(0.00005);
+      console.log("here 3");
+      debounceFn(update);
     } else {
       debounceFn(0.00005);
+      console.log("here 4");
     }
-    debounceFn(0.00005);
+    // debounceFn(0.00005);
   };
 
   useEffect(() => {
@@ -227,29 +240,38 @@ const PlanetMain = ({
     return false;
   };
 
-  // const updatePlanetSpeed = async (e) => {
-  //   if (!user) return;
+  const updatePlanetSpeed = async (e: any) => {
+    if (!user || isLoading) return;
 
-  //   if (user.coins >= 3) {
-  //     const userPlanet = user.userPlanets.find(
-  //       (item) => item.planetId === planet.id
-  //     );
+    if (user.coins >= 3) {
+      const userPlanet = planet.user_planets.find(
+        (item) => item.userId === user.id
+      );
 
-  //     if (!userPlanet) return;
+      setIsLoading(true);
 
-  //     if (+userPlanet.level >= 2) {
-  //       showModal(e, "updateError");
-  //       return;
-  //     }
-  //     await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
-  //     await updateUser({ coins: user.coins - 3 });
-  //     window.user.coins = window.user.coins - 3;
-  //     showModal(e, "upgrade");
-  //     await update();
-  //   } else {
-  //     showModal(e, "balance");
-  //   }
-  // };
+      if (!userPlanet) {
+        const addedPlanet = await addPlanetToUser(planet.id);
+      } else {
+        if (+userPlanet.level >= 4) {
+          showModal(e, "updateError");
+          return;
+        }
+
+        await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
+      }
+
+      const newUser = await updateUser({ coins: user.coins - 3 });
+      setUser(newUser);
+      showModal(e, "upgrade");
+
+      setIsLoading(false);
+      // await update();
+    } else {
+      showModal(e, "balance");
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div
@@ -284,7 +306,10 @@ const PlanetMain = ({
         <div className={styles["planetInfo"]}>
           <div className={styles["planetInfo__row"]}>
             <span className={styles["planetInfo__title"]}>Уровень</span>
-            <span className={styles["planetInfo__description"]}>1</span>
+            <span className={styles["planetInfo__description"]}>
+              {planet.user_planets.find((item) => item.userId === user?.id)
+                ?.level || 0}
+            </span>
           </div>
 
           <div className={styles["planetInfo__row"]}>
@@ -309,8 +334,12 @@ const PlanetMain = ({
             Атака
             <img src="/icons/sword.png" width={20} height={20} />
           </button>
-          <button className={styles["action-btn"]}>
-            Аренда
+          <button className={styles["action-btn"]} onClick={updatePlanetSpeed}>
+            {(planet.user_planets.find((item) => item.userId === user?.id)
+              ?.level || 0) == 0
+              ? "Аренда"
+              : "Обновить"}
+
             <img src="/icons/time.png" width={20} height={20} />
           </button>
         </div>

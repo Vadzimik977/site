@@ -56,7 +56,7 @@ export default function Planets() {
               </div>
             )}
 
-            {planets?.length && user ? (
+            {planets?.length && user && user.wallet ? (
               <>
                 {planets?.map((item, idx) => (
                   <PlanetMain

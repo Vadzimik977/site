@@ -155,15 +155,23 @@ export const updateUser = async (val: { coins: number }) => {
   const user = useUserStore.getState().user;
   if (!user) return null;
 
-  const newUser = await instance.put<IUser>(`${url}/api/users/${user?.id}`, {
+  await instance.put<IUser>(`${url}/api/users/${user?.id}`, {
     ...val,
   });
-  return newUser.data;
+
+  const newUser = await getUser();
+
+  return newUser;
 };
 
-export const addPlanetToUser = async (planetId) => {
+export const addPlanetToUser = async (planetId: number) => {
+  const instance = getAxios();
+
+  const user = useUserStore.getState().user;
+  if (!user) return null;
+
   const isOk = await instance.post(`${url}/api/userPlanets`, {
-    userId: window.user.id,
+    userId: user.id,
     planetId,
   });
   return isOk;
