@@ -121,6 +121,9 @@ export default function Header() {
             <li className={"nav__item" + " " + isActive("/laboratory")}>
               <Link to="/laboratory">{t("laboratory")}</Link>
             </li>
+            <li className={"nav__item" + " " + isActive("/tasks")}>
+              <Link to="/tasks">{t("tasks")}</Link>
+            </li>
           </ul>
         </div>
       </nav>

@@ -309,6 +309,9 @@
             }
         }
     }
+    .tasks-content{
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 430px) {
