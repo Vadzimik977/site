@@ -20,7 +20,6 @@ export default function Laboratory() {
     const planets = await getPlanets([0, 9], true, 0);
     setIsLoading(false);
 
-    console.log(planets);
     setElems(planets);
   };
 
@@ -69,12 +68,14 @@ export default function Laboratory() {
 
     const minVal = elems.map((item) => ({
       ...item.element,
-      value: getPlanetWallet(item.element.id),
+      value: getPlanetWallet(item.element.id) - 5,
     }));
+
+    console.log("minVal: ", minVal);
 
     const min = Math.min(...minVal.map((item) => item.value));
 
-    if (min === 0) {
+    if (min <= 0) {
       showModal(event, null);
       return;
     }
@@ -85,16 +86,15 @@ export default function Laboratory() {
       value: parseFloat((item.value - min).toFixed(10)),
     }));
 
-    // newValues = newValues.map((item) => ({
-    //   ...item,
-
-    //   element: item.id,
-    //   img: item.img,
-    //   name: item.name,
-    //   rare: item.rare,
-    //   symbol: item.symbol,
-    //   value: item.value,
-    // }));
+    // @ts-ignore
+    newValues = newValues.map((item) => ({
+      element: item.id,
+      img: item.img,
+      name: item.name,
+      rare: item.rare,
+      symbol: item.symbol,
+      value: item.value,
+    }));
 
     const updatedValues = [
       ...user.wallet.value.filter(
@@ -102,8 +102,10 @@ export default function Laboratory() {
       ),
       ...newValues,
     ];
+    console.log(updatedValues);
 
-    // @ts-expect-error vaules fuckfuck
+    // @ts-ignore
+
     await updateWalletElement(user.wallet, updatedValues);
     const newUser = await updateUser({ ton: min + user.ton });
     setUser(newUser);

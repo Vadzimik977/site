@@ -372,9 +372,12 @@ const PlanetMain = ({
             className={styles.alliance_plus}
           />
         </div>
-        <div className={styles.timer}>
-          <TimerUI />
-        </div>
+
+        {planet.forLaboratory && (
+          <div className={styles.timer}>
+            <TimerUI />
+          </div>
+        )}
       </div>
     </div>
   );

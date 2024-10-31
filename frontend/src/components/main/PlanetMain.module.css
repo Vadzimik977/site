@@ -127,6 +127,7 @@
 .planet_preview {
   position: relative;
   width: fit-content;
+  margin: 0 auto;
   margin-bottom: 13px;
 }
 .planet_preview__ship {
