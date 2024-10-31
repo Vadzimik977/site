@@ -43,10 +43,12 @@ export const createUser = async () => {
 };
 
 export const getPlanet = async (id, userId) => {
+  const instance = getAxios();
+
   const planet = await instance.get(
     `${url}/api/planets/${id}?userId=${userId ?? 0}`
   );
-  const planetData = JSON.parse(planet.data).rows[0];
+  const planetData = planet.data.rows[0];
 
   planetData.element = planetData.elements[0];
   return planetData;
@@ -105,8 +107,13 @@ export const getPlanetByName = async (name: { name: string }) => {
 };
 
 export const createWalletElement = async (elementId) => {
+  const instance = getAxios();
+
+  const user = useUserStore.getState().user;
+  if (!user) return null;
+
   const data = {
-    userId: window.user.id,
+    userId: user.id,
   };
   const created = await instance.post(`${url}/api/wallet`, { ...data });
   return JSON.parse(created.data);
@@ -116,6 +123,8 @@ export const updateWalletElement = async (
   wallet: IWallet,
   value: IWalletElement[]
 ) => {
+  const instance = getAxios();
+
   const updated = await instance.put(`${url}/api/wallet/${wallet.id}`, {
     ...wallet,
     value: value,
@@ -124,6 +133,8 @@ export const updateWalletElement = async (
 };
 
 export const getUserWallet = async () => {
+  const instance = getAxios();
+
   const userWallet = await instance.get(
     `${url}/api/wallet?filter=${JSON.stringify({ userId: window.user.id })}`
   );
@@ -131,6 +142,8 @@ export const getUserWallet = async () => {
 };
 
 export const auth = async ({ login, password }) => {
+  const instance = getAxios();
+
   const auth = await instance.post(`${url}/api/user/auth`, {
     email: login,
     password,
@@ -202,6 +215,7 @@ export const updateHistory = async (history: IHistory, value) => {
 };
 
 export const updateBuilds = async (wallet, value) => {
+  const instance = getAxios();
   const updated = await instance.put(`${url}/api/wallet/${wallet.id}`, {
     ...wallet,
     builds: value,
