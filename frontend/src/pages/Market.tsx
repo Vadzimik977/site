@@ -3,20 +3,26 @@ import { useTranslation } from "react-i18next";
 import "../assets/js/input";
 import showPopup from "../assets/js/showPopup";
 import Layout from "../components/Layout";
+import { useUserStore } from "../store/userStore";
+import { IElement, IPlanetElement } from "../types/planets.type";
+import { IWalletElement } from "../types/user.type";
 import {
   getElements,
   updateHistory,
   updateUser,
   updateWalletElement,
 } from "../utils/axios";
+type MODAL_STATUS = "complete" | "error" | "balance";
+
 export default function Market() {
+  const { user, setWallet, setUser } = useUserStore();
+
   const [first, setFirst] = useState(0);
   const [second, setSecond] = useState(0);
   const [max, setMax] = useState(0);
   const [maxTon, setMaxTon] = useState(0);
-  const [wallet, setWallet] = useState(true);
   const [rare, setRare] = useState();
-  const [item, setItem] = useState();
+  const [item, setItem] = useState<IElement>();
   const [isHistory, setIsHistory] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,21 +32,22 @@ export default function Market() {
   const [isRevert, setIsRevert] = useState(false);
   const [historyIndex, setHistoryIndex] = useState(5);
 
-  const [elements, setElements] = useState();
+  const [elements, setElements] = useState<IPlanetElement[]>();
 
   const { t } = useTranslation();
 
   async function getWallet() {
     setTimeout(async () => {
-      setWallet(window?.user?.wallet);
       const elems = await getElements();
-      console.log(elems);
+
       setElements(elems);
     }, 500);
   }
-  const changeInput = (value, first) => {
+  const changeInput = (value: number, first: boolean) => {
+    if (!user || !item) return;
+
     setFirst(value);
-    setMaxTon(window.user.coins);
+    setMaxTon(user?.coins || 0);
     //let newValue = value = value.replace(/^[.0-9]*$/, '');
     //newValue = Math.min(parseInt(value) || 0, item.value);
     let newValue = value;
@@ -50,8 +57,8 @@ export default function Market() {
         newValue = item?.value;
       }
     } else {
-      if (newValue > window.user.coins) {
-        newValue = window.user.coins;
+      if (newValue > user.coins) {
+        newValue = user.coins;
       }
     }
     if (first) {
@@ -73,26 +80,15 @@ export default function Market() {
       if (!isRevert) {
         setSecond(parseFloat((newValue * coeff).toFixed(6)));
       } else {
-        setSecond(parseFloat(newValue / coeff).toFixed(6));
+        setSecond(parseFloat((newValue / coeff).toFixed(6)));
       }
     }
   };
   useEffect(() => {
-    document.addEventListener("getUser", () => {
-      getWallet();
-    });
+    getWallet();
+  }, []);
 
-    window.addEventListener("click", (e) => {
-      if (!e.target.classList.contains("modal-select")) {
-        if (firstModal || secondModal) {
-          setFirstModal(false);
-          setSecondModal(false);
-        }
-      }
-    });
-  }, [window.user, window.adress]);
-
-  const showModal = (event, status) => {
+  const showModal = (event: any, status: MODAL_STATUS) => {
     const planetElement = event.target.closest(".market__trade");
     let content,
       additionalClasses = ["market__popup"];
@@ -114,12 +110,17 @@ export default function Market() {
     showPopup(planetElement, content, additionalClasses);
   };
 
-  const exchange = async (event) => {
+  const exchange = async (event: any) => {
     let history;
     let oldValue;
     if (first == 0) {
       return;
     }
+
+    if (!item || !user) {
+      return;
+    }
+
     if (!isRevert) {
       oldValue = item?.value;
       item.value = +item.value - first;
@@ -132,15 +133,15 @@ export default function Market() {
         item.value = +second;
       }
     }
-    let data;
-    if (window.user.wallet.value?.length) {
+    let data: IWalletElement[] = [];
+    if (user.wallet.value?.length) {
       if (item?.value < 0) {
         item.value = 0;
       }
       data = [
-        ...window.user.wallet.value.filter((i) => i.element !== item.element),
+        ...user.wallet.value.filter((i) => i.element !== item.element),
         {
-          element: item.element ?? item?.id,
+          element: item.element,
           value: item.value,
           name: item.name,
           img: item.img,
@@ -149,9 +150,9 @@ export default function Market() {
         },
       ];
     }
-    if (window.user.history.value?.length) {
+    if (user.history.value?.length) {
       history = [
-        ...window.user.history.value,
+        ...user.history.value,
         {
           element: item.element,
           newValue: +item.value,
@@ -176,36 +177,48 @@ export default function Market() {
       ];
     }
 
-    await updateWalletElement(window.user.wallet, data);
+    if (data.length > 0) {
+      await updateWalletElement(user.wallet, data);
+    }
 
     if (!isRevert) {
-      await updateUser({ coins: second + window.user.coins });
-      window.user.coins = second + window.user.coins;
+      const newUser = await updateUser({ coins: second + user.coins });
+      // window.user.coins = second + window.user.coins;
+
+      setUser(newUser);
+
       history.push({
         img: "/images/ton2.svg",
         name: "GameCoin",
-        newValue: window.user.coins,
-        oldValue: parseFloat(window.user.coins) - parseFloat(second),
+        newValue: user.coins,
+        oldValue: user.coins - second,
+        element: item.element,
+        rare: item.rare,
+        symbol: item.symbol,
       });
     } else {
-      if (window.user.coins - first < 0) {
+      if (user.coins - first < 0) {
         showModal(event, "error");
       }
 
-      await updateUser({ coins: window.user.coins - first });
-      window.user.coins = window.user.coins - first;
+      const newUser = await updateUser({ coins: user.coins - first });
+      setUser(newUser);
+
       history.push({
         img: "/images/ton2.svg",
         name: "GameCoin",
-        newValue: parseFloat(window.user.coins),
-        oldValue: parseFloat(window.user.coins) + parseFloat(first),
+        newValue: user.coins,
+        oldValue: user.coins + first,
+        element: item.element,
+        rare: item.rare,
+        symbol: item.symbol,
       });
     }
-    setWallet((wall) => ({ ...wall, value: data }));
+    // setWallet((wall) => ({ ...wall, value: data }));
     showModal(event, "complete");
-    updateHistory(window.user.history, history);
-    window.user.history.value = history;
-    window.user.wallet.value = data;
+    updateHistory(user.history, history);
+    // window.user.history.value = history;
+    // window.user.wallet.value = data;
     setFirst(0);
     setSecond(0);
   };
@@ -219,14 +232,16 @@ export default function Market() {
       if (val.querySelector(".selected-option.elem")) {
         if (item?.img) {
           const a = val.querySelector(".selected-option.elem");
+          if (!a) return;
           a.innerHTML = `<img class="crypto-icon" src='/img/icon/${item?.img}' />${item?.name}`;
-          console.log(a);
         }
       }
     });
-  }, [item?.img, window?.user, window?.adress]);
+  }, [item?.img, user]);
 
-  const replaceAmounts = (e) => {
+  const replaceAmounts = () => {
+    if (!user) return;
+
     setIsRevert(!isRevert);
     const banners = document.querySelectorAll(".compact-select");
 
@@ -240,8 +255,8 @@ export default function Market() {
       if (val.querySelector(".selected-option.elem")) {
         if (item?.img) {
           const a = val.querySelector(".selected-option.elem");
+          if (!a) return;
           a.innerHTML = `<img class="crypto-icon" src='/img/icon/${item?.img}' />${item?.name}`;
-          console.log(a);
         }
       }
     });
@@ -249,15 +264,15 @@ export default function Market() {
     setFirst(0);
     setSecond(0);
     if (isRevert) {
-      setMaxTon(window.user.coins);
+      setMaxTon(user.coins);
     }
   };
 
-  const search = (target) => {
-    const searchTerm = target.value.toLowerCase();
-    const options = target.parentNode.parentNode.querySelectorAll(".option");
+  const search = (e: any) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const options = e.target.parentNode.parentNode.querySelectorAll(".option");
 
-    options.forEach((option) => {
+    options.forEach((option: any) => {
       const cryptoName = option
         .querySelector(".crypto-name")
         .textContent.toLowerCase();
@@ -342,9 +357,9 @@ export default function Market() {
                         />
                       </div>
                       <div className="options-list map__options">
-                        {wallet?.value?.length
+                        {user?.wallet?.value?.length
                           ? !isRevert
-                            ? wallet?.value?.map((item) => (
+                            ? user?.wallet?.value?.map((item) => (
                                 <div
                                   onClick={() => {
                                     const rare = item.rare;
@@ -357,9 +372,10 @@ export default function Market() {
                                       rares.findIndex((val) => val === rare) +
                                       1;
                                     console.log(coeff);
+
                                     setItem({
                                       ...item,
-                                      element: item?.element ?? item?.id,
+                                      element: item?.element,
                                     });
                                     setFirst(item.value);
                                     setSecond(
@@ -389,7 +405,7 @@ export default function Market() {
                                   <>
                                     <div
                                       onClick={() => {}}
-                                      key={item.id}
+                                      key={item.name}
                                       className="option-text"
                                     >
                                       <span className="crypto-name">
@@ -405,7 +421,8 @@ export default function Market() {
                                   </>
                                 </div>
                               ))
-                            : elements.map((item) => (
+                            : elements &&
+                              elements.map((item) => (
                                 <div
                                   onClick={() => {
                                     const rare = item.rare;
@@ -417,8 +434,11 @@ export default function Market() {
                                     const coeff =
                                       rares.findIndex((val) => val === rare) +
                                       1;
-                                    console.log(item);
-                                    setItem({ ...item, element: item.id });
+                                    setItem({
+                                      ...item,
+                                      element: String(item.id),
+                                      value: 0,
+                                    });
                                     setFirst(0);
                                     setSecond(0);
                                     setMax(0);
@@ -466,7 +486,7 @@ export default function Market() {
                     type="text"
                     className="market__banner-input market__banner-input-1 positive-number-input"
                     onChange={(e) => {
-                      changeInput(e.target.value, true);
+                      changeInput(Number(e.target.value), true);
                     }}
                     max={max}
                     value={first}
@@ -475,7 +495,7 @@ export default function Market() {
               </div>
               <div
                 title="Поменять местами"
-                onClick={(e) => replaceAmounts(e)}
+                onClick={(e) => replaceAmounts()}
                 className="arrows"
               >
                 <img className="arrow-svg" src="/images/arrow2.svg" />
@@ -490,7 +510,11 @@ export default function Market() {
                     }
                   >
                     <div className="selected-option iston">
-                      <img src="/images/ton2.svg" alt="" class="crypto-icon" />
+                      <img
+                        src="/images/ton2.svg"
+                        alt=""
+                        className="crypto-icon"
+                      />
                       GC
                     </div>
                   </div>
@@ -513,7 +537,7 @@ export default function Market() {
                         <input
                           type="text"
                           className="search-input"
-                          onChange={(e) => search(e.target)}
+                          onChange={(e) => search(e)}
                           placeholder={t("monetAdres")}
                         />
                       </div>
@@ -536,9 +560,7 @@ export default function Market() {
                             <span className="crypto-name">GC</span>
                             <span className="crypto-sublabel">Game Coin</span>
                           </div>
-                          <span className="crypto-amount">
-                            {window?.user?.coins}
-                          </span>
+                          <span className="crypto-amount">{user?.coins}</span>
                         </div>
                       </div>
                     </div>
@@ -550,7 +572,7 @@ export default function Market() {
                     className="market__banner-input market__banner-input-2 positive-number-input"
                     value={second}
                     disabled={true}
-                    onChange={(e) => setSecond(e.target.value)}
+                    onChange={(e) => setSecond(Number(e.target.value))}
                   />
                 </div>
               </div>
@@ -573,7 +595,7 @@ export default function Market() {
                 </div>
               </div>
               <div className="history__items">
-                {window?.user?.history?.value?.reverse()?.map((item, i) =>
+                {user?.history?.value?.reverse()?.map((item, i) =>
                   i !== historyIndex && i < historyIndex ? (
                     <div
                       key={i}
@@ -595,7 +617,7 @@ export default function Market() {
                 )}
               </div>
 
-              {historyIndex < window?.user?.history?.value?.length ? (
+              {user && historyIndex < user?.history?.value?.length ? (
                 <div
                   className="btn"
                   onClick={() => setHistoryIndex(historyIndex + 5)}

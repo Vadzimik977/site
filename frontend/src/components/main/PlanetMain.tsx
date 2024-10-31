@@ -1,16 +1,12 @@
 import classNames from "classnames";
 import { t } from "i18next";
-import { debounce, update } from "lodash";
+import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import showPopup from "../../assets/js/showPopup";
 import { useUserStore } from "../../store/userStore";
 import { IPlanet } from "../../types/planets.type";
 import { IWallet, IWalletElement } from "../../types/user.type";
-import {
-  updateUser,
-  updateUserPlanet,
-  updateWalletElement,
-} from "../../utils/axios";
+import { updateWalletElement } from "../../utils/axios";
 import TimerUI from "../TimerUI/TimerUI";
 import styles from "./PlanetMain.module.css";
 
@@ -231,29 +227,29 @@ const PlanetMain = ({
     return false;
   };
 
-  const updatePlanetSpeed = async (e) => {
-    if (!user) return;
+  // const updatePlanetSpeed = async (e) => {
+  //   if (!user) return;
 
-    if (user.coins >= 3) {
-      const userPlanet = user.userPlanets.find(
-        (item) => item.planetId === planet.id
-      );
+  //   if (user.coins >= 3) {
+  //     const userPlanet = user.userPlanets.find(
+  //       (item) => item.planetId === planet.id
+  //     );
 
-      if (!userPlanet) return;
+  //     if (!userPlanet) return;
 
-      if (+userPlanet.level >= 2) {
-        showModal(e, "updateError");
-        return;
-      }
-      await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
-      await updateUser({ coins: user.coins - 3 });
-      window.user.coins = window.user.coins - 3;
-      showModal(e, "upgrade");
-      await update();
-    } else {
-      showModal(e, "balance");
-    }
-  };
+  //     if (+userPlanet.level >= 2) {
+  //       showModal(e, "updateError");
+  //       return;
+  //     }
+  //     await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
+  //     await updateUser({ coins: user.coins - 3 });
+  //     window.user.coins = window.user.coins - 3;
+  //     showModal(e, "upgrade");
+  //     await update();
+  //   } else {
+  //     showModal(e, "balance");
+  //   }
+  // };
 
   return (
     <div

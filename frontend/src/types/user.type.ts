@@ -16,6 +16,25 @@ export interface IWallet {
   updatedAt: string;
   userId: number;
 }
+
+export interface IHistoryValue {
+  img: string;
+  name: string;
+  rare: string;
+  symbol: string;
+  element: string;
+  newValue: number;
+  oldValue: number;
+}
+
+export interface IHistory {
+  id: number;
+  value: IHistoryValue[]; // ????
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+}
+
 export interface IUser {
   id: number;
   email: null; // string
@@ -28,11 +47,5 @@ export interface IUser {
   updatedAt: string;
   wallet: IWallet;
   userPlanets: IUserPlanet[];
-  history: {
-    id: number;
-    value: []; // ????
-    createdAt: string;
-    updatedAt: string;
-    userId: number;
-  };
+  history: IHistory;
 }

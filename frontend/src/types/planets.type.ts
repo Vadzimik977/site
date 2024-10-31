@@ -26,6 +26,15 @@ export interface IUserPlanet {
   planetId: number;
 }
 
+export interface IElement {
+  element: string;
+  img: string;
+  name: string;
+  rare: RARE_TYPE;
+  symbol: string;
+  value: number;
+}
+
 export interface IPlanet {
   id: number;
   name: string;

@@ -2,7 +2,7 @@ import axios, { Axios } from "axios";
 import { useUserStore } from "../store/userStore";
 import { INft } from "../types/nft";
 import { IPlanet, IUserPlanet } from "../types/planets.type";
-import { IUser, IWallet, IWalletElement } from "../types/user.type";
+import { IHistory, IUser, IWallet, IWalletElement } from "../types/user.type";
 
 const getAxios = () => {
   const address = useUserStore.getState().address;
@@ -88,8 +88,10 @@ export const getPlanets = async (
 };
 
 export const getElements = async () => {
+  const instance = getAxios();
+
   const elements = await instance.get(`${url}/api/elements`);
-  return JSON.parse(elements.data);
+  return elements.data;
 };
 
 export const getPlanetByName = async (name: { name: string }) => {
@@ -153,10 +155,10 @@ export const updateUser = async (val: { coins: number }) => {
   const user = useUserStore.getState().user;
   if (!user) return null;
 
-  const newUser = await instance.put(`${url}/api/users/${user?.id}`, {
+  const newUser = await instance.put<IUser>(`${url}/api/users/${user?.id}`, {
     ...val,
   });
-  return newUser;
+  return newUser.data;
 };
 
 export const addPlanetToUser = async (planetId) => {
@@ -181,7 +183,9 @@ export const updateUserPlanet = async (id, level) => {
   return isOk;
 };
 
-export const updateHistory = async (history, value) => {
+export const updateHistory = async (history: IHistory, value) => {
+  const instance = getAxios();
+
   const updated = await instance.put(`${url}/api/userHistory/${history.id}`, {
     ...history,
     value: value,
