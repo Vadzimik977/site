@@ -199,6 +199,17 @@ export const getAllUserPlanets = async () => {
   return planets.data.result;
 };
 
+
+export const getAllUserPlanetsById = async (id) => {
+  const instance = getAxios();
+
+  const planets = await instance.get<{ result: IUserPlanet[] }>(
+    `${url}/api/userPlanets/${id}`
+  );
+  return planets.data.result;
+};
+
+
 export const updateUserPlanet = async (id, level) => {
   const isOk = await instance.put(`${url}/api/userPlanets/${id}`, { level });
   return isOk;

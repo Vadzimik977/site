@@ -4,14 +4,16 @@ import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import showPopup from "../../assets/js/showPopup";
 import { useUserStore } from "../../store/userStore";
-import { IPlanet } from "../../types/planets.type";
+import { IPlanet, IUserPlanet } from "../../types/planets.type";
 import { IWallet, IWalletElement } from "../../types/user.type";
 import {
   addPlanetToUser,
+  getAllUserPlanetsById,
   updateUser,
   updateUserPlanet,
   updateWalletElement,
 } from "../../utils/axios";
+import UserPlanetsPopup from "../Popup/UserPlanetsPopup";
 import Timer from "../Timer";
 import styles from "./PlanetMain.module.css";
 
@@ -43,6 +45,8 @@ const PlanetMain = ({
 
   const [click, setClick] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [isShowPopup, setShowPopup] = useState(false);
+  const [userPlanets, setUserPlanets] = useState<IUserPlanet[]>([]);
 
   const showModal = (event: any, status: POPUP_STATUS) => {
     const planetElement = event.target.closest(".planets__planet");
@@ -273,6 +277,14 @@ const PlanetMain = ({
     }
   };
 
+  const getUsersPlanet = async () => {
+    const result = await getAllUserPlanetsById(planet.id);
+
+    setUserPlanets(result);
+    setShowPopup(true);
+    console.log(result);
+  };
+
   return (
     <div
       className={classNames(styles.planetWrapper, "planets__planet")}
@@ -295,8 +307,15 @@ const PlanetMain = ({
             <img src="/icons/astronaut_helmet.png" width={32} height={32} />
             <span>Владелец</span>
           </div>
-          <button>Список планет</button>
+          <button onClick={getUsersPlanet}>Список планет</button>
         </div>
+        {isShowPopup && userPlanets && (
+          <UserPlanetsPopup
+            planets={userPlanets}
+            setShowPopup={setShowPopup}
+            planet={planet}
+          />
+        )}
         <div className={styles.health}>
           <img src="/icons/heart.png" width={20} height={18} />
           <div className={styles["progress-wrapper"]}>
@@ -361,7 +380,7 @@ const PlanetMain = ({
           </div>
         </div>
         <div className={styles.planet_user_farm}>
-          {elementValue} {planet.element.symbol}
+          {elementValue.toFixed(4)} {planet.element.symbol}
         </div>
         <div className={styles.alliance}>
           <img src="/icons/alliance.png" width={56} height={56} />

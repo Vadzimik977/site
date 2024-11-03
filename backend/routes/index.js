@@ -98,6 +98,16 @@ app.use(
     crud("/userPlanets", {
         ...sequelizeCrud(UserPlanets),
         get: async ({ }, { req, res }) => {
+
+            const planetId = req?.params?.id;
+            if (planetId) {
+                const result = await UserPlanets.findAll({
+                    where: { planetId },
+                });
+                return res.json({ result: result });
+            }
+
+
             const token = req.headers.authorization;
             const user = await User.findOne({ where: { adress: token } });
 
@@ -114,6 +124,8 @@ app.use(
         },
     })
 );
+// 
+
 app.use(crud("/userHistory", sequelizeCrud(History)));
 // app.post('/hasPlanet', async (req, res) => {
 //     const { userId, planetId } = req.body;
