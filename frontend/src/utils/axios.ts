@@ -1,8 +1,15 @@
 import axios, { Axios } from "axios";
+import { url } from "inspector";
 import { useUserStore } from "../store/userStore";
 import { INft } from "../types/nft";
 import { IPlanet, IUserPlanet } from "../types/planets.type";
-import { IHistory, IUser, IWallet, IWalletElement } from "../types/user.type";
+import {
+  IAllinace,
+  IHistory,
+  IUser,
+  IWallet,
+  IWalletElement,
+} from "../types/user.type";
 
 const getAxios = () => {
   const address = useUserStore.getState().address;
@@ -199,7 +206,6 @@ export const getAllUserPlanets = async () => {
   return planets.data.result;
 };
 
-
 export const getAllUserPlanetsById = async (id) => {
   const instance = getAxios();
 
@@ -208,7 +214,6 @@ export const getAllUserPlanetsById = async (id) => {
   );
   return planets.data.result;
 };
-
 
 export const updateUserPlanet = async (id, level) => {
   const isOk = await instance.put(`${url}/api/userPlanets/${id}`, { level });
@@ -232,4 +237,27 @@ export const updateBuilds = async (wallet, value) => {
     builds: value,
   });
   return updated.data;
+};
+
+//alinace
+
+export const addToAlliance = async (planetId: number) => {
+  const instance = getAxios();
+
+  const isOk = await instance.post<{ result: IAllinace[] }>(
+    `${url}/api/alliance`,
+    {
+      planetId,
+    }
+  );
+  return isOk.data.result;
+};
+
+export const getAllianceByUser = async () => {
+  const instance = getAxios();
+
+  const planets = await instance.get<{ result: IAllinace[] }>(
+    `${url}/api/alliance`
+  );
+  return planets.data.result;
 };

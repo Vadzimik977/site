@@ -35,6 +35,14 @@ export interface IHistory {
   userId: number;
 }
 
+export interface IAllinace {
+  id: number;
+  planetId: number;
+  userId: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface IUser {
   id: number;
   email: null; // string

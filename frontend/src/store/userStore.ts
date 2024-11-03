@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { INft } from "../types/nft";
-import { IUser, IWallet } from "../types/user.type";
+import { IAllinace, IUser, IWallet } from "../types/user.type";
 
 interface UserState {
   user: IUser | null;
@@ -13,6 +13,9 @@ interface UserState {
   setAddress: (by: string) => void;
 
   setWallet: (by: IWallet) => void;
+
+  alliance: IAllinace[] | null;
+  setAlliance: (by: IAllinace[]) => void;
 }
 
 export const useUserStore = create<UserState>()((set, get) => ({
@@ -31,4 +34,7 @@ export const useUserStore = create<UserState>()((set, get) => ({
 
     return set({ user: { ...user, wallet } });
   },
+
+  alliance: null,
+  setAlliance: (alliance) => set({ alliance }),
 }));

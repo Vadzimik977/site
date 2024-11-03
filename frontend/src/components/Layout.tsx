@@ -15,6 +15,7 @@ import scroll from "../assets/js/scroll";
 import { useUserStore } from "../store/userStore";
 import {
   addPlanetToUser,
+  getAllianceByUser,
   getAllUserPlanets,
   getNfts,
   getPlanetByName,
@@ -30,7 +31,7 @@ export default function Layout({
   children: React.ReactNode;
   without?: boolean;
 }) {
-  const { setNft, setAddress, setUser, user } = useUserStore();
+  const { setNft, setAddress, setUser, user, setAlliance } = useUserStore();
   const address = useTonAddress();
   const wallet = useTonWallet();
   const connectionRestored = useIsConnectionRestored();
@@ -48,7 +49,9 @@ export default function Layout({
 
     setIsLoading(true);
     const user = await fetchDefaultUser();
+    const alliance = await getAllianceByUser();
     setUser(user);
+    setAlliance(alliance);
 
     const nft = await getNfts();
     setNft(nft);

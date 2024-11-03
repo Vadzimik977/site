@@ -23,7 +23,7 @@ const Element = sequelize.define('element', {
 const Planet = sequelize.define('planet', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: true },
-    speed: { type: DataTypes.FLOAT, allowNull: true},
+    speed: { type: DataTypes.FLOAT, allowNull: true },
     updatePrice: { type: DataTypes.INTEGER, allowNull: true },
     img: { type: DataTypes.STRING, allowNull: true },
     active: { type: DataTypes.BOOLEAN, defaultValue: false },
@@ -46,6 +46,13 @@ const History = sequelize.define('user_history', {
     value: { type: DataTypes.JSON, allowNull: true, defaultValue: [] }
 });
 
+const Alliance = sequelize.define('allinace', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    planetId: { type: DataTypes.INTEGER, allowNull: true },
+    userId: { type: DataTypes.INTEGER, allowNull: true },
+});
+
+
 // PlanetUsers.hasOne(User);
 // PlanetUsers.hasOne(Planet)
 User.hasOne(Wallet);
@@ -55,13 +62,16 @@ User.hasOne(History);
 //Planet.hasMany(Element);
 
 //Element.belongsTo(Planet);
-Planet.belongsToMany(Element, {through: 'element_planets'})
-Element.belongsToMany(Planet, {through: 'element_planets'})
+Planet.belongsToMany(Element, { through: 'element_planets' })
+Element.belongsToMany(Planet, { through: 'element_planets' })
 
 Wallet.belongsTo(User);
 UserPlanets.belongsTo(User);
 UserPlanets.belongsTo(Planet);
 History.belongsTo(User)
+
+Alliance.belongsTo(Planet);
+Alliance.belongsTo(User);
 
 module.exports = {
     User,
@@ -69,5 +79,6 @@ module.exports = {
     Wallet,
     Element,
     UserPlanets,
-    History
+    History,
+    Alliance
 }

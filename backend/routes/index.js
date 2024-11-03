@@ -13,6 +13,7 @@ const {
     Wallet,
     UserPlanets,
     History,
+    Alliance,
 } = require("../models/models");
 const userController = require("../controllers/userController");
 
@@ -138,6 +139,58 @@ app.use(crud("/userHistory", sequelizeCrud(History)));
 //     return res.status(200);
 // })
 //app.use(crud("/wallet", sequelizeCrud(Wallet)));
+
+app.use(crud("/alliance", {
+    get: async ({ }, { req, res }) => {
+
+        const token = req.headers.authorization;
+        const user = await User.findOne({ where: { adress: token } });
+
+        if (!user) {
+            return res.status(403).json({ result: [] });
+        }
+        const result = await Alliance.findAndCountAll({
+            where: { userId: user.id },
+        })
+        return res.json(
+            { result: result.rows }
+        )
+    },
+    create: async ({ }, { req, res }) => {
+        const { planetId } = req.body;
+        try {
+            const token = req.headers.authorization;
+            const user = await User.findOne({ where: { adress: token } });
+            const userId = user.id
+
+            if (!user) {
+                return res.status(403).json({ result: [] });
+            }
+
+            const check = await Alliance.findOne({ where: { userId, planetId } });
+            if (check) {
+                return res.status(403).json({ result: [] });
+            }
+
+            await Alliance.create({
+                userId,
+                planetId,
+            })
+
+            const result = await Alliance.findAndCountAll({
+                where: { userId: user.id },
+            })
+            return res.json(
+                { result: result.rows }
+            )
+
+        } catch (err) {
+            console.log(err)
+
+            return res.status(404)
+        }
+    }
+}));
 
 ///
 app.get("/user", async (req, res) => {

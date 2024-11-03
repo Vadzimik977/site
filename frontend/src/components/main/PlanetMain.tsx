@@ -8,6 +8,7 @@ import { IPlanet, IUserPlanet } from "../../types/planets.type";
 import { IWallet, IWalletElement } from "../../types/user.type";
 import {
   addPlanetToUser,
+  addToAlliance,
   getAllUserPlanetsById,
   updateUser,
   updateUserPlanet,
@@ -39,7 +40,8 @@ const PlanetMain = ({
   planet: IPlanet;
   wallet: IWallet;
 }) => {
-  const { user, nft, setWallet, setUser } = useUserStore();
+  const { user, nft, setWallet, setUser, alliance, setAlliance } =
+    useUserStore();
 
   const [elementValue, setElementValue] = useState(0);
 
@@ -280,9 +282,17 @@ const PlanetMain = ({
   const getUsersPlanet = async () => {
     const result = await getAllUserPlanetsById(planet.id);
 
+    console.log(result);
+
     setUserPlanets(result);
     setShowPopup(true);
     console.log(result);
+  };
+
+  const onClickAllinace = async () => {
+    const result = await addToAlliance(planet.id);
+
+    setAlliance(result);
   };
 
   return (
@@ -382,15 +392,31 @@ const PlanetMain = ({
         <div className={styles.planet_user_farm}>
           {elementValue.toFixed(4)} {planet.element.symbol}
         </div>
-        <div className={styles.alliance}>
-          <img src="/icons/alliance.png" width={56} height={56} />
-          <img
-            src="/icons/plus.png"
-            width={20}
-            height={20}
-            className={styles.alliance_plus}
-          />
-        </div>
+
+        {!alliance && (
+          <button className={styles.alliance} onClick={onClickAllinace}>
+            <img src="/icons/alliance.png" width={56} height={56} />
+            <img
+              src="/icons/plus.png"
+              width={20}
+              height={20}
+              className={styles.alliance_plus}
+            />
+          </button>
+        )}
+
+        {alliance?.find((item) => item.planetId == planet.id)?.planetId !==
+          planet.id && (
+          <button className={styles.alliance} onClick={onClickAllinace}>
+            <img src="/icons/alliance.png" width={56} height={56} />
+            <img
+              src="/icons/plus.png"
+              width={20}
+              height={20}
+              className={styles.alliance_plus}
+            />
+          </button>
+        )}
 
         {planet.forLaboratory && (
           <div className="planet__time-timer">
