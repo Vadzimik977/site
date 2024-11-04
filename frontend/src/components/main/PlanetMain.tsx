@@ -163,9 +163,8 @@ const PlanetMain = ({
   };
 
   const walletUpdate = async (e: any) => {
-    // if (e.target.tagName.toLowerCase() === "button") return;
+    if (e.target.tagName.toLowerCase() === "button") return;
 
-    console.log("here 1");
     const plusIcon = document.createElement("div");
     plusIcon.textContent = "+";
     plusIcon.classList.add("plus-icon");
@@ -297,133 +296,193 @@ const PlanetMain = ({
 
   return (
     <div
-      className={classNames(styles.planetWrapper, "planets__planet")}
+      className={classNames("planets__planet")}
       onClick={walletUpdate}
       // ref={animated}
     >
-      <div className={styles.planet_left}>
-        <h4>
-          {planet.element.name}({planet.element.symbol}) - Planet #
-          {planet.element.index}
-        </h4>
-        <span className={styles.planetDescription}>
-          Добываемый ресурс{" "}
-          <span>
-            {planet.element.name} ({planet.element.symbol})
+      <div className={styles.planetWrapper}>
+        <div className={styles.planet_left}>
+          <h4>
+            {planet.element.name}({planet.element.symbol}) - Planet #
+            {planet.element.index}
+          </h4>
+          <span className={styles.planetDescription}>
+            Добываемый ресурс{" "}
+            <span>
+              {planet.element.name} ({planet.element.symbol})
+            </span>
           </span>
-        </span>
-        <div className={styles.owner}>
-          <div>
-            <img src="/icons/astronaut_helmet.png" width={32} height={32} />
-            <span>Владелец</span>
+          <div className={styles.owner}>
+            <div>
+              <img src="/icons/astronaut_helmet.png" width={32} height={32} />
+              <span>Владелец</span>
+            </div>
+            <button onClick={getUsersPlanet}>Список планет</button>
           </div>
-          <button onClick={getUsersPlanet}>Список планет</button>
-        </div>
-        {isShowPopup && userPlanets && (
-          <UserPlanetsPopup
-            planets={userPlanets}
-            setShowPopup={setShowPopup}
-            planet={planet}
-          />
-        )}
-        <div className={styles.health}>
-          <img src="/icons/heart.png" width={20} height={18} />
-          <div className={styles["progress-wrapper"]}>
-            <div className={styles["progress"]}></div>
+          {isShowPopup && userPlanets && (
+            <UserPlanetsPopup
+              planets={userPlanets}
+              setShowPopup={setShowPopup}
+              planet={planet}
+            />
+          )}
+          <div className={styles.health}>
+            <img src="/icons/heart.png" width={20} height={18} />
+            <div className={styles["progress-wrapper"]}>
+              <div className={styles["progress"]}></div>
+            </div>
           </div>
-        </div>
-        <div className={styles["planetInfo"]}>
-          <div className={styles["planetInfo__row"]}>
-            <span className={styles["planetInfo__title"]}>Уровень</span>
-            <span className={styles["planetInfo__description"]}>
-              {planet.user_planets.find((item) => item.userId === user?.id)
-                ?.level || 0}
-            </span>
-          </div>
+          <div className={styles["planetInfo"]}>
+            <div className={styles["planetInfo__row"]}>
+              <span className={styles["planetInfo__title"]}>Уровень</span>
+              <span className={styles["planetInfo__description"]}>
+                {planet.user_planets.find((item) => item.userId === user?.id)
+                  ?.level || 0}
+              </span>
+            </div>
 
-          <div className={styles["planetInfo__row"]}>
-            <span className={styles["planetInfo__title"]}>Скорость</span>
-            <span className={styles["planetInfo__description"]}>
-              {planet.speed} ({planet.element.symbol})/час
-            </span>
-          </div>
+            <div className={styles["planetInfo__row"]}>
+              <span className={styles["planetInfo__title"]}>Скорость</span>
+              <span className={styles["planetInfo__description"]}>
+                {planet.speed} ({planet.element.symbol})/час
+              </span>
+            </div>
 
-          <div className={styles["planetInfo__row"]}>
-            <span className={styles["planetInfo__title"]}>Всего ресурсов</span>
-            <span className={styles["planetInfo__description"]}>1.000.000</span>
-          </div>
+            <div className={styles["planetInfo__row"]}>
+              <span className={styles["planetInfo__title"]}>
+                Всего ресурсов
+              </span>
+              <span className={styles["planetInfo__description"]}>
+                1.000.000
+              </span>
+            </div>
 
-          <div className={styles["planetInfo__row"]}>
-            <span className={styles["planetInfo__title"]}>Добыто ресурсов</span>
-            <span className={styles["planetInfo__description"]}>1.000</span>
+            <div className={styles["planetInfo__row"]}>
+              <span className={styles["planetInfo__title"]}>
+                Добыто ресурсов
+              </span>
+              <span className={styles["planetInfo__description"]}>1.000</span>
+            </div>
           </div>
-        </div>
-        <div className={styles.actions}>
-          <button className={styles["action-btn"]}>
-            Атака
-            <img src="/icons/sword.png" width={20} height={20} />
-          </button>
-          <button className={styles["action-btn"]} onClick={updatePlanetSpeed}>
+          <div className={styles.actions}>
+            <button className={styles["action-btn"]}>
+              Атака
+              <img src="/icons/sword.png" width={20} height={20} />
+            </button>
+
             {(planet.user_planets.find((item) => item.userId === user?.id)
-              ?.level || 0) == 0
-              ? "Аренда"
-              : "Обновить"}
-
-            <img src="/icons/time.png" width={20} height={20} />
-          </button>
-        </div>
-      </div>
-      <div className={styles.planet_right}>
-        <div className={styles.planet_preview}>
-          <img
-            src={`/img/planet/${planet.img}`}
-            className={styles.planet_preview__planet}
-          />
-          <img
-            src={`/img/ship/type_1.png`}
-            width={104}
-            height={52}
-            className={styles.planet_preview__ship}
-          />
-          <div className={styles.planet_preview__icon}>
-            <img src="/icons/pickaxe.png" width={24} height={24} />
+              ?.level || 0) == 0 && (
+              <button
+                className={styles["action-btn"]}
+                onClick={updatePlanetSpeed}
+              >
+                Аренда
+                <img src="/icons/time.png" width={20} height={20} />
+              </button>
+            )}
           </div>
         </div>
-        <div className={styles.planet_user_farm}>
-          {elementValue.toFixed(4)} {planet.element.symbol}
-        </div>
-
-        {!alliance && (
-          <button className={styles.alliance} onClick={onClickAllinace}>
-            <img src="/icons/alliance.png" width={56} height={56} />
+        <div className={styles.planet_right}>
+          <div className={styles.planet_preview}>
             <img
-              src="/icons/plus.png"
-              width={20}
-              height={20}
-              className={styles.alliance_plus}
+              src={`/img/planet/${planet.img}`}
+              className={styles.planet_preview__planet}
             />
-          </button>
-        )}
-
-        {alliance?.find((item) => item.planetId == planet.id)?.planetId !==
-          planet.id && (
-          <button className={styles.alliance} onClick={onClickAllinace}>
-            <img src="/icons/alliance.png" width={56} height={56} />
             <img
-              src="/icons/plus.png"
-              width={20}
-              height={20}
-              className={styles.alliance_plus}
+              src={`/img/ship/type_1.png`}
+              width={104}
+              height={52}
+              className={styles.planet_preview__ship}
             />
-          </button>
-        )}
-
-        {planet.forLaboratory && (
-          <div className="planet__time-timer">
-            <Timer />
+            <div className={styles.planet_preview__icon}>
+              <img src="/icons/pickaxe.png" width={24} height={24} />
+            </div>
           </div>
-        )}
+          <div className={styles.planet_user_farm}>
+            {elementValue.toFixed(4)} {planet.element.symbol}
+          </div>
+
+          {!alliance && (
+            <button className={styles.alliance} onClick={onClickAllinace}>
+              <img src="/icons/alliance.png" width={56} height={56} />
+              <img
+                src="/icons/plus.png"
+                width={20}
+                height={20}
+                className={styles.alliance_plus}
+              />
+            </button>
+          )}
+
+          {alliance?.find((item) => item.planetId == planet.id)?.planetId !==
+            planet.id && (
+            <button className={styles.alliance} onClick={onClickAllinace}>
+              <img src="/icons/alliance.png" width={56} height={56} />
+              <img
+                src="/icons/plus.png"
+                width={20}
+                height={20}
+                className={styles.alliance_plus}
+              />
+            </button>
+          )}
+
+          {planet.forLaboratory && (
+            <div className="planet__time-timer">
+              <Timer />
+            </div>
+          )}
+        </div>
       </div>
+
+      {Number(
+        planet.user_planets.find((item) => item.userId === user?.id)?.level || 0
+      ) > 0 && (
+        <div
+          className={styles.planet_bottom}
+          style={{
+            backgroundImage: `url(/img/buildings/${
+              planet.user_planets.find((item) => item.userId === user?.id)
+                ?.level
+            }.png)`,
+          }}
+        >
+          <div className={styles.planet_bottom_actions}>
+            <button>
+              <img src="/icons/blue/sword.png" width={24} height={24} /> Атака -
+              +50%
+            </button>
+            <button>
+              <img src="/icons/blue/shield.png" width={24} height={24} /> Защита
+              - +50%
+            </button>
+            <button>
+              <img src="/icons/blue/scout.png" width={24} height={24} />
+              Космопорт
+            </button>
+            <div className={styles.planet_bottom_actions__up}>
+              <button>
+                <img src="/icons/blue/building.png" width={24} height={24} />
+                Постройки
+              </button>
+              <button className={styles.up_button} onClick={updatePlanetSpeed}>
+                <img src="/icons/upgrade.png" width={24} height={24} />
+              </button>
+            </div>
+          </div>
+
+          {/* <div className={styles.planet_bottom_actions}>
+          <button>Атака</button>
+          <button>Защита</button>
+        </div> */}
+          <div className={styles.free_res}>
+            <div className={styles.free_res__title}>Бесплатные ресурсы</div>
+            <div className={styles.free_res__description}>
+              Получите бесплатные ресурсы выполняя задания
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

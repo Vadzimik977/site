@@ -80,6 +80,8 @@
 .planetInfo {
   border: 1px solid #828282;
   border-radius: 16px;
+  position: relative;
+  z-index: 1;
 }
 .planetInfo__row {
   font-size: 16px;
@@ -117,6 +119,8 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+  position: relative;
+  z-index: 2;
 }
 
 .planet_right {
@@ -169,6 +173,7 @@
   width: 64px;
   height: 64px;
   position: relative;
+  z-index: 1;
 
   margin: 0 auto;
   border: none;
@@ -187,4 +192,95 @@
   position: relative;
   font-size: 16px;
   font-weight: bold;
+}
+.planet_bottom {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  position: relative;
+  height: 500px;
+  top: -63px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  padding: 0 24px;
+  padding-top: 75px;
+
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.planet_bottom::before {
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgb(0, 0, 0), rgba(255, 255, 255, 0));
+  height: 106px;
+  pointer-events: none;
+}
+
+.planet_bottom_actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+.planet_bottom_actions button {
+  background-color: #3d3636;
+  color: #fff;
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+  gap: 8px;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.planet_bottom_actions__up {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+button.up_button {
+  width: fit-content;
+}
+
+.free_res {
+  background-image: url("/images/free-res-bg.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 100px;
+  width: 100%;
+
+  width: 90%;
+  position: absolute;
+  left: 50%;
+  bottom: 33px;
+  transform: translateX(-50%);
+}
+.free_res__title {
+  color: #f8c335;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  top: 10px;
+}
+.free_res__description {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  position: relative;
+  top: 17px;
+  width: 80%;
+  left: 20px;
 }
