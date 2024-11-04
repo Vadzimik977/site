@@ -103,6 +103,7 @@
   grid-template-columns: 50% 50%;
   gap: 12px;
   margin-top: 16px;
+  padding: 0 8px;
 }
 
 .action-btn {
@@ -261,9 +262,7 @@ button.up_button {
   background-repeat: no-repeat;
   background-position: center center;
   height: 100px;
-  width: 100%;
-
-  width: 90%;
+  width: 495px;
   position: absolute;
   left: 50%;
   bottom: 33px;
@@ -284,7 +283,20 @@ button.up_button {
   position: relative;
   top: 17px;
   width: 80%;
-  left: 20px;
+  left: 14px;
+}
+@media screen and (max-width: 550px) {
+  .free_res {
+    width: 320px;
+  }
+  .free_res__title {
+    font-size: 16px;
+    top: 22px;
+  }
+  .free_res__description {
+    font-size: 13px;
+    top: 22px;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -316,6 +328,10 @@ button.up_button {
   .planet__time-timer {
     font-size: 12px !important;
   }
+  .planet_bottom_actions button {
+    padding: 4px 8px;
+    font-size: 14px;
+  }
 }
 
 @media screen and (max-width: 400px) {
@@ -323,5 +339,6 @@ button.up_button {
     padding: 4px 4px;
     font-size: 13px;
     white-space: nowrap;
+    width: 100%;
   }
 }
