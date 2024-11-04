@@ -16,7 +16,7 @@ import {
 } from "../../utils/axios";
 import UserPlanetsPopup from "../Popup/UserPlanetsPopup";
 import Timer from "../Timer";
-import styles from "./PlanetMain.module.css";
+import styles from "./PlanetMain.module.scss";
 
 // enum POPUP_STATUS {
 //   UPGRADE = "upgrade",

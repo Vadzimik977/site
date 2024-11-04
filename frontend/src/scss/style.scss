@@ -1361,7 +1361,6 @@ footer {
   }
 }
 
-
 .planet__time-timer {
   font-size: 16px;
   font-weight: 700;
@@ -1439,7 +1438,11 @@ footer {
     max-height: 122px;
   }
   &__content {
-    background: linear-gradient(90deg, rgba(67, 46, 44, 0) -4.93%, rgba(67, 46, 44, 0.8) 92.17%);
+    background: linear-gradient(
+      90deg,
+      rgba(67, 46, 44, 0) -4.93%,
+      rgba(67, 46, 44, 0.8) 92.17%
+    );
     border-radius: 16px;
     padding: 16px;
     width: 100%;
@@ -1451,23 +1454,23 @@ footer {
     margin-bottom: 16px;
   }
 
-  &__btn{
-    border: 1px solid #F8C335;
+  &__btn {
+    border: 1px solid #f8c335;
     border-radius: 12px;
     padding: 8px 0;
     width: 100%;
     margin-bottom: 24px;
-    color: #F8C335;
-    background: transparent
+    color: #f8c335;
+    background: transparent;
   }
-  &__info{
+  &__info {
     display: flex;
     gap: 24px;
     font-size: 18px;
     font-weight: 600;
   }
-  &__plus{
-    color: #F8C335;
+  &__plus {
+    color: #f8c335;
   }
 }
 

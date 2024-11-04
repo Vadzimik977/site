@@ -184,6 +184,7 @@
   bottom: 0;
   right: 0;
 }
+
 .timer {
   margin-top: auto;
   display: flex;
@@ -193,6 +194,7 @@
   font-size: 16px;
   font-weight: bold;
 }
+
 .planet_bottom {
   background-size: cover;
   background-repeat: no-repeat;
@@ -283,4 +285,43 @@ button.up_button {
   top: 17px;
   width: 80%;
   left: 20px;
+}
+
+@media screen and (max-width: 500px) {
+  .planet_bottom_actions {
+    grid-template-columns: 1fr;
+  }
+  .planetWrapper {
+    gap: 12px;
+  }
+  .planetWrapper h4 {
+    font-size: 16px;
+  }
+  .planetDescription {
+    font-size: 10px;
+  }
+  .owner span {
+    font-size: 10px;
+  }
+  .planet_preview__planet {
+    width: 100%;
+  }
+  .planet_preview__ship {
+    width: 60px;
+  }
+  .planet_user_farm {
+    padding: 4px 8px;
+    font-size: 14px;
+  }
+  .planet__time-timer {
+    font-size: 12px !important;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .planet_user_farm {
+    padding: 4px 4px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
 }
