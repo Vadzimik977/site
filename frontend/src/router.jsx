@@ -30,10 +30,6 @@ const router = createBrowserRouter([
     element: <Wallet />,
   },
   {
-    path: "/admin/*",
-    element: <AdminPage />,
-  },
-  {
     path: "/planet/:planetId",
     element: <Detail />,
   },
@@ -41,6 +37,10 @@ const router = createBrowserRouter([
     path: "/tasks",
     element: <Tasks />,
   },
+  {
+    path: "/admin/*",
+    element: <AdminPage />,
+  }
 ]);
 
 export default router;

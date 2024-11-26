@@ -21,6 +21,8 @@ import CreatePlanet from "./tables/CreatePlanet";
 import CreateElement from "./tables/CreateElement";
 import { authProvider } from "./authProvider";
 import EditUser from "./tables/EditUser";
+import CreateTask from "./tables/CreateTask";
+import Tasks from "./tables/Tasks";
 export default function AdminPage() {
     return (
         <Admin
@@ -32,6 +34,7 @@ export default function AdminPage() {
                 name="users"
                 list={Users}
                 edit={EditUser}
+                options={{label: 'Пользователи'}}
                 create={
                     <Create>
                         <SimpleForm>
@@ -41,7 +44,8 @@ export default function AdminPage() {
                 }
             />
             <Resource
-                name="planets"
+                name="planets_admin"
+                options={{label: 'Планеты'}}
                 list={Planets}
                 create={CreatePlanet}
                 edit={EditPlanet}
@@ -49,8 +53,15 @@ export default function AdminPage() {
             />
             <Resource
                 name="elements"
+                options={{label: 'Элементы'}}
                 create={CreateElement}
                 list={Elements}
+            />
+            <Resource 
+                name="tasks"
+                options={{label: 'Задания'}}
+                create={CreateTask}
+                list={Tasks}
             />
         </Admin>
     );
