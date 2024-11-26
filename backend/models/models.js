@@ -52,6 +52,13 @@ const Alliance = sequelize.define('allinace', {
     userId: { type: DataTypes.INTEGER, allowNull: true },
 });
 
+const Tasks = sequelize.define('tasks', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    type: { type: DataTypes.ENUM("tgChannel", "tgChat", "video") },
+    amount: { type: DataTypes.DOUBLE, allowNull: true },
+    link: { type: DataTypes.STRING, allowNull: true }
+});
+
 
 // PlanetUsers.hasOne(User);
 // PlanetUsers.hasOne(Planet)
@@ -62,8 +69,11 @@ User.hasOne(History);
 //Planet.hasMany(Element);
 
 //Element.belongsTo(Planet);
-Planet.belongsToMany(Element, { through: 'element_planets' })
-Element.belongsToMany(Planet, { through: 'element_planets' })
+Planet.belongsToMany(Element, { through: 'element_planets' });
+Element.belongsToMany(Planet, { through: 'element_planets' });
+
+Tasks.belongsToMany(User, { through: 'completed_tasks' });
+User.belongsToMany(Tasks, { through: 'completed_tasks' });
 
 Wallet.belongsTo(User);
 UserPlanets.belongsTo(User);
@@ -80,5 +90,6 @@ module.exports = {
     Element,
     UserPlanets,
     History,
-    Alliance
+    Alliance,
+    Tasks
 }

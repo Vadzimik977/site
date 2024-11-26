@@ -14,6 +14,7 @@ const {
     UserPlanets,
     History,
     Alliance,
+    Tasks,
 } = require("../models/models");
 const userController = require("../controllers/userController");
 
@@ -247,4 +248,5 @@ app.post("/user", async (req, res) => {
     }
 });
 
+app.use(crud('/tasks', sequelizeCrud(Tasks)));
 module.exports = app;

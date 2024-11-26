@@ -261,3 +261,10 @@ export const getAllianceByUser = async () => {
   );
   return planets.data.result;
 };
+
+export const getTasks = async () => {
+  const instance = getAxios();
+
+  const tasks = await instance.get(`${url}/api/tasks`);
+  return tasks.data
+}

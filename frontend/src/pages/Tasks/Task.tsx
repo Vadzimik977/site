@@ -17,11 +17,13 @@ const Task = ({
   value,
   type,
   imgSrc,
+  src
 }: {
   title: string;
   buttonText: string;
   value: number;
   type: TTaskType;
+  src: string;
   imgSrc?: string;
 }) => {
   return (
@@ -33,7 +35,7 @@ const Task = ({
       <div className="subscribe-task__content">
         <div className="subscribe-task__title">{title}</div>
         <button className="subscribe-task__btn" onClick={() => {}}>
-          {buttonText}
+          <a target="_blank" href={src} style={{textDecoration: 'none', color: 'inherit'}}>{buttonText}</a>
         </button>
         <div className="subscribe-task__info">
           <span className="subscribe-task__text">Ресурсов начислится</span>

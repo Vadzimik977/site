@@ -123,8 +123,9 @@
     display: none;
   }
   @media (max-width: 768px) {
+    display: inherit !important;
     &:not(.mobile) {
-      display: none;
+      display: none !important;
     }
     &.mobile {
       bottom: 0;
