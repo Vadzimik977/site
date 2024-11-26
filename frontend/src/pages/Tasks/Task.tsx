@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 const getTaskThumbnail = (type: TTaskType) => {
   switch (type) {
     case "video":
@@ -26,6 +28,7 @@ const Task = ({
   src: string;
   imgSrc?: string;
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="subscribe-task">
       <img
@@ -38,7 +41,7 @@ const Task = ({
           <a target="_blank" href={src} style={{textDecoration: 'none', color: 'inherit'}}>{buttonText}</a>
         </button>
         <div className="subscribe-task__info">
-          <span className="subscribe-task__text">Ресурсов начислится</span>
+          <span className="subscribe-task__text">{t('creditedResource')}</span>
           <span className="subscribe-task__plus">+{value}</span>
         </div>
       </div>
