@@ -17,6 +17,7 @@ import {
 import UserPlanetsPopup from "../Popup/UserPlanetsPopup";
 import Timer from "../Timer";
 import styles from "./PlanetMain.module.scss";
+import { Link } from "react-router-dom";
 
 // enum POPUP_STATUS {
 //   UPGRADE = "upgrade",
@@ -307,7 +308,7 @@ const PlanetMain = ({
             {planet.element.index}
           </h4>
           <span className={styles.planetDescription}>
-            Добываемый ресурс{" "}
+            {t('extractedResource')}{" "}
             <span>
               {planet.element.name} ({planet.element.symbol})
             </span>
@@ -334,7 +335,7 @@ const PlanetMain = ({
           </div>
           <div className={styles["planetInfo"]}>
             <div className={styles["planetInfo__row"]}>
-              <span className={styles["planetInfo__title"]}>Уровень</span>
+              <span className={styles["planetInfo__title"]}>{t('level')}</span>
               <span className={styles["planetInfo__description"]}>
                 {planet.user_planets.find((item) => item.userId === user?.id)
                   ?.level || 0}
@@ -342,15 +343,15 @@ const PlanetMain = ({
             </div>
 
             <div className={styles["planetInfo__row"]}>
-              <span className={styles["planetInfo__title"]}>Скорость</span>
+              <span className={styles["planetInfo__title"]}>{t('speed')}</span>
               <span className={styles["planetInfo__description"]}>
-                {planet.speed} ({planet.element.symbol})/час
+                {planet.speed} ({planet.element.symbol})/{t('hour')}
               </span>
             </div>
 
             <div className={styles["planetInfo__row"]}>
               <span className={styles["planetInfo__title"]}>
-                Всего ресурсов
+                {t('allResource')}
               </span>
               <span className={styles["planetInfo__description"]}>
                 1.000.000
@@ -359,14 +360,14 @@ const PlanetMain = ({
 
             <div className={styles["planetInfo__row"]}>
               <span className={styles["planetInfo__title"]}>
-                Добыто ресурсов
+                {t('minedResource')}
               </span>
               <span className={styles["planetInfo__description"]}>1.000</span>
             </div>
           </div>
           <div className={styles.actions}>
             <button className={styles["action-btn"]}>
-              Атака
+              {t('attack')}
               <img src="/icons/sword.png" width={20} height={20} />
             </button>
 
@@ -376,7 +377,7 @@ const PlanetMain = ({
                 className={styles["action-btn"]}
                 onClick={updatePlanetSpeed}
               >
-                Аренда
+                {t('rent')}
                 <img src="/icons/time.png" width={20} height={20} />
               </button>
             )}
@@ -453,17 +454,17 @@ const PlanetMain = ({
               +50%
             </button> */}
             <button>
-              <img src="/icons/blue/shield.png" width={24} height={24} /> Защита
+              <img src="/icons/blue/shield.png" width={24} height={24} /> {t('defend')}
               - +50%
             </button>
             <button>
               <img src="/icons/blue/scout.png" width={24} height={24} />
-              Космопорт
+              {t('spaceport')}
             </button>
             <div className={styles.planet_bottom_actions__up}>
               <button>
                 <img src="/icons/blue/building.png" width={24} height={24} />
-                Постройки
+                {t('builds')}
               </button>
               <button className={styles.up_button} onClick={updatePlanetSpeed}>
                 <img src="/icons/upgrade.png" width={24} height={24} />
@@ -475,12 +476,14 @@ const PlanetMain = ({
           <button>Атака</button>
           <button>Защита</button>
         </div> */}
-          <div className={styles.free_res}>
-            <div className={styles.free_res__title}>Бесплатные ресурсы</div>
-            <div className={styles.free_res__description}>
-              Получите бесплатные ресурсы выполняя задания
+          <Link to="/tasks">
+            <div className={styles.free_res}>
+              <div className={styles.free_res__title}>{t('freeResource')}</div>
+              <div className={styles.free_res__description}>
+                {t('freeResourceInfo')}
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
       )}
     </div>

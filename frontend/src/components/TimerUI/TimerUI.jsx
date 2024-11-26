@@ -5,9 +5,9 @@ const TimerUI = () => {
     <div className={styles.timerWrapper}>
       <div className={styles["timer-wrapper__counter"]}>18:45:12</div>
       <div className={styles["timer-wrapper__text"]}>
-        <span>часы</span>
-        <span>мин</span>
-        <span>сек</span>
+        <span>{t('hour')}</span>
+        <span>{t('min')}</span>
+        <span>{t('sec')}</span>
       </div>
     </div>
   );

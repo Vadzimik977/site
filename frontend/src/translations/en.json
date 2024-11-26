@@ -68,5 +68,20 @@
     "fivethBuild": "Tritium Laboratory",
     "sixthBuild": "Planetary Bioextractor",
     "seventhBuild": "Magnetary Complex",
-    "buyPlanetModal": "Buy build"
+    "buyPlanetModal": "Buy build",
+    "freeResource": "Free resources",
+    "freeResourceInfo": "Get a free resource to complete the task",
+    "spaceport": "Spaceport",
+    "builds": "Builds",
+    "allResource": "Total resources",
+    "minedResource": "Resources mined",
+    "attack": "Attack",
+    "rent": "Rent",
+    "defend": "Defend",
+    "getResource": "Get resource",
+    "tasksTitle": "Here you can get free resources by completing tasks",
+    "tgChannel": "Subscribe to telegram channel",
+    "tgChat": "Subscribe to telegram chat",
+    "video": "Watch video",
+    "creditedResource": "Resources will be credited"
 }
