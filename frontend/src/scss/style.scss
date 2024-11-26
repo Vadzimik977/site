@@ -119,6 +119,30 @@
 
 .navigation__wrapper {
   background: rgba(0, 0, 0, 0.6);
+
+  @media (max-width: 768px) {
+    &:not(.mobile) {
+      display: none;
+    }
+    &.mobile {
+      bottom: 0;
+      padding: 0;
+      position: fixed;
+      background: none;
+      top: revert-layer;
+      height: 65px;
+      background: #000;
+      border-top: 1px solid $yellow;
+
+      .nav__inner {
+        align-items: center;
+        height: 100%;
+      }
+      .container {
+        height: 100%;
+      }
+    }
+  }
 }
 
 nav {
@@ -152,6 +176,21 @@ nav {
   &.active a {
     color: $yellow;
     border-bottom: 5px solid $yellow;
+  }
+
+  @media (max-width: 768px) {
+    a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+
+      img {
+        max-width: 100%;
+        
+      }
+    }
   }
 }
 

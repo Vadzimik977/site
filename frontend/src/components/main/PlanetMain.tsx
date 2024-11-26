@@ -448,10 +448,10 @@ const PlanetMain = ({
           }}
         >
           <div className={styles.planet_bottom_actions}>
-            <button>
+{/*             <button>
               <img src="/icons/blue/sword.png" width={24} height={24} /> Атака -
               +50%
-            </button>
+            </button> */}
             <button>
               <img src="/icons/blue/shield.png" width={24} height={24} /> Защита
               - +50%
