@@ -18,6 +18,7 @@ import UserPlanetsPopup from "../Popup/UserPlanetsPopup";
 import Timer from "../Timer";
 import styles from "./PlanetMain.module.scss";
 import { Link } from "react-router-dom";
+import UpgradePlanet from "../Popup/UpgradePlanet";
 
 // enum POPUP_STATUS {
 //   UPGRADE = "upgrade",
@@ -54,6 +55,7 @@ const PlanetMain = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isShowPopup, setShowPopup] = useState(false);
   const [userPlanets, setUserPlanets] = useState<IUserPlanet[]>([]);
+  const [isShowUpgrade, setIsShowUpgrade] = useState(false);
 
   const showModal = (event: any, status: POPUP_STATUS) => {
     const planetElement = event.target.closest(".planets__planet");
@@ -442,7 +444,7 @@ const PlanetMain = ({
                 <img src="/icons/blue/building.png" width={24} height={24} />
                 {t('builds')}
               </button>
-              <button className={styles.up_button} onClick={updatePlanetSpeed}>
+              <button className={styles.up_button} onClick={() => setIsShowUpgrade(true)}>
                 <img src="/icons/upgrade.png" width={24} height={24} />
               </button>
             </div>
@@ -462,6 +464,11 @@ const PlanetMain = ({
           </Link>
         </div>
       )}
+      <UpgradePlanet 
+        setShowPopup={setIsShowUpgrade} 
+        isOpen={isShowUpgrade}
+        onSuccess={() => updatePlanetSpeed(document.querySelector('.' + styles.up_button))} 
+      />
     </div>
   );
 };

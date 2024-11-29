@@ -117,6 +117,10 @@
   }
 }
 
+.global-green {
+  color: $green;
+}
+
 .navigation__wrapper {
   background: rgba(0, 0, 0, 0.6);
   &.mobile {

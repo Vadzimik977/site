@@ -1,9 +1,25 @@
+.content__modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10000;
+  outline: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 .wrapper {
-  width: 320px;
+  width: 100%;
   height: 100%;
+  max-height: 400px;
   position: absolute;
   z-index: 2;
-
+  max-width: 90%;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -15,6 +31,7 @@
   background-position: center center;
   width: 100%;
   height: 340px;
+  position: absolute;
 }
 
 .content {
@@ -62,4 +79,82 @@
   display: flex;
   align-items: center;
   font-size: 12px;
+}
+
+.upgrade__planet {
+  display: flex;
+  align-items: center;
+
+  &__item {
+    &_left {
+      width: 30%;
+      img {
+        max-width: 105px;
+      }
+    }
+    &_right {
+      flex-basis: auto;
+      padding-left: 25px;
+      position: relative;
+      display: flex;
+      font-weight: 600;
+      width: 100%;
+      justify-content: end;
+      
+      img {
+        width: 100%;
+      }
+      .info__right {
+        position: absolute;
+        left: 20%;
+        top: 15px;
+        font-size: 10px;
+        width: 100%;
+        max-width: 150px;
+
+        &_item {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          &:not(:last-child) {
+            border-bottom: 1px solid #f8c335;
+          }
+        }
+      }
+    }
+  }
+
+}
+.modal__buttons {
+  margin-top: 5px;
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  &_price {
+    display: flex;
+    flex-direction: column;
+    font-size: 10px;
+    color: #f8c335;
+    align-items: center;
+    position: relative;
+
+    &_item {
+      position: absolute;
+      top: 50%;
+      margin-right: 10px;
+      color: white;
+    }
+  }
+
+  &_button {
+    width: 100%;
+    max-width: 150px;
+    background: #D09B0D;
+    font-size: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    color: white;
+  }
 }
