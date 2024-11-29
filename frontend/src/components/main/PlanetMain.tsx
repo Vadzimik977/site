@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { t } from "i18next";
 import { debounce } from "lodash";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import showPopup from "../../assets/js/showPopup";
 import { useUserStore } from "../../store/userStore";
 import { IPlanet, IUserPlanet } from "../../types/planets.type";
@@ -47,6 +47,10 @@ const PlanetMain = ({
   const [elementValue, setElementValue] = useState(0);
 
   const [click, setClick] = useState(1);
+  const [lastClickTime, setLastClickTime] = useState(0);
+  const lastClickTimeout = useRef<NodeJS.Timeout | null>(null);
+  const isProcessing = useRef(false); // Флаг, чтобы избежать повторной обработки
+
   const [isLoading, setIsLoading] = useState(false);
   const [isShowPopup, setShowPopup] = useState(false);
   const [userPlanets, setUserPlanets] = useState<IUserPlanet[]>([]);
@@ -85,16 +89,6 @@ const PlanetMain = ({
   };
 
   const updateFn = debounce(async (val: number) => {
-    console.log(isLoading, val);
-
-    // if (isLoading) {
-    //   setTimeout(() => {
-    //     updateFn(val);
-    //   }, 200);
-
-    //   return;
-    // }
-
     if (!wallet) {
       return;
     }
@@ -107,14 +101,13 @@ const PlanetMain = ({
     if (currentElem) {
       setIsLoading(true);
 
-      currentElem.value = parseFloat((currentElem.value + val).toFixed(10));
+      currentElem.value = parseFloat((val).toFixed(10));
 
       const data = [
         ...balance.filter((bal) => bal.symbol !== planet.element?.symbol),
         { ...currentElem },
       ];
 
-      setElementValue(currentElem.value);
       await putWallet(wallet, data);
 
       setIsLoading(false);
@@ -144,7 +137,7 @@ const PlanetMain = ({
           },
         ];
       }
-      setElementValue(val);
+      /* setElementValue(val); */
 
       const newWallet = await putWallet(wallet, data);
       setWallet(newWallet);
@@ -175,76 +168,43 @@ const PlanetMain = ({
     document.body.appendChild(plusIcon);
     plusIcon.addEventListener("animationend", () => plusIcon.remove());
 
+    const currentTime = Date.now();
+    const clickInterval = currentTime - lastClickTime;
+
     setClick(click + 1);
+    setLastClickTime(currentTime);
+
+    setElementValue(elementValue + 0.00005)
+
     if (!wallet && click >= 4) {
       showModal(e, "wallet");
     }
 
-    console.log("here 2");
-    if (userHasPlanet() && user) {
-      const userPlanet = planet.user_planets.find(
-        (item) => item.userId === user.id
-      );
-      if (!userPlanet) return;
+    console.log(elementValue)
 
-      const level = userPlanet.level;
-
-      let update = 0.00005;
-      if (Number(level) == 1) update = 0.05;
-      if (Number(level) == 2) update = 0.5;
-      if (Number(level) == 3) update = 1;
-      if (Number(level) == 4) update = 1.5;
-
-      console.log("here 3");
-      debounceFn(update);
-    } else {
-      debounceFn(0.00005);
-      console.log("here 4");
+    if(clickInterval < 250) {
+      if (lastClickTimeout.current) {
+        clearTimeout(lastClickTimeout.current);
+      }
+      lastClickTimeout.current = setTimeout(() => {
+        if(!isProcessing.current) {
+          debounceFn(elementValue + 0.00005)
+        }
+      }, 250);
+      return
     }
+
+    isProcessing.current = true;
+    debounceFn(elementValue + 0.00005);
+    setTimeout(() => {
+      isProcessing.current = false;
+    }, 50);
     // debounceFn(0.00005);
   };
 
   useEffect(() => {
     getInitState();
-  }, [isLoading, wallet, planet]);
-
-  const userHasPlanet = () => {
-    if (!user) return false;
-
-    if (planet?.user_planets) {
-      const plData = planet.user_planets;
-
-      const idx = plData?.find(
-        (item) => item?.planetId === planet.id && item?.userId === user.id
-      );
-
-      if (idx?.id) {
-        return true;
-      }
-    }
-    if (user?.userPlanets?.length > 0) {
-      const planets = user.userPlanets;
-      if (planets.some((item) => item.planetId === planet.id)) {
-        // const planet = planets.find((item) => item.planetId === planet?.id);
-        // setUserPlanet(planet);
-        return true;
-      }
-    }
-    if (nft) {
-      const fullName = `${planet.name}(${planet.element?.symbol}) - Planet #${planet.id}`;
-      const item = nft?.find((item) => item.metadata.name === fullName);
-      if (item && user.userPlanets.length > 0) {
-        const planets = user.userPlanets;
-        // const planet = planets.find((item) => item.planetId === planet.id);
-
-        // if (!planet?.id) {
-        //   // addPlanetToUser(id);
-        // }
-      }
-      return item;
-    }
-    return false;
-  };
+  }, []);
 
   const updatePlanetSpeed = async (e: any) => {
     if (!user || isLoading) return;
@@ -281,12 +241,8 @@ const PlanetMain = ({
 
   const getUsersPlanet = async () => {
     const result = await getAllUserPlanetsById(planet.id);
-
-    console.log(result);
-
     setUserPlanets(result);
     setShowPopup(true);
-    console.log(result);
   };
 
   const onClickAllinace = async () => {

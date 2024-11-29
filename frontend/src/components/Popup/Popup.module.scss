@@ -42,7 +42,7 @@
 }
 .planet_list {
   max-height: 120px;
-  overflow: scroll;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;

@@ -1,15 +1,9 @@
 import {
     Admin,
     Resource,
-    ListGuesser,
-    EditGuesser,
-    ShowGuesser,
     Create,
     SimpleForm,
     TextInput,
-    NumberInput,
-    SelectInput,
-    BooleanInput,
 } from "react-admin";
 import Users from "./tables/Users";
 import simpleRestProvider from "ra-data-simple-rest";

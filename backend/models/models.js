@@ -39,6 +39,10 @@ const Wallet = sequelize.define('wallet', {
 const UserPlanets = sequelize.define('user_planets', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     level: { type: DataTypes.STRING, allowNull: true, defaultValue: 1 },
+    builds: { type: DataTypes.JSON, allowNull: true, defaultValue: [] },
+    resources: { type: DataTypes.DOUBLE, allowNull: true, defaultValue: 0 },
+    health: { type: DataTypes.DOUBLE, allowNull: true, defaultValue: 0 },
+    active: { type: DataTypes.BOOLEAN, defaultValue: true },
 });
 
 const History = sequelize.define('user_history', {
@@ -59,11 +63,18 @@ const Tasks = sequelize.define('tasks', {
     link: { type: DataTypes.STRING, allowNull: true }
 });
 
+const Cosmoports = sequelize.define('spaceports', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    level: { type: DataTypes.TINYINT, allowNull: true, defaultValue: 1 },
+    type: { type: DataTypes.ENUM("tgChannel", "tgChat", "video") },
+});
+
 
 // PlanetUsers.hasOne(User);
 // PlanetUsers.hasOne(Planet)
 User.hasOne(Wallet);
 User.hasMany(UserPlanets);
+User.hasMany(Cosmoports)
 Planet.hasMany(UserPlanets);
 User.hasOne(History);
 //Planet.hasMany(Element);
@@ -82,6 +93,8 @@ History.belongsTo(User)
 
 Alliance.belongsTo(Planet);
 Alliance.belongsTo(User);
+
+Cosmoports.belongsTo(User);
 
 module.exports = {
     User,
