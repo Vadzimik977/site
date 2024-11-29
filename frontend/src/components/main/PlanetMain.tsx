@@ -209,34 +209,54 @@ const PlanetMain = ({
   const updatePlanetSpeed = async (e: any) => {
     if (!user || isLoading) return;
 
-    if (user.coins >= 3) {
-      const userPlanet = planet.user_planets.find(
-        (item) => item.userId === user.id
-      );
+    const userPlanet = planet.user_planets.find(
+      (item) => item.userId === user.id
+    );
+    setIsLoading(true);
+    if(!userPlanet) {
+      const addedPlanet = await addPlanetToUser(planet.id);
+      setIsLoading(false);
+      return;
+    }
 
-      setIsLoading(true);
+    if(+userPlanet.level >= 7) {
+      showModal(e, "updateError");
+      setIsLoading(false);
+      return;
+    }
 
-      if (!userPlanet) {
-        const addedPlanet = await addPlanetToUser(planet.id);
-      } else {
-        if (+userPlanet.level >= 4) {
-          showModal(e, "updateError");
-          return;
-        }
+    let cost = 3;
+    switch(+userPlanet.level) {
+      case 1:
+        cost = 6
+        break;
+      case 2:
+        cost = 12
+        break;
+      case 3:
+        cost = 24
+        break;
+      case 4:
+        cost = 48
+        break;
+      case 5:
+        cost = 96
+        break;
+      case 6:
+        cost = 192
+        break;
+    };
 
-        await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
-      }
-
-      const newUser = await updateUser({ coins: user.coins - 3 });
+    if(user.coins < cost) {
+      showModal(e, "balance");
+    } else {
+      await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
+      const newUser = await updateUser({ coins: user.coins - cost });
       setUser(newUser);
       showModal(e, "upgrade");
-
-      setIsLoading(false);
-      // await update();
-    } else {
-      showModal(e, "balance");
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   };
 
   const getUsersPlanet = async () => {
