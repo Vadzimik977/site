@@ -255,11 +255,15 @@ export const addToAlliance = async (planetId: number) => {
 
 export const getAllianceByUser = async () => {
   const instance = getAxios();
-
-  const planets = await instance.get<{ result: IAllinace[] }>(
-    `${url}/api/alliance`
-  );
-  return planets.data.result;
+  try {
+    const planets = await instance.get<{ result: IAllinace[] }>(
+      `${url}/api/alliance`
+    );
+    return planets.data.result;
+  } catch(err) {
+    console.log(err);
+    return [];
+  }
 };
 
 export const getTasks = async () => {

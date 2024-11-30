@@ -208,25 +208,12 @@ const PlanetMain = ({
     getInitState();
   }, []);
 
-  const updatePlanetSpeed = async (e: any) => {
-    if (!user || isLoading) return;
-
+  const getCost = (): {cost: number; level: number} | 0 => {
+    if (!user || isLoading) return 0;
     const userPlanet = planet.user_planets.find(
       (item) => item.userId === user.id
     );
-    setIsLoading(true);
-    if(!userPlanet) {
-      const addedPlanet = await addPlanetToUser(planet.id);
-      setIsLoading(false);
-      return;
-    }
-
-    if(+userPlanet.level >= 7) {
-      showModal(e, "updateError");
-      setIsLoading(false);
-      return;
-    }
-
+    if(!userPlanet) return 0;
     let cost = 3;
     switch(+userPlanet.level) {
       case 1:
@@ -248,6 +235,30 @@ const PlanetMain = ({
         cost = 192
         break;
     };
+
+    return {cost, level: +userPlanet.level};
+  }
+
+  const updatePlanetSpeed = async (e: any) => {
+    if (!user || isLoading) return;
+
+    const userPlanet = planet.user_planets.find(
+      (item) => item.userId === user.id
+    );
+    setIsLoading(true);
+    if(!userPlanet) {
+      const addedPlanet = await addPlanetToUser(planet.id);
+      setIsLoading(false);
+      return;
+    }
+
+    if(+userPlanet.level >= 7) {
+      showModal(e, "updateError");
+      setIsLoading(false);
+      return;
+    }
+
+    const {cost} = getCost() as {cost: number};
 
     if(user.coins < cost) {
       showModal(e, "balance");
@@ -465,6 +476,7 @@ const PlanetMain = ({
         </div>
       )}
       <UpgradePlanet 
+        getInitValue={getCost}
         setShowPopup={setIsShowUpgrade} 
         isOpen={isShowUpgrade}
         onSuccess={() => updatePlanetSpeed(document.querySelector('.' + styles.up_button))} 

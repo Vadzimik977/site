@@ -1,17 +1,19 @@
-import { useEffect } from 'react';
-import { IPlanet, IUserPlanet } from '../../types/planets.type';
+import { useEffect, useState } from 'react';
 import Popup from './Popup';
 import styles from './Popup.module.scss';
 import { createPortal } from 'react-dom';
+import PopupFuture from './PopupFuture';
 
 export default function UpgradePlanet({
     setShowPopup,
     onSuccess,
     isOpen,
+    getInitValue
 }: {
     setShowPopup: (status: boolean) => void;
     onSuccess: () => void;
     isOpen: boolean;
+    getInitValue: () => {cost: number, level: number}
 }) {
     useEffect(() => {
         if (isOpen) {
@@ -20,39 +22,17 @@ export default function UpgradePlanet({
             document.body.style.overflow = 'auto';
         }
     }, [isOpen]);
+
+    const [{cost, level}] = useState(getInitValue());
     return (
-        isOpen &&
-        createPortal(
-            <Popup
-                title="Улучшить базу"
-                setPopupStatus={setShowPopup}>
-                <div className={styles.upgrade__planet}>
-                    <div className={styles.upgrade__planet__item_left}>
-                        <img src="/modals/mobile/upg_base.png" alt="" />
-                    </div>
-                    <div className={styles.upgrade__planet__item_right}>
-                        <img src="/modals/mobile/info.svg" alt="" />
-                        <div className={styles.info__right}>
-                            <div className={styles.info__right_item}>
-                                <span>Уровень</span>
-                                <div>
-                                    <span>1</span>
-                                    <span className='global-green'>{` -> `}2</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        isOpen && cost && level && <PopupFuture setShowPopup={setShowPopup} onSuccess={onSuccess} isOpen={isOpen} title={"title"} img='/' cost={cost} type="upgrade">
+            <div className={styles.info__right_item}>
+                <span>Уровень</span>
+                <div>
+                    <span>{level}</span>
+                    <span className="global-green">{` -> `}{+level + 1}</span>
                 </div>
-                <div className={styles.modal__buttons}>
-                    <div className={styles.modal__buttons_price}>
-                        Цена
-                        <img src="/modals/mobile/price.svg" alt="" />
-                        <span className={styles.modal__buttons_price_item}>3 GC</span>
-                    </div>
-                    <button className={styles.modal__buttons_button}>Купить</button>
-                </div>
-            </Popup>,
-            document.body,
-        )
+            </div>
+        </PopupFuture>
     );
 }

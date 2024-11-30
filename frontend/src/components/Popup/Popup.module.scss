@@ -19,7 +19,7 @@
   max-height: 400px;
   position: absolute;
   z-index: 2;
-  max-width: 90%;
+  max-width: 410px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -51,6 +51,7 @@
 .close_button {
   background: none;
   border: none;
+  cursor: pointer;
 }
 
 .planet_item {
