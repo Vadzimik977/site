@@ -106,19 +106,26 @@
         width: 100%;
       }
       .info__right {
-        position: absolute;
         left: 20%;
         top: 15px;
+        padding: 20px;
         font-size: 10px;
         width: 100%;
-        max-width: 150px;
+        background: url("/modals/mobile/info.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        min-height: 100px;
 
         &_item {
           width: 100%;
           display: flex;
           justify-content: space-between;
           &:not(:last-child) {
-            border-bottom: 1px solid #f8c335;
+            border-bottom: .5px solid #f8c335;
+          }
+          &_text {
+            padding-left: 10px;
+            padding-bottom: 2px;
           }
         }
       }
@@ -135,7 +142,7 @@
   &_price {
     display: flex;
     flex-direction: column;
-    font-size: 10px;
+    font-size: 12px;
     color: #f8c335;
     align-items: center;
     position: relative;
@@ -158,4 +165,11 @@
     font-weight: 600;
     color: white;
   }
+}
+
+.upgrade__planet__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }

@@ -19,6 +19,7 @@ import Timer from "../Timer";
 import styles from "./PlanetMain.module.scss";
 import { Link } from "react-router-dom";
 import UpgradePlanet from "../Popup/UpgradePlanet";
+import { getInitialValue } from './index';
 
 // enum POPUP_STATUS {
 //   UPGRADE = "upgrade",
@@ -57,6 +58,7 @@ const PlanetMain = ({
   const [userPlanets, setUserPlanets] = useState<IUserPlanet[]>([]);
   const [isShowUpgrade, setIsShowUpgrade] = useState(false);
 
+
   const showModal = (event: any, status: POPUP_STATUS) => {
     const planetElement = event.target.closest(".planets__planet");
     let content;
@@ -82,6 +84,24 @@ const PlanetMain = ({
 
     showPopup(planetElement, content, ["planet__popup"]);
   };
+
+  const initVal = () => {
+    return getInitialValue(planet, user, isLoading);
+  }
+
+  const showUpgradeModal = (e: any) => {
+    if (!user || isLoading) return 0;
+    const userPlanet = planet.user_planets.find(
+      (item) => item.userId === user.id
+    );
+    if(!userPlanet) return 0;
+    if(+userPlanet.level >= 7) {
+      showModal(e, "updateError");
+      setIsLoading(false);
+      return;
+    }
+    setIsShowUpgrade(true);
+  }
 
   const getInitState = () => {
     const elemntWallet = wallet.value.find(
@@ -208,37 +228,6 @@ const PlanetMain = ({
     getInitState();
   }, []);
 
-  const getCost = (): {cost: number; level: number} | 0 => {
-    if (!user || isLoading) return 0;
-    const userPlanet = planet.user_planets.find(
-      (item) => item.userId === user.id
-    );
-    if(!userPlanet) return 0;
-    let cost = 3;
-    switch(+userPlanet.level) {
-      case 1:
-        cost = 6
-        break;
-      case 2:
-        cost = 12
-        break;
-      case 3:
-        cost = 24
-        break;
-      case 4:
-        cost = 48
-        break;
-      case 5:
-        cost = 96
-        break;
-      case 6:
-        cost = 192
-        break;
-    };
-
-    return {cost, level: +userPlanet.level};
-  }
-
   const updatePlanetSpeed = async (e: any) => {
     if (!user || isLoading) return;
 
@@ -258,7 +247,7 @@ const PlanetMain = ({
       return;
     }
 
-    const {cost} = getCost() as {cost: number};
+    const {cost} = getInitialValue(planet, user, isLoading) as {cost: number};
 
     if(user.coins < cost) {
       showModal(e, "balance");
@@ -455,7 +444,7 @@ const PlanetMain = ({
                 <img src="/icons/blue/building.png" width={24} height={24} />
                 {t('builds')}
               </button>
-              <button className={styles.up_button} onClick={() => setIsShowUpgrade(true)}>
+              <button className={styles.up_button} onClick={(e) => showUpgradeModal(e)}>
                 <img src="/icons/upgrade.png" width={24} height={24} />
               </button>
             </div>
@@ -476,7 +465,7 @@ const PlanetMain = ({
         </div>
       )}
       <UpgradePlanet 
-        getInitValue={getCost}
+        getInitValue={initVal}
         setShowPopup={setIsShowUpgrade} 
         isOpen={isShowUpgrade}
         onSuccess={() => updatePlanetSpeed(document.querySelector('.' + styles.up_button))} 

@@ -8,12 +8,12 @@ export default function UpgradePlanet({
     setShowPopup,
     onSuccess,
     isOpen,
-    getInitValue
+    getInitValue,
 }: {
     setShowPopup: (status: boolean) => void;
     onSuccess: () => void;
     isOpen: boolean;
-    getInitValue: () => {cost: number, level: number}
+    getInitValue: () => { cost: number; level: number; speed: number };
 }) {
     useEffect(() => {
         if (isOpen) {
@@ -23,16 +23,42 @@ export default function UpgradePlanet({
         }
     }, [isOpen]);
 
-    const [{cost, level}] = useState(getInitValue());
+    const [{ cost, level, speed }] = useState(getInitValue());
     return (
-        isOpen && cost && level && <PopupFuture setShowPopup={setShowPopup} onSuccess={onSuccess} isOpen={isOpen} title={"title"} img='/' cost={cost} type="upgrade">
-            <div className={styles.info__right_item}>
-                <span>Уровень</span>
-                <div>
-                    <span>{level}</span>
-                    <span className="global-green">{` -> `}{+level + 1}</span>
+        isOpen &&
+        cost &&
+        level && (
+            <PopupFuture
+                setShowPopup={setShowPopup}
+                onSuccess={onSuccess}
+                isOpen={isOpen}
+                title={'Улучшить базу'}
+                img="/modals/mobile/upg_base.png"
+                cost={cost}
+                type="upgrade">
+                <div className={styles.upgrade__planet__wrapper}>
+                    <div className={styles.info__right_item}>
+                        <span className={styles.info__right_item_text}>Уровень</span>
+                        <div>
+                            <span>{level}</span>
+                            <span className="global-green">
+                                {` -> `}
+                                {+level + 1}
+                            </span>
+                        </div>
+                    </div>
+                    {speed && <div className={styles.info__right_item}>
+                        <span className={styles.info__right_item_text}>Скорость добычи</span>
+                        <div>
+                            <span>{speed / 2}</span>
+                            <span className="global-green">
+                                {` -> `}
+                                {speed}
+                            </span>
+                        </div>
+                    </div>}
                 </div>
-            </div>
-        </PopupFuture>
+            </PopupFuture>
+        )
     );
 }

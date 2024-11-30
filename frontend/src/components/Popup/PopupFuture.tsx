@@ -42,7 +42,6 @@ export default function PopupFuture({
                         <img src={img} alt="" />
                     </div>
                     <div className={styles.upgrade__planet__item_right}>
-                        <img src="/modals/mobile/info.svg" alt="" />
                         <div className={styles.info__right}>
                             <div className={styles.info__right_item}>
                                 {children}
@@ -57,7 +56,7 @@ export default function PopupFuture({
                         <span className={styles.modal__buttons_price_item}>{cost} {stars ? 'Stars' : 'GC'}</span>
                     </div>
                     <button onClick={() => {onSuccess(); setShowPopup(false)} } className={styles.modal__buttons_button}>
-                        {type === 'buy' ? 'Купить' : 'Обновить'}
+                        {type === 'buy' ? 'Купить' : 'Улучшить'}
                     </button>
                 </div>
             </Popup>,

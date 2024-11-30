@@ -54,7 +54,7 @@
     "connectWallet": "To save resources you need to connect a wallet",
     "history": "History",
     "withdrawMsg": "The withdrawal will be available after listing on the trading exchange",
-    "updateError": "For now, the planet cannot be upgraded beyond level 4!",
+    "updateError": "For now, the planet cannot be upgraded beyond level 7!",
     "notEnoughtMoney": "Not enough GC to buy the planet",
     "free": "FREE",
     "resource": "resource",
