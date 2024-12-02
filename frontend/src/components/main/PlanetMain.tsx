@@ -243,6 +243,13 @@ const PlanetMain = ({
     return userPlanet.mined || 0
   }
 
+  const getPercentOfHealth = () => {
+    const userPlanet = getUserPlanet()!;
+    const minedResources = getMinedResources()!;
+    const amount = (minedResources / userPlanet?.resources) * 100
+    return amount
+  }
+
   const updatePlanetSpeed = async (e: any) => {
     if (!user || isLoading) return;
 
@@ -322,12 +329,12 @@ const PlanetMain = ({
               planet={planet}
             />
           )}
-          <div className={styles.health}>
+          {getUserPlanet() ? <div className={styles.health}>
             <img src="/icons/heart.png" width={20} height={18} />
             <div className={styles["progress-wrapper"]}>
-              <div className={styles["progress"]}></div>
+              <div className={styles["progress"]} style={{width: (getPercentOfHealth()) + '%'}}></div>
             </div>
-          </div>
+          </div> : ''}
           <div className={styles["planetInfo"]}>
             <div className={styles["planetInfo__row"]}>
               <span className={styles["planetInfo__title"]}>{t('level')}</span>
