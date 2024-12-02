@@ -15,22 +15,22 @@ export default function UpgradePlanet({
     isOpen: boolean;
     getInitValue: () => { cost: number; level: number; speed: number };
 }) {
+    const [{ cost, level, speed }, setState] = useState(getInitValue());
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
+            setState(() => getInitValue());
         } else {
             document.body.style.overflow = 'auto';
+            setShowPopup(false);
         }
     }, [isOpen]);
 
-    const [{ cost, level, speed }] = useState(getInitValue());
     return (
-        isOpen &&
-        cost &&
-        level && (
+        isOpen && (
             <PopupFuture
                 setShowPopup={setShowPopup}
-                onSuccess={onSuccess}
+                onSuccess={() => {setShowPopup(false);onSuccess();}}
                 isOpen={isOpen}
                 title={'Улучшить базу'}
                 img="/modals/mobile/upg_base.png"
@@ -47,16 +47,16 @@ export default function UpgradePlanet({
                             </span>
                         </div>
                     </div>
-                    {speed && <div className={styles.info__right_item}>
+                    <div className={styles.info__right_item}>
                         <span className={styles.info__right_item_text}>Скорость добычи</span>
                         <div>
-                            <span>{speed / 2}</span>
+                            <span>{level == 0 ? 0 : speed / 2}</span>
                             <span className="global-green">
                                 {` -> `}
-                                {speed}
+                                {level == 0 ? 0.1 : speed}
                             </span>
                         </div>
-                    </div>}
+                    </div>
                 </div>
             </PopupFuture>
         )

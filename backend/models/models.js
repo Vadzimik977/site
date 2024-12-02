@@ -42,6 +42,7 @@ const UserPlanets = sequelize.define('user_planets', {
     builds: { type: DataTypes.JSON, allowNull: true, defaultValue: [] },
     resources: { type: DataTypes.DOUBLE, allowNull: true, defaultValue: 0 },
     health: { type: DataTypes.DOUBLE, allowNull: true, defaultValue: 0 },
+    mined: { type: DataTypes.DOUBLE, allowNull: true, defaultValue: 0 },
     active: { type: DataTypes.BOOLEAN, defaultValue: true },
 });
 

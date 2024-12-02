@@ -63,6 +63,7 @@ export default function Planets() {
                     planet={item}
                     key={item.id}
                     wallet={user.wallet}
+                    onUpdate={() => fetch()}
                   />
                   // <Planet
                   //   idx={item.element.index}

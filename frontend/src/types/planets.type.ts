@@ -24,6 +24,9 @@ export interface IUserPlanet {
   updatedAt: string;
   userId: number;
   planetId: number;
+  resources: number;
+  health: number;
+  mined: number;
 }
 
 export interface IElement {

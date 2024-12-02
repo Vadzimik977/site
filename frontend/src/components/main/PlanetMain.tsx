@@ -39,9 +39,11 @@ type POPUP_STATUS =
 const PlanetMain = ({
   planet,
   wallet,
+  onUpdate
 }: {
   planet: IPlanet;
   wallet: IWallet;
+  onUpdate: () => void
 }) => {
   const { user, nft, setWallet, setUser, alliance, setAlliance } =
     useUserStore();
@@ -202,8 +204,6 @@ const PlanetMain = ({
       showModal(e, "wallet");
     }
 
-    console.log(elementValue)
-
     if(clickInterval < 250) {
       if (lastClickTimeout.current) {
         clearTimeout(lastClickTimeout.current);
@@ -228,6 +228,21 @@ const PlanetMain = ({
     getInitState();
   }, []);
 
+  const getUserPlanet = () => {
+    if(!user) return;
+    const userPlanet = planet.user_planets.find(
+      (item) => item.userId === user.id
+    );
+    return userPlanet
+  }
+
+  const getMinedResources = () => {
+    const userPlanet = getUserPlanet();
+    if(!userPlanet?.id || !user) return;
+
+    return userPlanet.mined || 0
+  }
+
   const updatePlanetSpeed = async (e: any) => {
     if (!user || isLoading) return;
 
@@ -237,6 +252,7 @@ const PlanetMain = ({
     setIsLoading(true);
     if(!userPlanet) {
       const addedPlanet = await addPlanetToUser(planet.id);
+      await onUpdate();
       setIsLoading(false);
       return;
     }
@@ -255,6 +271,7 @@ const PlanetMain = ({
       await updateUserPlanet(userPlanet.id, +userPlanet.level + 1);
       const newUser = await updateUser({ coins: user.coins - cost });
       setUser(newUser);
+      await onUpdate();
       showModal(e, "upgrade");
     }
 
@@ -323,25 +340,25 @@ const PlanetMain = ({
             <div className={styles["planetInfo__row"]}>
               <span className={styles["planetInfo__title"]}>{t('speed')}</span>
               <span className={styles["planetInfo__description"]}>
-                {planet.speed} ({planet.element.symbol})/{t('hour')}
+                {initVal()?.speed / 2 || 0} ({planet.element.symbol})/{t('hour')}
               </span>
             </div>
 
-            <div className={styles["planetInfo__row"]}>
+            {getUserPlanet() ? <div className={styles["planetInfo__row"]}>
               <span className={styles["planetInfo__title"]}>
                 {t('allResource')}
               </span>
               <span className={styles["planetInfo__description"]}>
-                1.000.000
+                {getUserPlanet()?.resources}
               </span>
-            </div>
+            </div> : ''}
 
-            <div className={styles["planetInfo__row"]}>
+            {getUserPlanet() ? <div className={styles["planetInfo__row"]}>
               <span className={styles["planetInfo__title"]}>
                 {t('minedResource')}
               </span>
-              <span className={styles["planetInfo__description"]}>1.000</span>
-            </div>
+              <span className={styles["planetInfo__description"]}>{getMinedResources()}</span>
+            </div> : ""}
           </div>
           <div className={styles.actions}>
             <button className={styles["action-btn"]}>
@@ -349,8 +366,8 @@ const PlanetMain = ({
               <img src="/icons/sword.png" width={20} height={20} />
             </button>
 
-            {(planet.user_planets.find((item) => item.userId === user?.id)
-              ?.level || 0) == 0 && (
+            {(!planet.user_planets.find((item) => item.userId === user?.id)
+              ?.level) && (
               <button
                 className={styles["action-btn"]}
                 onClick={updatePlanetSpeed}
@@ -414,9 +431,9 @@ const PlanetMain = ({
         </div>
       </div>
 
-      {Number(
-        planet.user_planets.find((item) => item.userId === user?.id)?.level || 0
-      ) > 0 && (
+      {(
+        planet.user_planets.find((item) => item.userId === user?.id)?.level
+      ) && (
         <div
           className={styles.planet_bottom}
           style={{
@@ -465,10 +482,10 @@ const PlanetMain = ({
         </div>
       )}
       <UpgradePlanet 
-        getInitValue={initVal}
+        getInitValue={() => initVal()}
         setShowPopup={setIsShowUpgrade} 
         isOpen={isShowUpgrade}
-        onSuccess={() => updatePlanetSpeed(document.querySelector('.' + styles.up_button))} 
+        onSuccess={() => updatePlanetSpeed(null)} 
       />
     </div>
   );

@@ -55,7 +55,7 @@ export default function PopupFuture({
                         <img src="/modals/mobile/price.svg" alt="" />
                         <span className={styles.modal__buttons_price_item}>{cost} {stars ? 'Stars' : 'GC'}</span>
                     </div>
-                    <button onClick={() => {onSuccess(); setShowPopup(false)} } className={styles.modal__buttons_button}>
+                    <button onClick={() => {onSuccess();} } className={styles.modal__buttons_button}>
                         {type === 'buy' ? 'Купить' : 'Улучшить'}
                     </button>
                 </div>

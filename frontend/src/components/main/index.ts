@@ -8,7 +8,7 @@ export const getInitialValue = (planet: IPlanet, user: IUser | null, isLoading: 
     );
     if(!userPlanet) return 0;
     let cost = 0;
-    let speed = 0;
+    let speed = 0.1;
     for(let i = 0; i <= +userPlanet.level; i++) {
         if(i === 0) {
             cost = 3;  

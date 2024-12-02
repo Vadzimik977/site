@@ -193,6 +193,7 @@ export const addPlanetToUser = async (planetId: number) => {
   const isOk = await instance.post(`${url}/api/userPlanets`, {
     userId: user.id,
     planetId,
+    level: 0
   });
   return isOk;
 };
