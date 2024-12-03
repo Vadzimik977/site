@@ -39,7 +39,7 @@ export default function Planets() {
           <h1 className="main__title">{t("buyPlanet")}</h1>
           <h6 className="main__text">{t("upgradePlanet")}</h6>
           <div className="planets">
-            {!user && (
+            {/* {!user && (
               <div className="color-ring-wrapper planets-ring">
                 <ColorRing
                   visible={true}
@@ -54,15 +54,15 @@ export default function Planets() {
                   ]}
                 />
               </div>
-            )}
+            )} */}
 
-            {planets?.length && user && user.wallet ? (
+            {planets?.length ? (
               <>
                 {planets?.map((item, idx) => (
                   <PlanetMain
                     planet={item}
                     key={item.id}
-                    wallet={user.wallet}
+                    wallet={user?.wallet}
                     onUpdate={() => fetch()}
                   />
                   // <Planet

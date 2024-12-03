@@ -112,7 +112,7 @@ const PlanetMain = ({
   }
 
   const getInitState = () => {
-    const elemntWallet = wallet.value.find(
+    const elemntWallet = wallet?.value?.find(
       (item) => item.symbol === planet.element.symbol
     );
     setElementValue(elemntWallet?.value || 0);
@@ -423,7 +423,7 @@ const PlanetMain = ({
             {elementValue.toFixed(4)} {planet.element.symbol}
           </div>
 
-          {!alliance && (
+          {!alliance && user?.id && (
             <button className={styles.alliance} onClick={onClickAllinace}>
               <img src="/icons/alliance.png" width={56} height={56} />
               <img
@@ -436,7 +436,7 @@ const PlanetMain = ({
           )}
 
           {alliance?.find((item) => item.planetId == planet.id)?.planetId !==
-            planet.id && (
+            planet.id && user?.id && (
             <button className={styles.alliance} onClick={onClickAllinace}>
               <img src="/icons/alliance.png" width={56} height={56} />
               <img
