@@ -24,3 +24,18 @@ export const getInitialValue = (planet: IPlanet, user: IUser | null, isLoading: 
 
     return {cost, level: +userPlanet.level, speed};
 }
+
+const getInteger = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export const getAllResourceVal = (rare: 'Обычная' | 'Редкая' | 'Эпическая') => {
+    switch(rare) {
+        case 'Обычная':
+            return getInteger(300000000, 400000000)
+        case 'Редкая':
+            return getInteger(100000000, 200000000)
+        case 'Эпическая':
+            return getInteger(50000000, 100000000)
+    }
+}

@@ -10,6 +10,7 @@ import {
   addPlanetToUser,
   addToAlliance,
   getAllUserPlanetsById,
+  updateMinedResource,
   updateUser,
   updateUserPlanet,
   updateWalletElement,
@@ -19,7 +20,7 @@ import Timer from "../Timer";
 import styles from "./PlanetMain.module.scss";
 import { Link } from "react-router-dom";
 import UpgradePlanet from "../Popup/UpgradePlanet";
-import { getInitialValue } from './index';
+import { getAllResourceVal, getInitialValue } from './index';
 
 // enum POPUP_STATUS {
 //   UPGRADE = "upgrade",
@@ -132,7 +133,7 @@ const PlanetMain = ({
         { ...currentElem },
       ];
 
-      await putWallet(wallet, data);
+      await putWallet(wallet, data, currentElem.value);
 
       setIsLoading(false);
     } else {
@@ -163,7 +164,7 @@ const PlanetMain = ({
       }
       /* setElementValue(val); */
 
-      const newWallet = await putWallet(wallet, data);
+      const newWallet = await putWallet(wallet, data, data.at(-1)?.value);
       setWallet(newWallet);
       // window.user.wallet.value = data;
     }
@@ -176,7 +177,9 @@ const PlanetMain = ({
     [wallet, planet]
   );
 
-  const putWallet = async (wallet: IWallet, value: IWalletElement[]) => {
+  const putWallet = async (wallet: IWallet, value: IWalletElement[], elementValue) => {
+    const planet = getUserPlanet();
+    updateMinedResource(planet?.id!, elementValue);
     return await updateWalletElement(wallet, value);
   };
 
@@ -258,7 +261,8 @@ const PlanetMain = ({
     );
     setIsLoading(true);
     if(!userPlanet) {
-      const addedPlanet = await addPlanetToUser(planet.id);
+      const rare = planet.element.rare;
+      const addedPlanet = await addPlanetToUser(planet.id, getAllResourceVal(rare));
       await onUpdate();
       setIsLoading(false);
       return;
@@ -347,7 +351,7 @@ const PlanetMain = ({
             <div className={styles["planetInfo__row"]}>
               <span className={styles["planetInfo__title"]}>{t('speed')}</span>
               <span className={styles["planetInfo__description"]}>
-                {initVal()?.speed / 2 || 0} ({planet.element.symbol})/{t('hour')}
+                {initVal()?.level === 0 ? 0 : initVal()?.speed / 2 || 0} ({planet.element.symbol})/{t('hour')}
               </span>
             </div>
 
