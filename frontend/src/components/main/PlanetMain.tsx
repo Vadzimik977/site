@@ -61,7 +61,7 @@ const PlanetMain = ({
   const [userPlanets, setUserPlanets] = useState<IUserPlanet[]>([]);
   const [isShowUpgrade, setIsShowUpgrade] = useState(false);
   const [isAnotherPlanet, setIsAnotherPlanet] = useState(false);
-
+  const [anotherPlanetId, setIsAnotherPlanetId] = useState(0);
 
   const showModal = (event: any, status: POPUP_STATUS) => {
     const planetElement = event.target.closest(".planets__planet");
@@ -138,7 +138,7 @@ const PlanetMain = ({
         { ...currentElem },
       ];
 
-      await putWallet(wallet, data, currentElem.value);
+      await putWallet(wallet, data, currentElem.value, click);
 
       setIsLoading(false);
     } else {
@@ -184,13 +184,14 @@ const PlanetMain = ({
 
   const putWallet = async (wallet: IWallet, value: IWalletElement[], elementValue: number) => {
     const planet = getUserPlanet();
+    console.log(click)
     updateMinedResource(planet?.id!, elementValue);
     return await updateWalletElement(wallet, value);
   };
 
   const walletUpdate = async (e: any) => {
     if (e.target.tagName.toLowerCase() === "button") return;
-
+    if(isAnotherPlanet) return
     const plusIcon = document.createElement("div");
     plusIcon.textContent = "+";
     plusIcon.classList.add("plus-icon");
@@ -236,8 +237,11 @@ const PlanetMain = ({
     getInitState();
   }, []);
 
-  const getUserPlanet = () => {
+  const getUserPlanet = (id?: number) => {
     if(!user) return;
+    if(id) {
+      return userPlanets.find(item => item.id === id);
+    }
     const userPlanet = planet.user_planets.find(
       (item) => item.userId === user.id
     );
@@ -251,8 +255,8 @@ const PlanetMain = ({
     return userPlanet.mined || 0
   }
 
-  const getPercentOfHealth = () => {
-    const userPlanet = getUserPlanet()!;
+  const getPercentOfHealth = (id?: number) => {
+    const userPlanet = getUserPlanet(id)!;
     const minedResources = getMinedResources()!;
     const amount = (minedResources / userPlanet?.resources) * 100
     return amount
@@ -337,13 +341,16 @@ const PlanetMain = ({
               setShowPopup={setShowPopup}
               planet={planet}
               userId={user?.id}
-              onClick={(id: number) => setIsAnotherPlanet(id)}
+              onClick={(is: boolean, number: number) => {
+                setIsAnotherPlanet(is)
+                setIsAnotherPlanetId(number)
+              }}
             />
           )}
           {getUserPlanet() ? <div className={styles.health}>
             <img src="/icons/heart.png" width={20} height={18} />
             <div className={styles["progress-wrapper"]}>
-              <div className={styles["progress"]} style={{width: (getPercentOfHealth()) + '%'}}></div>
+              <div className={styles["progress"]} style={{width: (getPercentOfHealth(anotherPlanetId)) + '%'}}></div>
             </div>
           </div> : ''}
           <div className={styles["planetInfo"]}>
@@ -355,23 +362,23 @@ const PlanetMain = ({
               </span>
             </div>
 
-            <div className={styles["planetInfo__row"]}>
+            {!isAnotherPlanet && <div className={styles["planetInfo__row"]}>
               <span className={styles["planetInfo__title"]}>{t('speed')}</span>
               <span className={styles["planetInfo__description"]}>
                 {initVal()?.level === 0 ? 0 : initVal()?.speed / 2 || 0} ({planet.element.symbol})/{t('hour')}
               </span>
-            </div>
+            </div>}
 
             {getUserPlanet() ? <div className={styles["planetInfo__row"]}>
               <span className={styles["planetInfo__title"]}>
                 {t('allResource')}
               </span>
               <span className={styles["planetInfo__description"]}>
-                {getUserPlanet()?.resources}
+                {getUserPlanet(anotherPlanetId)?.resources}
               </span>
             </div> : ''}
 
-            {getUserPlanet() ? <div className={styles["planetInfo__row"]}>
+            {getUserPlanet() && !isAnotherPlanet ? <div className={styles["planetInfo__row"]}>
               <span className={styles["planetInfo__title"]}>
                 {t('minedResource')}
               </span>

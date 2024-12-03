@@ -13,7 +13,7 @@ const UserPlanetsPopup = ({
   setShowPopup: (status: boolean) => void;
   planet: IPlanet;
   userId: number | undefined;
-  onClick: (is: boolean) => void
+  onClick: (is: boolean, id: number) => void
 }) => {
   console.log("planets: ", planets);
 
@@ -26,7 +26,7 @@ const UserPlanetsPopup = ({
               <div
                 key={`${userPlanet.userId}.${userPlanet.id}`}
                 onClick={() => {
-                  onClick(userId !== userPlanet.userId);
+                  onClick(userId !== userPlanet.userId, userPlanet.id);
                   setShowPopup(false);
                 }}
                 className={styles.planet_item}
