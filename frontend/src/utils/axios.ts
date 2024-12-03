@@ -18,8 +18,8 @@ const getAxios = () => {
 
 const instance = getAxios();
 
-export const url = 'http://localhost:8000';
-// export const url = process.env.VITE_BACKEND;
+//export const url = 'http://localhost:8000';
+ export const url = process.env.VITE_BACKEND;
 
 export const getUser = async () => {
     const instance = getAxios();
