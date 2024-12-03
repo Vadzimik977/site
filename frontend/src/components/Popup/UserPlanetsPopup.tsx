@@ -6,10 +6,14 @@ const UserPlanetsPopup = ({
   planets,
   setShowPopup,
   planet,
+  userId,
+  onClick
 }: {
   planets: IUserPlanet[];
   setShowPopup: (status: boolean) => void;
   planet: IPlanet;
+  userId: number | undefined;
+  onClick: (is: boolean) => void
 }) => {
   console.log("planets: ", planets);
 
@@ -21,6 +25,10 @@ const UserPlanetsPopup = ({
             return (
               <div
                 key={`${userPlanet.userId}.${userPlanet.id}`}
+                onClick={() => {
+                  onClick(userId !== userPlanet.userId);
+                  setShowPopup(false);
+                }}
                 className={styles.planet_item}
               >
                 <img
@@ -38,7 +46,7 @@ const UserPlanetsPopup = ({
                       alt=""
                       width={24}
                     />
-                    <span>id {userPlanet.userId}</span>
+                    <span>{userPlanet.userId === userId ? "Ваша" : `ID ${userPlanet.userId}`}</span>
                   </span>
                 </div>
               </div>

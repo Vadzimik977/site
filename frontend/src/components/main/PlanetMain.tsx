@@ -60,6 +60,7 @@ const PlanetMain = ({
   const [isShowPopup, setShowPopup] = useState(false);
   const [userPlanets, setUserPlanets] = useState<IUserPlanet[]>([]);
   const [isShowUpgrade, setIsShowUpgrade] = useState(false);
+  const [isAnotherPlanet, setIsAnotherPlanet] = useState(false);
 
 
   const showModal = (event: any, status: POPUP_STATUS) => {
@@ -98,6 +99,10 @@ const PlanetMain = ({
       (item) => item.userId === user.id
     );
     if(!userPlanet) return 0;
+    const planet = getUserPlanet();
+    if(isAnotherPlanet) {
+       return
+    }
     if(+userPlanet.level >= 7) {
       showModal(e, "updateError");
       setIsLoading(false);
@@ -164,7 +169,7 @@ const PlanetMain = ({
       }
       /* setElementValue(val); */
 
-      const newWallet = await putWallet(wallet, data, data.at(-1)?.value);
+      const newWallet = await putWallet(wallet, data, data.at(-1)?.value!);
       setWallet(newWallet);
       // window.user.wallet.value = data;
     }
@@ -177,7 +182,7 @@ const PlanetMain = ({
     [wallet, planet]
   );
 
-  const putWallet = async (wallet: IWallet, value: IWalletElement[], elementValue) => {
+  const putWallet = async (wallet: IWallet, value: IWalletElement[], elementValue: number) => {
     const planet = getUserPlanet();
     updateMinedResource(planet?.id!, elementValue);
     return await updateWalletElement(wallet, value);
@@ -331,6 +336,8 @@ const PlanetMain = ({
               planets={userPlanets}
               setShowPopup={setShowPopup}
               planet={planet}
+              userId={user?.id}
+              onClick={(id: number) => setIsAnotherPlanet(id)}
             />
           )}
           {getUserPlanet() ? <div className={styles.health}>
@@ -372,10 +379,10 @@ const PlanetMain = ({
             </div> : ""}
           </div>
           <div className={styles.actions}>
-            <button className={styles["action-btn"]}>
+            {user?.id && isAnotherPlanet ? <button className={styles["action-btn"]}>
               {t('attack')}
               <img src="/icons/sword.png" width={20} height={20} />
-            </button>
+            </button> : ''}
 
             {(!planet.user_planets.find((item) => item.userId === user?.id)
               ?.level) && (

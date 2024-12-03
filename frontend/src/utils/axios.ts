@@ -188,7 +188,7 @@ export const getAllUserPlanets = async () => {
 export const getAllUserPlanetsById = async (id) => {
     const instance = getAxios();
 
-    const planets = await instance.get<{ result: IUserPlanet[] }>(`${url}/api/userPlanets/${id}?filter=${JSON.stringify({level: 1})}`);
+    const planets = await instance.get<{ result: IUserPlanet[] }>(`${url}/api/userPlanets/${id}`);
     return planets.data.result;
 };
 

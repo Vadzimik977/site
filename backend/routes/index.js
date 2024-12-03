@@ -96,21 +96,14 @@ app.use(
             const planetId = req?.params?.id;
             if (planetId) {
                 const result = await UserPlanets.findAll({
-                    where: { planetId },
+                    where: { planetId, level: {
+                        [seq.Op.ne]: 0
+                    }  },
                 });
                 return res.json({ result: result });
             }
 
-            const token = req.headers.authorization;
-            const user = await User.findOne({ where: { adress: token } });
-
-            if (!user) {
-                return res.status(403).json({ result: [] });
-            }
-            const result = await UserPlanets.findAndCountAll({
-                where: { userId: user.id },
-            });
-            return res.json({ result: result.rows });
+            return res.json({ result });
         },
     }),
 );
