@@ -67,7 +67,7 @@ const Tasks = sequelize.define('tasks', {
 const Cosmoports = sequelize.define('spaceports', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     level: { type: DataTypes.TINYINT, allowNull: true, defaultValue: 1 },
-    type: { type: DataTypes.ENUM("tgChannel", "tgChat", "video") },
+    type: { type: DataTypes.ENUM("tanker", "corable") },
 });
 
 
@@ -105,5 +105,6 @@ module.exports = {
     UserPlanets,
     History,
     Alliance,
-    Tasks
+    Tasks,
+    Cosmoports
 }

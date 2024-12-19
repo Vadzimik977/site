@@ -6,7 +6,7 @@ const User = require('../models/models').User;
 const router = new Router();
 const seq = require('sequelize');
 
-const { Planet, Element, Wallet, UserPlanets, History, Alliance, Tasks } = require('../models/models');
+const { Planet, Element, Wallet, UserPlanets, History, Alliance, Tasks, Cosmoports } = require('../models/models');
 const userController = require('../controllers/userController');
 
 const app = new express();
@@ -24,10 +24,11 @@ app.use(
 app.use(
     crud('/planets_admin', sequelizeCrud(Planet), {
         additionalAttributes: {
-            element: async (planet) => await Planet.findOne({
-                where: { id: planet.id },
-                include: Element
-            }).then((data) => data.elements[0])
+            element: async (planet) =>
+                await Planet.findOne({
+                    where: { id: planet.id },
+                    include: Element,
+                }).then((data) => data.elements[0]),
         },
     }),
 );
@@ -96,9 +97,12 @@ app.use(
             const planetId = req?.params?.id;
             if (planetId) {
                 const result = await UserPlanets.findAll({
-                    where: { planetId, level: {
-                        [seq.Op.ne]: 0
-                    }  },
+                    where: {
+                        planetId,
+                        level: {
+                            [seq.Op.ne]: 0,
+                        },
+                    },
                 });
                 return res.json({ result: result });
             }
@@ -224,4 +228,5 @@ app.post('/user', async (req, res) => {
 });
 
 app.use(crud('/tasks', sequelizeCrud(Tasks)));
+app.use(crud('/cosmoports', sequelizeCrud(Cosmoports)));
 module.exports = app;

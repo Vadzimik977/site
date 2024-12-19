@@ -43,7 +43,7 @@ export const createUser = async () => {
     }
 };
 
-export const getPlanet = async (id, userId) => {
+export const getPlanet = async (id: number, userId: number) => {
     const instance = getAxios();
 
     const planet = await instance.get(`${url}/api/planets/${id}?userId=${userId ?? 0}`);
@@ -250,3 +250,19 @@ export const updateMinedResource = async (id: number | string, mined: number) =>
 
     const updateMinedResource = await instance.put(`${url}/api/userPlanets/${id}/`, { mined });
 };
+
+export const getUserSpaceships = async (userId: number) => {
+    const instance = getAxios();
+
+    return (await instance.get(`${url}/api/cosmoports?filter=${JSON.stringify({userId})}`)).data
+}
+
+export const updateUserSpaceship = async (spaceShip, type: 'update' | 'create') => {
+    const instance = getAxios();
+
+    if(type === 'create') {
+        return await instance.post(`${url}/api/cosmoports`, spaceShip)
+    } else {
+        return await instance.put(`${url}/api/cosmoports/${spaceShip.id}`, spaceShip);
+    }
+}

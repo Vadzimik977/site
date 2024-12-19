@@ -11,3 +11,9 @@
   font-size: 10px;
   gap: 4px;
 }
+
+@media (max-width: 768px) {
+  .time-wrapper__text {
+    font-size: 8px;
+  }
+}

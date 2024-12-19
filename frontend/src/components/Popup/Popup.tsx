@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import styles from "./Popup.module.scss";
 
 const Popup = ({
@@ -10,7 +11,7 @@ const Popup = ({
   setPopupStatus: (status: boolean) => void;
 }) => {
   return (
-    <div className={styles.content__modal}>
+    createPortal(<div className={styles.content__modal}>
       <div className={styles.wrapper}>
         <div className={styles.wrapper_bg}>
           <div className={styles.content}>
@@ -27,7 +28,7 @@ const Popup = ({
           </div>
         </div>
       </div>
-    </div>
+    </div>, document.body)
   );
 };
 export default Popup;

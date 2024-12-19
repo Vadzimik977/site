@@ -4,7 +4,7 @@ import { debounce } from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
 import showPopup from "../../assets/js/showPopup";
 import { useUserStore } from "../../store/userStore";
-import { IPlanet, IUserPlanet } from "../../types/planets.type";
+import { IInitialValue, IPlanet, IUserPlanet } from "../../types/planets.type";
 import { IWallet, IWalletElement } from "../../types/user.type";
 import {
   addPlanetToUser,
@@ -21,6 +21,7 @@ import styles from "./PlanetMain.module.scss";
 import { Link } from "react-router-dom";
 import UpgradePlanet from "../Popup/UpgradePlanet";
 import { getAllResourceVal, getInitialValue } from './index';
+import ShipMarket from "../Popup/ShipMarket";
 
 // enum POPUP_STATUS {
 //   UPGRADE = "upgrade",
@@ -63,6 +64,8 @@ const PlanetMain = ({
   const [isAnotherPlanet, setIsAnotherPlanet] = useState(false);
   const [anotherPlanetId, setIsAnotherPlanetId] = useState(0);
 
+  const [showCorable, setShowCorable] = useState(false);
+
   const showModal = (event: any, status: POPUP_STATUS) => {
     const planetElement = event.target.closest(".planets__planet");
     let content;
@@ -99,7 +102,6 @@ const PlanetMain = ({
       (item) => item.userId === user.id
     );
     if(!userPlanet) return 0;
-    const planet = getUserPlanet();
     if(isAnotherPlanet) {
        return
     }
@@ -138,7 +140,7 @@ const PlanetMain = ({
         { ...currentElem },
       ];
 
-      await putWallet(wallet, data, currentElem.value, click);
+      await putWallet(wallet, data, currentElem.value);
 
       setIsLoading(false);
     } else {
@@ -331,7 +333,7 @@ const PlanetMain = ({
           <div className={styles.owner}>
             <div>
               <img src="/icons/astronaut_helmet.png" width={32} height={32} />
-              <span>Владелец</span>
+              <span>Владелец {isAnotherPlanet ? anotherPlanetId : 'вы'}</span>
             </div>
             <button onClick={getUsersPlanet}>Список планет</button>
           </div>
@@ -365,7 +367,7 @@ const PlanetMain = ({
             {!isAnotherPlanet && <div className={styles["planetInfo__row"]}>
               <span className={styles["planetInfo__title"]}>{t('speed')}</span>
               <span className={styles["planetInfo__description"]}>
-                {initVal()?.level === 0 ? 0 : initVal()?.speed / 2 || 0} ({planet.element.symbol})/{t('hour')}
+                {(initVal() as IInitialValue)?.level === 0 ? 0 : (initVal() as IInitialValue)?.speed / 2 || 0} ({planet.element.symbol})/{t('hour')}
               </span>
             </div>}
 
@@ -477,7 +479,7 @@ const PlanetMain = ({
               <img src="/icons/blue/shield.png" width={24} height={24} /> {t('defend')}
               - +50%
             </button>
-            <button>
+            <button onClick={() => setShowCorable(true)}>
               <img src="/icons/blue/scout.png" width={24} height={24} />
               {t('spaceport')}
             </button>
@@ -507,11 +509,12 @@ const PlanetMain = ({
         </div>
       )}
       <UpgradePlanet 
-        getInitValue={() => initVal()}
+        getInitValue={() => initVal() as IInitialValue}
         setShowPopup={setIsShowUpgrade} 
         isOpen={isShowUpgrade}
         onSuccess={() => updatePlanetSpeed(null)} 
       />
+      <ShipMarket userId={user?.id} onClick={() => {}} onSuccess={() => {}} isOpen={showCorable} setShowPopup={setShowCorable} />
     </div>
   );
 };

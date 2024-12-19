@@ -52,3 +52,9 @@ export interface IPlanet {
   user_planets: IUserPlanet[];
   element: IPlanetElement;
 }
+
+export interface IInitialValue {
+  speed: number
+  cost: number
+  level: number
+}

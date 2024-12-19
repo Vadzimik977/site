@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import { IPlanet, IUserPlanet } from "../../types/planets.type";
 import Popup from "./Popup";
 import styles from "./Popup.module.scss";
@@ -15,10 +16,9 @@ const UserPlanetsPopup = ({
   userId: number | undefined;
   onClick: (is: boolean, id: number) => void
 }) => {
-  console.log("planets: ", planets);
 
   return (
-    <Popup title="Планеты в этой системе" setPopupStatus={setShowPopup}>
+    createPortal(<Popup title="Планеты в этой системе" setPopupStatus={setShowPopup}>
       <div className={styles.planet_list}>
         {planets &&
           planets.map((userPlanet) => {
@@ -53,7 +53,7 @@ const UserPlanetsPopup = ({
             );
           })}
       </div>
-    </Popup>
+    </Popup>, document.body)
   );
 };
 export default UserPlanetsPopup;

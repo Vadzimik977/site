@@ -39,3 +39,23 @@ export const getAllResourceVal = (rare: 'Обычная' | 'Редкая' | 'Э�
             return getInteger(50000000, 100000000)
     }
 }
+
+export const getInitValCorables = (port) => {
+    let cost = 1000;
+    let amount = 10;
+    let damage = 0;
+    if(port?.level) {
+        for(let i = 0; i <= +port.level; i++) {
+            if(i === 0) continue
+            if(i === 1) {
+                amount = 9
+            }
+            cost = cost * 2;
+            amount = amount + 1;
+            damage = 1;
+            
+        }
+    }
+    
+    return {cost, amount, damage};
+}
