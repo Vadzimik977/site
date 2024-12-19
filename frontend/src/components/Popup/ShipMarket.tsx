@@ -73,10 +73,9 @@ export default function ShipMarket({
         <PopupFuture
             img="/modals/mobile/corable/Spaceship.png"
             cost={val.cost}
-            type="upgrade"
+            type={cosmoports?.id ? "upgrade": "buy"}
             isOpen={isOpen}
             onSuccess={() => {
-                
                 upgradeUserCosmoport();
             }}
             setShowPopup={setShowPopup}

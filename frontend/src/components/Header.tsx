@@ -38,11 +38,14 @@ export default function Header() {
                 <div className="container">
                     <div className="header__inner">
                         <div className="header__logo">
-                            <Link to="/planets">
-                                <img
-                                    src="/images/logo.svg"
-                                    alt=""
-                                />
+                            <Link className='header__logo__item' to="/planets">
+                                <div style={{position: 'relative'}} className='relative'>
+                                    <img
+                                        src="/images/logo.svg"
+                                        alt=""
+                                    />
+                                <img className='winter-head' src="/winter.png" alt="" />
+                                </div>
                             </Link>
                         </div>
                         <div className="header__wallet">

@@ -164,6 +164,45 @@ nav {
   }
 }
 
+.winter-head {
+  position: absolute;
+  left: 30px;
+  top: -20px;
+  width: 55px;
+}
+
+
+@media (max-width: 768px) {
+  .header__logo__item {
+    position: relative;
+  }
+  .winter-head {
+    left: 38%;
+  }
+}
+
+@media (max-width: 425px) {
+  .winter-head {
+    left: 30%;
+  }
+}
+
+@media (max-width: 375px) {
+  .winter-head {
+    left: 27%;
+  }
+}
+
+@media (max-width: 320px) {
+  .winter-head {
+    left: 24%;
+  }
+}
+
+.header__logo {
+  position: relative;
+}
+
 .nav__inner {
   display: flex;
   justify-content: space-between;
