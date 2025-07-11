@@ -1,0 +1,106 @@
+[{"element": "59", "value": 2.0541, "name": "Xenora", "img": "54Xe.png", "symbol": "Xe", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+{"element": "58", "value": 5.60775, "name": "Iodara", "img": "53I.png", "symbol": "I", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+{"element": "105", "value": 0.0002, "name": "Fermia", "img": "100Fm.png", "symbol": "Fm", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+{"element": "86", "value": 0.244, "name": "Thalloris", "img": "81TI.png", "symbol": "Tl", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+{"element": "76", "value": 0.2399, "name": "Lutetia", "img": "71Lu.png", "symbol": "Lu", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+{"element": 69, "value": 326.0052403962, "name": "Thulium", "img": "69Tm.png", "symbol": "Tm", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+{"element": 64, "value": 8515.564335498253, "name": "Gadolinium", "img": "64Gd.png", "symbol": "Gd", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+{"element": 103, "value": 2628.260597376001, "name": "Lawrencium", "img": "103Lr.png", "symbol": "Lr", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+{"element": 56, "value": 23.849999999999977, "name": "Barium", "img": "56Ba.png", "symbol": "Ba", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+{"element": "75", "value": 0.41165, "name": "Ytberis", "img": "70Yb.png", "symbol": "Yb", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+{"element": "63", "value": 0.2349, "name": "Cerion", "img": "58Ce.png", "symbol": "Ce", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+{"element": "57", "value": 5e-05, "name": "Tellura", "img": "52Te.png", "symbol": "Te", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"},
+ {"element": "61", "value": 0.36505, "name": "Barion", "img": "56Ba.png", "symbol": "Ba", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": "68", "value": 7.3567, "name": "Eurotis", "img": "63Eu.png", "symbol": "Eu", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": "112", "value": 0.0001, "name": "Bohra", "img": "107Bh.png", "symbol": "Bh", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+ {"element": "96", "value": 0.1747, "name": "Protactia", "img": "91Pa.png", "symbol": "Pa", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+ {"element": "80", "value": 0.2468, "name": "Rhenara", "img": "75Re.png", "symbol": "Re", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}]
+
+
+
+ [{"element": "59", "value": 11.532390000000003, "name": "Xenora", "img": "54Xe.png", "symbol": "Xe", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": "58", "value": 22.648662000000005, "name": "Iodara", "img": "53I.png", "symbol": "I", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": "105", "value": 0.0002, "name": "Fermia", "img": "100Fm.png", "symbol": "Fm", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+ {"element": "86", "value": 0.244, "name": "Thalloris", "img": "81TI.png", "symbol": "Tl", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+ {"element": "76", "value": 0.2486, "name": "Lutetia", "img": "71Lu.png", "symbol": "Lu", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": 69, "value": 326.8161403962, "name": "Thulium", "img": "69Tm.png", "symbol": "Tm", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": 64, "value": 8997.577411092494, "name": "Gadolinium", "img": "64Gd.png", "symbol": "Gd", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": 103, "value": 2777.030065152001, "name": "Lawrencium", "img": "103Lr.png", "symbol": "Lr", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+ {"element": 56, "value": 24.749999999999975, "name": "Barium", "img": "56Ba.png", "symbol": "Ba", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": "75", "value": 0.41165, "name": "Ytberis", "img": "70Yb.png", "symbol": "Yb", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": "63", "value": 0.2349, "name": "Cerion", "img": "58Ce.png", "symbol": "Ce", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": "57", "value": 5e-05, "name": "Tellura", "img": "52Te.png", "symbol": "Te", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": "61", "value": 0.36505, "name": "Barion", "img": "56Ba.png", "symbol": "Ba", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": "68", "value": 7.8567, "name": "Eurotis", "img": "63Eu.png", "symbol": "Eu", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+ {"element": "112", "value": 0.0001, "name": "Bohra", "img": "107Bh.png", "symbol": "Bh", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+ {"element": "96", "value": 0.1834, "name": "Protactia", "img": "91Pa.png", "symbol": "Pa", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+ {"element": "80", "value": 0.2553, "name": "Rhenara", "img": "75Re.png", "symbol": "Re", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}]
+
+
+ [{"element": "59", "value": 16.256310000000006, "name": "Xenora", "img": "54Xe.png", "symbol": "Xe", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"},
+  {"element": "58", "value": 31.15171800000001, "name": "Iodara", "img": "53I.png", "symbol": "I", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "105", "value": 0.0002, "name": "Fermia", "img": "100Fm.png", "symbol": "Fm", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "86", "value": 0.244, "name": "Thalloris", "img": "81TI.png", "symbol": "Tl", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "76", "value": 0.2486, "name": "Lutetia", "img": "71Lu.png", "symbol": "Lu", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": 69, "value": 327.0661403962, "name": "Thulium", "img": "69Tm.png", "symbol": "Tm", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": 64, "value": 9158.248436290574, "name": "Gadolinium", "img": "64Gd.png", "symbol": "Gd", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": 103, "value": 2826.619887744001, "name": "Lawrencium", "img": "103Lr.png", "symbol": "Lr", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": 56, "value": 25.199999999999974, "name": "Barium", "img": "56Ba.png", "symbol": "Ba", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "75", "value": 0.41165, "name": "Ytberis", "img": "70Yb.png", "symbol": "Yb", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "63", "value": 0.2349, "name": "Cerion", "img": "58Ce.png", "symbol": "Ce", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "57", "value": 5e-05, "name": "Tellura", "img": "52Te.png", "symbol": "Te", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "61", "value": 0.36505, "name": "Barion", "img": "56Ba.png", "symbol": "Ba", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "68", "value": 8.1067, "name": "Eurotis", "img": "63Eu.png", "symbol": "Eu", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "112", "value": 0.0001, "name": "Bohra", "img": "107Bh.png", "symbol": "Bh", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "96", "value": 0.1834, "name": "Protactia", "img": "91Pa.png", "symbol": "Pa", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "80", "value": 0.2553, "name": "Rhenara", "img": "75Re.png", "symbol": "Re", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}]
+
+
+
+  [{"element": "101", "value": 0.0966, "name": "Curora", "img": "96Cm.png", "symbol": "Cm", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "102", "value": 0.2659, "name": "Berkoria", "img": "97Bk.png", "symbol": "Bk", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "103", "value": 0.2123, "name": "Califoria", "img": "98Cf.png", "symbol": "Cf", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "100", "value": 0.16891, "name": "Ameria", "img": "95Am.png", "symbol": "Am", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "58", "value": 0.0002, "name": "Iodara", "img": "53I.png", "symbol": "I", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "54", "value": 5e-05, "name": "Indora", "img": "49In.png", "symbol": "In", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "74", "value": 0.00035, "name": "Thulia", "img": "69Tm.png", "symbol": "Tm", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "5", "value": 5e-05, "name": "Helion", "img": "2He.png", "symbol": "He", "rare": "\u041e\u0431\u044b\u0447\u043d\u0430\u044f"}, 
+  {"element": "6", "value": 5e-05, "name": "Lithora", "img": "3Li.png", "symbol": "Li", "rare": "\u041e\u0431\u044b\u0447\u043d\u0430\u044f"}, 
+  {"element": "50", "value": 0.0, "name": "Rhodaris", "img": "45Rh.png", "symbol": "Rh", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "16", "value": 0.0004, "name": "Alura", "img": "13AI.png", "symbol": "Al", "rare": "\u041e\u0431\u044b\u0447\u043d\u0430\u044f"}, 
+  {"element": "107", "value": 386.3092, "name": "Nobelia", "img": "102No.png", "symbol": "No", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}]
+
+
+  [{"element": "101", "value": 0.4049400000000001, "name": "Curora", "img": "96Cm.png", "symbol": "Cm", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "102", "value": 0.30415, "name": "Berkoria", "img": "97Bk.png", "symbol": "Bk", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "103", "value": 1.7888500800000007, "name": "Califoria", "img": "98Cf.png", "symbol": "Cf", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "100", "value": 0.6948520000000001, "name": "Ameria", "img": "95Am.png", "symbol": "Am", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "58", "value": 0.0002, "name": "Iodara", "img": "53I.png", "symbol": "I", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "54", "value": 5e-05, "name": "Indora", "img": "49In.png", "symbol": "In", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "74", "value": 0.00035, "name": "Thulia", "img": "69Tm.png", "symbol": "Tm", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "5", "value": 5e-05, "name": "Helion", "img": "2He.png", "symbol": "He", "rare": "\u041e\u0431\u044b\u0447\u043d\u0430\u044f"}, 
+  {"element": "6", "value": 5e-05, "name": "Lithora", "img": "3Li.png", "symbol": "Li", "rare": "\u041e\u0431\u044b\u0447\u043d\u0430\u044f"}, 
+  {"element": "50", "value": 0.0, "name": "Rhodaris", "img": "45Rh.png", "symbol": "Rh", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "16", "value": 0.0004, "name": "Alura", "img": "13AI.png", "symbol": "Al", "rare": "\u041e\u0431\u044b\u0447\u043d\u0430\u044f"}, 
+  {"element": "107", "value": 386.33015, "name": "Nobelia", "img": "102No.png", "symbol": "No", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}]
+
+
+  [{"element": "101", "value": 2.24202, "name": "Curora", "img": "96Cm.png", "symbol": "Cm", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "102", "value": 0.30415, "name": "Berkoria", "img": "97Bk.png", "symbol": "Bk", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "103", "value": 12.502700640000008, "name": "Califoria", "img": "98Cf.png", "symbol": "Cf", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "100", "value": 4.001596000000001, "name": "Ameria", "img": "95Am.png", "symbol": "Am", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}, 
+  {"element": "58", "value": 0.0002, "name": "Iodara", "img": "53I.png", "symbol": "I", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "54", "value": 5e-05, "name": "Indora", "img": "49In.png", "symbol": "In", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "74", "value": 0.00035, "name": "Thulia", "img": "69Tm.png", "symbol": "Tm", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "5", "value": 5e-05, "name": "Helion", "img": "2He.png", "symbol": "He", "rare": "\u041e\u0431\u044b\u0447\u043d\u0430\u044f"}, 
+  {"element": "6", "value": 5e-05, "name": "Lithora", "img": "3Li.png", "symbol": "Li", "rare": "\u041e\u0431\u044b\u0447\u043d\u0430\u044f"}, 
+  {"element": "50", "value": 0.0, "name": "Rhodaris", "img": "45Rh.png", "symbol": "Rh", "rare": "\u0420\u0435\u0434\u043a\u0430\u044f"}, 
+  {"element": "16", "value": 0.0004, "name": "Alura", "img": "13AI.png", "symbol": "Al", "rare": "\u041e\u0431\u044b\u0447\u043d\u0430\u044f"}, 
+  {"element": "107", "value": 386.33015, "name": "Nobelia", "img": "102No.png", "symbol": "No", "rare": "\u042d\u043f\u0438\u0447\u0435\u0441\u043a\u0430\u044f"}]
+
+
+  [{"img": "68Er.png", "name": "Erboria", "rare": "Редкая", "value": 0.00085, "symbol": "Er", "element": "73"}, 
+  {"img": "117Ts.png", "name": "Tennessia", "rare": "Эпическая", "value": 0.0004, "symbol": "Ts", "element": "122"}, 
+  {"img": "3Li.png", "name": "Lithora", "rare": "Обычная", "value": 0.0014, "symbol": "Li", "element": "6"}, 
+  {"img": "45Rh.png", "name": "Rhodaris", "rare": "Редкая", "value": 444.11635, "symbol": "Rh", "element": "50"}, 
+  {"img": "4Be.png", "name": "Beryllios", "rare": "Обычная", "value": 29.65085144, "symbol": "Be", "element": "7"}, {"img": "5B.png", "name": "Boralis", "rare": "Обычная", "value": 0.00045, "symbol": "B", "element": "8"}, {"img": "69Tm.png", "name": "Thulia", "rare": "Редкая", "value": 15552.7632515054, "symbol": "Tm", "element": "74"}, {"img": "53I.png", "name": "Iodara", "rare": "Редкая", "value": 0.0009, "symbol": "I", "element": "58"}, {"img": "15P.png", "name": "Phosaris", "rare": "Обычная", "value": 42.19967, "symbol": "P", "element": "18"}, {"img": "56Ba.png", "name": "Barion", "rare": "Редкая", "value": 0.00095, "symbol": "Ba", "element": "61"}, {"img": "61Pm.png", "name": "Promethia", "rare": "Редкая", "value": 0.00045, "symbol": "Pm", "element": "66"}, {"img": "27Co.png", "name": "Cobaltia", "rare": "Обычная", "value": 0.0013, "symbol": "Co", "element": "32"}, {"img": "42Mo.png", "name": "Molybdaris", "rare": "Редкая", "value": 0.00005, "symbol": "Mo", "element": "47"}, {"img": "37Rb.png", "name": "Rubion", "rare": "Редкая", "value": 0.00025, "symbol": "Rb", "element": "42"}, {"img": "80Hg.png", "name": "Hydragia", "rare": "Эпическая", "value": 14445.39623, "symbol": "Hg", "element": "85"}, {"img": "18Ar.png", "name": "Argonia", "rare": "Обычная", "value": 0.0005, "symbol": "Ar", "element": "23"}, {"img": "34Se.png", "name": "Selenis", "rare": "Редкая", "value": 0.0001, "symbol": "Se", "element": "39"}, {"img": "10Ne.png", "name": "Neonis", "rare": "Обычная", "value": 0.00095, "symbol": "Ne", "element": "13"}, {"img": "24Cr.png", "name": "Chromis", "rare": "Обычная", "value": 0.00065, "symbol": "Cr", "element": "29"}, {"img": "44Ru.png", "name": "Ruthenia", "rare": "Редкая", "value": 0.00035, "symbol": "Ru", "element": "49"}, {"img": "14Si.png", "name": "Silicia", "rare": "Обычная", "value": 10.0823, "symbol": "Si", "element": "17"}, {"img": "21Sc.png", "name": "Scandora", "rare": "Обычная", "value": 0.00085, "symbol": "Sc", "element": "26"}, {"img": "64Gd.png", "name": "Gadonia", "rare": "Редкая", "value": 0.00065, "symbol": "Gd", "element": "69"}, {"img": "103Lr.png", "name": "Lawrencia", "rare": "Эпическая", "value": 0.00055, "symbol": "Lr", "element": "108"}, {"img": "6C.png", "name": "Carboria", "rare": "Обычная", "value": 0.00065, "symbol": "C", "element": "9"}, {"img": "7N.png", "name": "Nitria", "rare": "Обычная", "value": 0.00015, "symbol": "N", "element": "10"}, {"img": "8O.png", "name": "Oxyara", "rare": "Обычная", "value": 0.0001, "symbol": "O", "element": "11"}, {"img": "9F.png", "name": "Fluora", "rare": "Обычная", "value": 0.00025, "symbol": "F", "element": "12"}, {"img": "70Yb.png", "name": "Ytberis", "rare": "Редкая", "value": 0.0003, "symbol": "Yb", "element": "75"}, {"img": "100Fm.png", "name": "Fermia", "rare": "Эпическая", "value": 0.01155, "symbol": "Fm", "element": "105"}, {"img": "71Lu.png", "name": "Lutetia", "rare": "Редкая", "value": 0.0002, "symbol": "Lu", "element": "76"}, {"img": "75Re.png", "name": "Rhenara", "rare": "Эпическая", "value": 0.0002, "symbol": "Re", "element": "80"}, {"img": "85At.png", "name": "Astatia", "rare": "Эпическая", "value": 0.0001, "symbol": "At", "element": "90"}, {"img": "95Am.png", "name": "Ameria", "rare": "Эпическая", "value": 0.00005, "symbol": "Am", "element": "100"}, {"img": "1H.png", "name": "Hydora", "rare": "Обычная", "value": 0.39465, "symbol": "H", "element": "4"}, {"img": "26Fe.png", "name": "Ferrion", "rare": "Обычная", "value": 0.00005, "symbol": "Fe", "element": "31"}, {"img": "46Pd.png", "name": "Pallarion", "rare": "Редкая", "value": 0.0002, "symbol": "Pd", "element": "51"}, {"img": "47Ag.png", "name": "Argentia", "rare": "Редкая", "value": 0.00015, "symbol": "Ag", "element": "52"}, {"img": "48Cd.png", "name": "Cadmoria", "rare": "Редкая", "value": 0.0002, "symbol": "Cd", "element": "53"}, {"img": "50Sn.png", "name": "Stannis", "rare": "Редкая", "value": 0.0001, "symbol": "Sn", "element": "55"}, {"img": "49In.png", "name": "Indora", "rare": "Редкая", "value": 0.0001, "symbol": "In", "element": "54"}, {"img": "51Sb.png", "name": "Stibora", "rare": "Редкая", "value": 0.0001, "symbol": "Sb", "element": "56"}, {"img": "52Te.png", "name": "Tellura", "rare": "Редкая", "value": 0.0002, "symbol": "Te", "element": "57"}, {"img": "93Np.png", "name": "Neptuna", "rare": "Эпическая", "value": 0.0005, "symbol": "Np", "element": "98"}, {"img": "96Cm.png", "name": "Curora", "rare": "Эпическая", "value": 0.00055, "symbol": "Cm", "element": "101"}, {"img": "101Md.png", "name": "Mendelea", "rare": "Эпическая", "value": 0.00045, "symbol": "Md", "element": "106"}, {"img": "108Hs.png", "name": "Hassia", "rare": "Эпическая", "value": 0.00045, "symbol": "Hs", "element": "113"}, {"img": "114Fl.png", "name": "Flerovia", "rare": "Эпическая", "value": 0.00075, "symbol": "Fl", "element": "119"}, {"img": "2He.png", "name": "Helion", "rare": "Обычная", "value": 10.190256, "symbol": "He", "element": "5"}]
