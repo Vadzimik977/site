@@ -1,25 +1,23 @@
 {
   "development": {
-    "username": "root_user",
-    "password": "1dg61246%_sdg@1",
-    "database": "ton_web",
-    "host": "194.26.232.250",
-    "dialect": "mysql",
-    "port": 3306
+    "username": "user",
+    "password": "123",
+    "database": "tonium",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
   },
   "test": {
-    "username": "root_user",
-    "password": "1dg61246%_sdg@1",
-    "database": "ton_web",
-    "host": "194.26.232.250",
+    "username": "user",
+    "password": 123,
+    "database": "tonium",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
-    "username": "root_user",
-    "password": "1dg61246%_sdg@1",
-    "database": "ton_web",
-    "host": "194.26.232.250",
+    "username": "user",
+    "password": 123,
+    "database": "tonium",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   }
 }
-
