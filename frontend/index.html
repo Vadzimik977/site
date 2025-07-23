@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tonium World │NFT│Game</title>
+    <link rel="icon" href="/images/To.svg" type="image/svg">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <script src="/telegram-web-app.js"></script>
+    <!-- <script src="/tg_config.js"></script> -->
+    
+    
+
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+      window.addEventListener('scroll', () => {
+  const nav = document.querySelector('.navigation__wrapper');
+  if (window.scrollY > 0) {
+    nav.classList.add('fixed');
+  } else {
+    nav.classList.remove('fixed');
+  }
+});
+
+
+    </script>
+  </body>
+</html>

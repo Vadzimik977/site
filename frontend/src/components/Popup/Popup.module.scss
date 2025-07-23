@@ -1,0 +1,659 @@
+.content__modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10000;
+  outline: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  max-height: 400px;
+  position: absolute;
+  z-index: 2;
+  max-width: 410px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.wrapper_bg {
+  background-image: url("/images/popup-background.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 340px;
+  position: absolute;
+}
+
+.content {
+  position: relative;
+  top: 80px;
+  padding: 0 24px;
+}
+.top {
+  color: #f8c335;
+  font-weight: 700;
+  font-size: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.close_button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.planet_item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.planet_list {
+  max-height: 120px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
+
+
+
+
+.planet_preview__planet {
+  width: 40px;
+  animation: rotate 120s infinite;
+}
+.planet_preview__info {
+  font-size: 14px;
+}
+.planet_preview__name {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.planet_preview__owner {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.upgrade__planet {
+  display: flex;
+  align-items: center;
+
+  &__item {
+    &_left {
+      width: 30%;
+      img {
+        max-width: 105px;
+      }
+    }
+    &_right {
+      flex-basis: auto;
+      padding-left: 25px;
+      position: relative;
+      display: flex;
+      font-weight: 600;
+      width: 100%;
+      justify-content: end;
+      
+      img {
+        width: 100%;
+      }
+      .info__right {
+        left: 20%;
+        top: 15px;
+        padding: 20px;
+        font-size: 10px;
+        width: 100%;
+        background: url("/modals/mobile/info.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        min-height: 100px;
+
+        &_item {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          &:not(:last-child) {
+            border-bottom: .5px solid #f8c335;
+          }
+          &_text {
+            padding-left: 10px;
+            padding-bottom: 2px;
+          }
+        }
+      }
+    }
+  }
+
+}
+.modal__buttons {
+  margin-top: 5px;
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+  max-height: 34px;
+
+  &_price {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    color: #f8c335;
+    align-items: center;
+    position: relative;
+    min-width: 76px
+
+    &_item {
+      position: absolute;
+      top: 50%;
+      margin-right: 10px;
+      color: white;
+    }
+  }
+
+  &_button {
+    width: 100%;
+    max-width: 150px;
+    max-height: 30px;
+    background: #D09B0D;
+    font-size: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    color: white;
+    display: flex;
+    justify-content: center;  // Центрируем текст внутри кнопки
+    align-items: center;
+    padding: 10px;
+    text-align: center;
+    margin: 5px; // Отступы между кнопками
+  }
+  &_buttons__row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;  // Обеспечим, что кнопки займут всю ширину контейнера
+    gap: 10px;    // Отступы между кнопками
+  }
+}
+
+.upgrade__planet__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.modal__buttons_wrapper {
+  display: flex;
+  flex-direction: column; /* Размещаем кнопки в колонку */
+  justify-content: center; /* Центрируем кнопки по горизонтали */
+  align-items: center; /* Центрируем кнопки по вертикали */
+  width: 100%;
+}
+
+.modal__buttons_text {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #fff; /* Цвет текста */
+}
+
+.modal__buttons_button1 {
+  width: 100%; /* Кнопка будет растягиваться на всю ширину контейнера */
+  max-width: 300px; /* Максимальная ширина кнопок */
+  min-width:300px;
+  max-height:40px;
+  background: #D09B0D;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  justify-content: center;  /* Центрируем текст внутри кнопки */
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 0px; /* Отступ между кнопками */
+  margin-top: 11px;
+}
+
+.modal__buttons_buttons__row {
+  display: flex;
+  flex-direction: column;  /* Переключаемся на колонку */
+  width: 100%;
+  gap: 10px;  /* Отступы между кнопками */
+  padding-bottom: 20px;
+}
+
+.modal__title {
+  text-align: center;  /* Центрируем заголовок по горизонтали */
+  font-size: 20px; /* Размер шрифта */
+  font-weight: 600;  /* Толщина шрифта */
+  margin-bottom: 20px; /* Отступ снизу, чтобы отделить от контента */
+  color: #fff; /* Цвет заголовка */
+}
+
+
+/* В Popup.module.scss */
+.errorModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.errorModalContent {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 300px;
+}
+
+.errorModalContent p {
+  margin-bottom: 16px;
+  color: red;
+  font-weight: bold;
+}
+
+.ok_button {
+  margin: 20px auto 0 auto; /* сверху 20px, по бокам auto (центрует), снизу 0 */
+  padding: 10px 20px;
+  background: #D09B0D; /* Золотистый цвет */
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  display: block; /* Чтобы margin auto сработал */
+}
+
+
+.ok_button:hover {
+  background: #D09B0D; /* Темнее зеленый при наведении */
+}
+
+
+.attack_button {
+  background-color: #D09B0D;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.attack_button:hover {
+  background-color: darkred;
+}
+
+.attack_modal {
+  // background: rgba(0, 0, 0, 0.7); // затемнение всего экрана
+  position: fixed;
+  top: 0;
+  left: 3px;
+  right: 0;
+  bottom: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.attack_modal_content {
+  background-image: url("/images/popup-background.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 400px;
+  height: 500px; // или auto, если хочешь по контенту
+  padding: 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+}
+
+
+
+
+
+.attack_video {
+  margin-bottom: 20px;
+}
+
+.attack_progress {
+  margin-bottom: 20px;
+}
+
+.attack_progress_bar {
+  width: 100%;
+
+  height: 10px;
+}
+
+.attack_progress_fill {
+  height: 100%;
+  background-color: #4caf50;
+}
+
+.attack_success {
+  margin-top: 20px;
+}
+
+.back_button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.back_button:hover {
+  background-color: #d32f2f;
+}
+
+
+.popupFutureWrapper {
+  position: relative;
+}
+
+.loadingOverlay {
+  position: absolute;
+  padding-right: 5px;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 105%;
+  height: 100%;
+  background: rgba(61, 54, 54);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px; // если у модалки закругления
+}
+
+.loadingOverlay1 {
+  position: absolute;
+  // padding-left: 40px;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 95%;
+  height: 100%;
+  background: rgba(61, 54, 54);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px; // если у модалки закругления
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.tab {
+  padding: 8px 16px;
+  margin: 0 8px;
+  border-radius: 8px;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.tab:hover {
+  background-color: #444;
+}
+.tab.active {
+  background-color: #00b894;
+}
+
+.progress-wrapper {
+  background-color: #764100;
+  border-radius: 16px;
+  width: 100%;
+  height: 12px;
+  position: relative;
+}
+
+.progress {
+  background-color: #f8c335;
+  border-radius: 16px;
+  width: 70%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: all 0.3s;
+}
+
+
+.modal__select {
+  width: 100%;
+  max-width: 300px;
+  max-height: 35px;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-family: inherit;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #D09B0D;
+  color: #fff;
+  display: "flex";
+  border: none;
+  margin-top: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath fill='%23ffffff' d='M7 10L0.071797 0.5L13.9282 0.5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+}
+
+
+
+// @media screen and (max-width: 420px) {
+//   .modal__select {
+//     width: 40%;
+//     padding: 5px;
+//     padding-left:20px;
+//     font-size: 12px;
+//     border-radius: 8px;
+//     background-color: #f8c335;
+//     border: 1px solid #f8c335;
+//     margin-top: 5px;
+//     margin-left: 10px;
+//   }
+// }
+
+
+.modal__input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline-offset: 2px;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: #ffcc00; // яркий акцент, например желтый
+    outline: none;
+  }
+
+  /* Убираем стрелки на input number в Chrome, Firefox */
+  &::-webkit-inner-spin-button, 
+  &::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+  }
+}
+
+.modal__input_highlight {
+  background-color: #fff9c4; /* светло-желтый фон */
+  border-color: #ffcc00;     /* желтая рамка */
+}
+
+.attack-cooldown-popup {
+  z-index: 1100; /* для всплывашки с ошибкой */
+}
+
+
+// .attackCooldownOverlay {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   height: 300px; /* или подстрой под размер попапа */
+//   padding: 20px;
+//   background-color: #1a1a1a; /* например, темный фон */
+//   border-radius: 8px;
+//   text-align: center;
+// }
+
+.popupBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popupContent {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  width: 90vw;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  color: white;
+}
+
+.popupTitle {
+  margin: 0 0 15px;
+  font-weight: bold;
+}
+
+.popupCloseBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+.leftPart {
+  flex: 1;
+  // min-width: 300px;
+  position: relative;
+  height: 300px;
+}
+
+.rightPart {
+  flex: 1;
+  // min-width: 300px;
+  max-height: 126px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.05); // для визуального разделения
+  border-radius: 8px;
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 32px; // можно 16px или 24px по вкусу
+  position: relative;
+  padding: 20px;
+  flex-wrap: nowrap;
+  max-width:100%;
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  flex-wrap: nowrap; // важно для мобилок
+}
+
+.leftPart, .rightPart {
+  flex: 1 1 300px; // адаптивная ширина
+  // min-width: 250px;
+}
+
+.rightPart {
+  // max-height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+  font-size:9px
+}
+
+.leftPart {
+  position: relative;
+  height: 320px;
+}
+
+.createAllianceBtn {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  font-size: 9px;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  box-shadow: 0 0 15px rgba(101, 90, 255, 0.7);
+  user-select: none;
+  transition: background 0.3s ease;
+}
+
+

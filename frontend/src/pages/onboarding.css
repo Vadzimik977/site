@@ -1,0 +1,159 @@
+.onboarding-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+    overflow: auto;
+  }
+  
+  .onboarding-modal {
+    /* background: rgba(0, 0, 0, 0.7); */
+    background-image: url(../images/popup-background.png);
+    background-size: cover; /* чтобы изображение растягивалось по блоку */
+  background-repeat: no-repeat;
+  background-position: center;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    position: relative;
+    text-align: center;
+    box-sizing: border-box;
+    min-height: 255px;
+    max-width:100%;
+    font-size:15px;
+  }
+
+  .onboarding-modal12 {
+    /* background: rgba(0, 0, 0, 0.7); */
+    background-image: url(../images/popup-background.png);
+    background-size: cover; /* чтобы изображение растягивалось по блоку */
+  background-repeat: no-repeat;
+  background-position: center;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    position: relative;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  
+  .onboarding-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .video-wrapper {
+    flex: 1;
+    margin-top: 16px;
+  }
+  
+  .video-wrapper video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .onboarding-buttons {
+    display: flex;
+    flex-direction: row; /* Горизонтально */
+    justify-content: center; /* Центр по горизонтали */
+    align-items: center;
+    gap: 10px; /* Расстояние между кнопками */
+    padding-top:30px;
+  }
+  
+  .onboarding-buttons button {
+    flex: 1; /* Все кнопки равной ширины */
+    max-width: 180px; /* Ограничим ширину, чтобы не растягивались слишком сильно */
+  }
+  
+  
+  .onboarding-skip,
+  .onboarding-next {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .onboarding-skip {
+    background-color: transparent;
+    color: white;
+  }
+  
+  .onboarding-next {
+    background-color: #f8c335;
+    color: white;
+  }
+
+
+  .arrow {
+    color: white;
+    font-size: 30px;
+    margin-left: 10px;
+  }
+
+  .modal__buttons_wrapper {
+    display: flex;
+    flex-direction: column; /* Размещаем кнопки в колонку */
+    justify-content: center; /* Центрируем кнопки по горизонтали */
+    align-items: center; /* Центрируем кнопки по вертикали */
+    width: 100%;
+  }
+  
+  
+  .highlight-circle {
+    position: relative;
+    z-index: 1003;
+  }
+  
+  .highlight-circle::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: calc(100% + 40px);
+    height: calc(100% + 40px);
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
+    50% { box-shadow: 0 0 25px rgba(255, 255, 255, 0.8); }
+    100% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
+  }
+  
+
+
+.onboarding-step {
+  position: relative;
+  z-index: 1;
+  padding-top:10px;
+}
